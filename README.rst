@@ -3,9 +3,11 @@ TrussPy is a Python 3D Finite-Elements-Solver for 1D Trusses which is capable of
 .. image:: docs/examples/data_eNTA-A/model_undeformed_inc0_xz.png
    :width: 20%
    :alt: XZ-view on the undeformed model (Example NTA-A).
+   
 .. image:: docs/examples/data_eNTA-A/model_contour-force_inc40_xz.png
    :width: 20%
    :alt: XZ-view on the deformed model (Example NTA-A, Inc.40).
+   
 .. image:: docs/examples/data_eNTA-A/history_node45_DispZ-LPF.png
    :width: 20%
    :alt: Displacement Z vs. LPF-factor for **Node** 4 and **Node** 5 (Example NTA-A).
