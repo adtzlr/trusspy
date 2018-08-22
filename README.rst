@@ -21,7 +21,7 @@ Installation
 
        pip install trusspy
    
-2) or download this repo as ZIP file, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:
+2) or download this repo as ZIP-file_, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:
     * open startmenu
     * search for "environment variable"
     * edit environment variable for this account
@@ -44,6 +44,8 @@ Installation
            - ...
          README.rst
          LICENSE
+         
+.. _ZIP-file: https://github.com/adtzlr/trusspy/archive/master.zip
 
 Example
 =======
