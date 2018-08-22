@@ -1,13 +1,13 @@
 TrussPy is a Python 3D Finite-Elements-Solver for 1D Trusses which is capable of material and geometric nonlinearities. It uses an object-oriented approach to structure the code in meaningful classes, attributes and methods. TrussPy contains both multistep functionality (multiple loadcase analysis with sequenced external forces) and an adaptive method to control incremental stepwidths. Input files may be written in Excel or directly in Python. A simple post-processing inside TrussPy is directly available via Matplotlib. Model Plots whether in undeformed or deformed configuration with optional contour plots on element forces are easy to show. They may also be generated for a series of increments and saved as a GIF Movie. Last but not least History (a.k.a. x-y) Plots for a series of increments or Path Plots along a given node path may be generated for nodal properties (displacements, forces) or global quantities like the Load-Proportionality-Factor (LPF).
 
 .. image:: docs/examples/data_eNTA-A/model_undeformed_inc0_xz.png
-   :width: 32%
+   :width: 20%
    :alt: XZ-view on the undeformed model (Example NTA-A).
 .. image:: docs/examples/data_eNTA-A/model_contour-force_inc40_xz.png
-   :width: 32%
+   :width: 20%
    :alt: XZ-view on the deformed model (Example NTA-A, Inc.40).
 .. image:: docs/examples/data_eNTA-A/history_node45_DispZ-LPF.png
-   :width: 32%
+   :width: 20%
    :alt: Displacement Z vs. LPF-factor for **Node** 4 and **Node** 5 (Example NTA-A).
 
 Installation
