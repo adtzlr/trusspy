@@ -1,0 +1,7 @@
+trusspy\.solvers\.trusspy\_solvers module
+=========================================
+
+.. automodule:: trusspy.solvers.trusspy_solvers
+    :members:
+    :undoc-members:
+    :show-inheritance:

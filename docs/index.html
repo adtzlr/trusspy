@@ -1,0 +1,250 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Documentation &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2018.08',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="usage/install.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/index.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+      .related { display: none; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="usage/install.html">Get it</a></li>
+    <li><a href="usage/getting_started.html">Quickstart</a></li>
+    <li><a href="theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="#">
+      <img src="_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage/install.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Home</a>&#160;|</li>
+        <li><a href="usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage/install.html"
+                        title="next chapter">Installation</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p><strong>TrussPy</strong> is a 3D <strong>Truss</strong>-Solver written in <strong>Py</strong>-thon which is capable of material and geometric nonlinearities. It uses an object-oriented approach to structure the code in meaningful classes, attributes and methods. TrussPy contains both multistep functionality (multiple loadcase analysis with sequenced external forces) and an adaptive method to control incremental stepwidths. Input files may be written in Excel or directly in Python. A simple post-processing inside TrussPy is directly available via Matplotlib. Model Plots whether in undeformed or deformed configuration with optional contour plots on element forces are easy to show. They may also be generated for a series of increments and saved as a GIF Movie. Last but not least History (a.k.a. x-y) Plots for a series of increments or Path Plots along a given node path may be generated for nodal properties (displacements, forces) or global quantities like the Load-Proportionality-Factor (LPF).</p>
+<a class="reference internal image-reference" href="_images/model_undeformed_inc0_xz1.png"><img alt="XZ-view on the undeformed model (Example NTA-A)." src="_images/model_undeformed_inc0_xz1.png" style="width: 32%;" /></a>
+<a class="reference internal image-reference" href="_images/model_contour-force_inc40_xz1.png"><img alt="XZ-view on the deformed model (Example NTA-A, Inc.40)." src="_images/model_contour-force_inc40_xz1.png" style="width: 32%;" /></a>
+<a class="reference internal image-reference" href="_images/history_node45_DispZ-LPF.png"><img alt="Displacement Z vs. LPF-factor for **Node** 4 and **Node** 5 (Example NTA-A)." src="_images/history_node45_DispZ-LPF.png" style="width: 32%;" /></a>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage/install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theory/theory.html">Theory Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="theory/truss.html">Truss Element</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/truss.html#kinematics">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/truss.html#constitution">Constitution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/truss.html#kinetics">Kinetics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/truss.html#stiffness-matrix">Stiffness Matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/assembly.html">Global Assembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="theory/equilibrium.html">Equilibrium</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/equilibrium.html#system-equilibrium">System Equilibrium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/equilibrium.html#linearized-system-equlibrium">Linearized System Equlibrium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/equilibrium.html#newton-rhapson-iteration-and-update-of-displacements">Newton-Rhapson Iteration and Update of Displacements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/modified.html">Modified system equations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/modified.html#modified-equilibrium">Modified equilibrium</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/modified.html#modified-tangent-stiffness">Modified tangent stiffness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/modified.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="theory/pathtrace.html">Path-Following Algorithm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="theory/pathtrace.html#initialization">Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="theory/pathtrace.html#increment-loop">Increment Loop</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="theory/pathtrace.html#initialization-determination-of-the-control-component-j">Initialization - Determination of the control component <cite>j</cite></a></li>
+<li class="toctree-l4"><a class="reference internal" href="theory/pathtrace.html#recycle-loop-nonlinear-solution-process">Recycle Loop (Nonlinear solution process)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_structure/structure.html">Code Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/e101.html">Example 101</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/e102.html">Example 102 “Zweibock”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/e103.html">Example 103 “Zweibock” (with imperfection)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/e103.html#no-imperfection">No imperfection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/e103.html#geometric-imperfection">Geometric imperfection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/eNTA-A.html">Example NTA-A “3D Truss System”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#model-creation">Model creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#build-run-the-model">Build &amp; Run the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#verify-the-results">Verify the Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#model-plot-and-node-history">Model Plot and Node History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#animation-of-the-deformation-process">Animation of the Deformation Process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/eNTA-A.html#path-tracing-of-the-displacement-lpf-curves">Path-Tracing of the Displacement-LPF curves</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="notes">
+<h1>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h1>
+<p>This project evolved as a homework for the course <a class="reference external" href="https://online.tugraz.at/tug_online/wbLv.wbShowLVDetail?pStpSpNr=213741&amp;pSpracheNr=2&amp;pMUISuche=FALSE">Nonlinear Structural Analysis (202.482)</a> at Graz University of Technology (Lecturer: Guggenberger, Werner, Ao.Univ.-Prof. Dipl.-Ing. Dr.techn.).</p>
+</div>
+<div class="section" id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
+<p>TrussPy - Object oriented Truss Solver for Python
+Copyright (C) 2018  Andreas Dutzler</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage/install.html" title="Installation"
+             >next</a> |</li>
+        <li><a href="#">Home</a>&#160;|</li>
+        <li><a href="usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

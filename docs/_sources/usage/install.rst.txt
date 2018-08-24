@@ -1,0 +1,49 @@
+﻿Installation
+============
+
+1) Either use pip to install TrussPy (recommended, **but not yet available!**)
+
+    .. code:: bash
+
+       pip install trusspy
+   
+2) or download this repo as ZIP-file_, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:
+    * open startmenu
+    * search for "environment variable"
+    * edit environment variable for this account
+    * New... (user variable)
+        + variable name: PYTHONPATH
+        + variable value: `C:\\Path\\to\\trusspy_package\\`
+    * to verify the correct path `C:\\Path\\to\\trusspy_package\\` this directory should contain the following files and folders:
+          
+      .. code-block:: none
+      
+         + docs\
+         + tests\
+           - e101\
+           - e102\
+           - ...
+         + trusspy\
+           - core\
+           - handlers\
+           - model.py
+           - ...
+         README.rst
+         LICENSE
+             
+    
+**Hint:** *Method 2) is a quick option for using the latest version of trusspy without installing it.*
+    
+
+🤦‍♂️ 🤦‍ 🤦‍♂️ 🤦 🤦‍♂️ 🤦Not yet familiar with Python but want to have a look at TrussPy in action? Give Python a try, it's not that hard to start with. Install one of the popular scientific Python 3.x distributions 
+
+* Anaconda_ (Windows, Max, Linux) or
+* WinPython_ (Windows)
+
+and you're ready to go. Python 3 Tutorials? Google is your friend (also search for NumPy, SciPy, SymPy and Matplotlib - these packages are already included with the above mentioned distributions). Ready to go? Proceed with 1) 😎.
+
+.. _Anaconda: https://www.anaconda.com/download/
+
+.. _WinPython: https://winpython.github.io/
+
+.. _ZIP-file: https://github.com/adtzlr/trusspy/archive/master.zip

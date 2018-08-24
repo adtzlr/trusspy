@@ -1,0 +1,4 @@
+Example 101
+===========
+
+:doc:`../usage/getting_started`

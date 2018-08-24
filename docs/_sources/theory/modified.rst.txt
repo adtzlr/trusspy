@@ -1,0 +1,133 @@
+Modified system equations
+=========================
+
+In order to solve the equilibrium equations a equation system with `n+1` DOF's will be formulated. The extra degree of freedom arises from the external load - scale parameter, also denoted as load-proportionality-factor :math:`\lambda`, which will be appended to the system vector :math:`\boldsymbol{U}`. The transformation will be shown for both the equilibrium and tangent stiffness.
+
+.. math::
+
+   \boldsymbol{V} = \begin{bmatrix}
+                             \boldsymbol{U} \\
+                             {\lambda}
+                    \end{bmatrix}
+
+Modified equilibrium
+--------------------
+
+The modified equilibrium is extended by one extra equation, which is also referred to as **control equation**.
+
+.. math::
+
+   \boldsymbol{g}_{mod} = \begin{bmatrix}
+                             \boldsymbol{g}(\boldsymbol{V}) \\
+                             {g}_{control}(\boldsymbol{V})
+                          \end{bmatrix} = \begin{bmatrix}
+                             \boldsymbol{g}(\boldsymbol{U},\lambda) \\
+                             {g}_{control}(\boldsymbol{U},\lambda)
+                          \end{bmatrix}
+                          
+                          
+This extra control equation is formulated as a linear constraint to limit the control component `j`.
+
+.. math::
+
+   {g}_{control} = {V}_j - {V}_{j,max}
+   
+With this definition the modified system equilibrium becomes
+   
+.. math::
+
+   \boldsymbol{g}_{mod} = \begin{bmatrix}
+                             \boldsymbol{g}          (\boldsymbol{U},\lambda) \\
+                                        {g}_{control}(\boldsymbol{U},\lambda)
+                          \end{bmatrix} = \begin{bmatrix}
+                                            -\boldsymbol{r}(\boldsymbol{U}) + \lambda~\boldsymbol{f}_0 \\
+                                             {V}_j - {V}_{j,max}
+                                          \end{bmatrix} \le \boldsymbol{\varepsilon}_{tol}
+
+Modified tangent stiffness
+--------------------------
+
+The modified tangent stiffness :math:`\boldsymbol{K}_{T,mod}` is now calculated w.r.t. the modified system vector :math:`\boldsymbol{V}`.
+
+.. math::
+
+   \boldsymbol{K}_{T,mod} &= \begin{bmatrix}
+                              \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}}     & -\boldsymbol{f}_0 \\
+                              \frac{\partial {g}_{control}}{\partial \boldsymbol{U}}      &  \frac{\partial {g}_{control}}{\partial \lambda}
+                             \end{bmatrix} \\
+                             
+   \boldsymbol{K}_{T,mod} &= \begin{bmatrix}
+                              \boldsymbol{K}_{T}                & -\boldsymbol{f}_0 \\
+                              \boldsymbol{q}_{c,\boldsymbol{U}} &  \boldsymbol{q}_{c,\lambda}
+                             \end{bmatrix}
+                             
+with the partial derivatives of the control equation:
+
+.. math::
+
+   \boldsymbol{q}_{c,\boldsymbol{U}} &= \frac{\partial {g}_{control}(\boldsymbol{U},\lambda)}{\partial \boldsymbol{U}} \\
+   \boldsymbol{q}_{c,\lambda}        &= \frac{\partial {g}_{control}(\boldsymbol{U},\lambda)}{\partial \lambda}
+
+To illustrate the components of the partial derivatives of the control equation we formulate the first order derivative of the control equation for small changes in :math:`\boldsymbol{dU}` and :math:`d\lambda` at a given state :math:`(\boldsymbol{U},\lambda)`.
+
+.. math::
+
+   \boldsymbol{g}_{control}(\boldsymbol{U}+\boldsymbol{dU},\lambda+d \lambda) = {g}_{control}(\boldsymbol{U},\lambda) + {dg}_{control}(\boldsymbol{U},\lambda) = {V}_j - {V}_{j,max} + {dV}_j - {dV}_{j,max} = 0
+   
+with
+
+.. math::
+
+   {dV}_j &= \frac{\partial {V}_j}{\partial \boldsymbol{U}} ~ &\boldsymbol{dU} &+ \frac{\partial {V}_j}{\partial \lambda} ~ &d \lambda \\
+   {dV}_j &= \boldsymbol{q}_{c,\boldsymbol{U}} ~ &\boldsymbol{dU} &+ {q}_{c,\lambda}  ~ &d \lambda
+   
+The combined partial derivate of the control equation may be expressed as:
+
+.. math::
+
+   \boldsymbol{q}_{c} = \begin{bmatrix}
+                          \boldsymbol{q}_{c,\boldsymbol{U}} & {q}_{c,\lambda}
+                        \end{bmatrix}
+                        
+and is a row vector with a length of `nDOF+1` entries filled with zeros, except for the `j`-th entry (control component ), which is one. Let's assume we have a system of 6 DOF and the control component is identified to `j=4` then :math:`\boldsymbol{q}_{c}` looks like
+
+.. math::
+
+   \boldsymbol{q}_{c} = \begin{bmatrix}
+                          0 & 0 & 0 & 1 & 0 & 0 & 0
+                        \end{bmatrix}
+                        
+Summary
+-------
+
+The final equation system for the :doc:`pathtrace` may now be formulated as
+
+.. math::
+
+     \boldsymbol{K}_{T,mod} ~ \boldsymbol{dV} = -\boldsymbol{g}_{mod}(\boldsymbol{V})
+     
+and in detail
+
+.. math::
+                             
+   \begin{bmatrix}
+     \boldsymbol{K}_{T}                & -\boldsymbol{f}_0 \\
+     \boldsymbol{q}_{c,\boldsymbol{U}} &  \boldsymbol{q}_{c,\lambda}
+   \end{bmatrix} \begin{bmatrix}
+                                               \boldsymbol{dU} \\
+                                               d{\lambda}
+                                           \end{bmatrix} = \begin{bmatrix}
+                                                              -\boldsymbol{g}(\boldsymbol{U},\lambda) \\
+                                                              {g}_{control}(\boldsymbol{U},\lambda)
+                                                           \end{bmatrix}
+                                                           
+The control component :math:`j` is defined as the index of the biggest component of the incremental system vector :math:`\boldsymbol{dV}`. This component remains fixed during all newton-iterations inside an increment. To initialize the control component :math:`j` the linear equation system is solved. Last but not least the sign of :math:`j` is estimated with the help of the determinant of the stiffness matrix.
+
+.. math::
+                             
+     \boldsymbol{K}_{T} ~ \boldsymbol{dU} &= d \lambda_{max} \boldsymbol{f}_0 \\
+     \rightarrow \boldsymbol{dU} &= \dots
+     
+.. math:: 
+     
+     j = \text{index} [\max (\boldsymbol{dU})] ~ \text{sign} ( \det{\boldsymbol{K}_{T}} )

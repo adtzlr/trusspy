@@ -1,0 +1,405 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>trusspy.tools.plot_utilities &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2018.08',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/_modules/trusspy/tools/plot_utilities.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head>
+  <body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../../../index.html">Home</a></li>
+    <li><a href="../../../usage/install.html">Get it</a></li>
+    <li><a href="../../../usage/getting_started.html">Quickstart</a></li>
+    <li><a href="../../../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../../../index.html">
+      <img src="../../../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Home</a>&#160;|</li>
+        <li><a href="../../../usage/getting_started.html">Quickstart</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for trusspy.tools.plot_utilities</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Aug  1 12:12:56 2018</span>
+
+<span class="sd">@author: adutz</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">.helper_functions2</span> <span class="k">import</span> <span class="n">plot_nodes</span><span class="p">,</span> <span class="n">plot_elems</span><span class="p">,</span> <span class="n">plot_force</span><span class="p">,</span> <span class="n">plot_hist</span><span class="p">,</span> <span class="n">plot_pth</span>
+<span class="kn">from</span> <span class="nn">.movie_generator</span> <span class="k">import</span> <span class="n">png_to_gif</span>
+
+<div class="viewcode-block" id="p_nodes"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_nodes">[docs]</a><span class="k">def</span> <span class="nf">p_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;undeformed&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="o">==</span> <span class="s1">&#39;undeformed&#39;</span><span class="p">:</span>
+        <span class="n">plot_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plot_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">U</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="p_elements"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_elements">[docs]</a><span class="k">def</span> <span class="nf">p_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;undeformed&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="o">==</span> <span class="s1">&#39;undeformed&#39;</span><span class="p">:</span>
+        <span class="n">plot_elems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Elements</span><span class="o">.</span><span class="n">conns</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C7&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plot_elems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Elements</span><span class="o">.</span><span class="n">conns</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">U</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="p_extforces"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_extforces">[docs]</a><span class="k">def</span> <span class="nf">p_extforces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;undeformed&#39;</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="o">==</span> <span class="s1">&#39;undeformed&#39;</span><span class="p">:</span>
+        <span class="n">plot_force</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="mi">3</span><span class="o">*</span><span class="n">step</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plot_force</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="mi">3</span><span class="o">*</span><span class="n">step</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">U</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="p_model"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_model">[docs]</a><span class="k">def</span> <span class="nf">p_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;deformed&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="s1">&#39;xz&#39;</span><span class="p">,</span><span class="n">contour</span><span class="o">=</span><span class="s1">&#39;force&#39;</span><span class="p">,</span><span class="n">lim_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">force_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="n">cbar_limits</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="n">inc</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    
+    <span class="k">if</span> <span class="n">contour</span> <span class="o">==</span> <span class="s1">&#39;stretch&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cbar_limits</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">stretch</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="mi">1</span><span class="o">+</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">stretch</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="n">cbar_limits</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="n">contour</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">stretch</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">contour_lim</span>
+    <span class="k">if</span> <span class="n">contour</span> <span class="o">==</span> <span class="s1">&#39;force&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cbar_limits</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_force</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])),</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_force</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="n">cbar_limits</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="n">contour</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_force</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">contour_lim</span>
+    <span class="k">if</span> <span class="n">contour</span> <span class="o">==</span> <span class="s1">&#39;stress&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cbar_limits</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_stress</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])),</span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_stress</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">contour_lim</span> <span class="o">=</span> <span class="n">cbar_limits</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="n">contour</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_stress</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">contour_lim</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span><span class="o">==</span><span class="nb">tuple</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">contour</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;stretch&#39;</span><span class="p">:</span>
+            <span class="n">con_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">stretch</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">contour</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;force&#39;</span><span class="p">:</span>
+            <span class="n">con_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_force</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">contour</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;stress&#39;</span><span class="p">:</span>
+            <span class="n">con_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">element_stress</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="n">contour</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">con_data</span><span class="p">,</span> <span class="n">contour</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+    <span class="k">if</span> <span class="s1">&#39;undeformed&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_elems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Elements</span><span class="o">.</span><span class="n">conns</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span>
+                   <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C7&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span><span class="n">lim_scale</span><span class="o">=</span><span class="n">lim_scale</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;deformed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span> <span class="ow">and</span> <span class="n">force_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">textstr</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\mathbf</span><span class="si">{Plot}</span><span class="s1">$ $\mathbf</span><span class="si">{Scale}</span><span class="s1">$ $[F_0] =$ &#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="si">{:2.1g}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">force_scale</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;$\cdot [L]$&#39;</span>
+            <span class="n">f0_const</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces_const</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_force</span><span class="p">((</span><span class="n">f0_const</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="mi">3</span><span class="o">*</span><span class="n">step</span><span class="p">])</span><span class="o">/</span>
+                                <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">f0_const</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="mi">3</span><span class="o">*</span><span class="n">step</span><span class="p">]),</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+                                <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span>
+                                <span class="n">scale</span><span class="o">=</span><span class="n">force_scale</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;deformed&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_nodes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">U</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_elems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Elements</span><span class="o">.</span><span class="n">conns</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">U</span><span class="p">,</span>
+                            <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span><span class="n">contour</span><span class="o">=</span><span class="n">con</span><span class="p">,</span><span class="n">lim_scale</span><span class="o">=</span><span class="n">lim_scale</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">force_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">textstr</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$\mathbf</span><span class="si">{Plot}</span><span class="s1">$ $\mathbf</span><span class="si">{Scale}</span><span class="s1">$ $\lambda \cdot [F_0] =$ &#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="si">{:2.1g}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">force_scale</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;$\cdot [L]$&#39;</span>
+            <span class="n">f0_const</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces_const</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">step</span>
+            <span class="n">fig</span><span class="p">,</span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot_force</span><span class="p">(</span><span class="n">f0_const</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">lpf</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ExtForces</span><span class="o">.</span><span class="n">forces</span><span class="p">[:,</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">step</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="mi">3</span><span class="o">*</span><span class="n">step</span><span class="p">],</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">coords</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">inc</span><span class="p">]</span><span class="o">.</span><span class="n">U</span><span class="p">,</span>
+                                <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span>
+                                <span class="n">scale</span><span class="o">=</span><span class="n">force_scale</span><span class="p">)</span>
+<span class="c1">#    if &#39;both&#39; in config:</span>
+<span class="c1">#        fig,ax = plot_nodes(self.Nodes.coords,color=&#39;C7&#39;,view=view)</span>
+<span class="c1">#        fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords,fig,ax,color=&#39;C7&#39;,view=view)</span>
+<span class="c1">#        fig,ax = plot_nodes(self.Nodes.coords+self.Results.R[inc].U,fig,ax,color=&#39;C2&#39;,view=view)</span>
+<span class="c1">#        fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords+self.Results.R[inc].U,</span>
+<span class="c1">#                   fig,ax,color=&#39;C0&#39;,view=view,contour=con,lim_scale=lim_scale)</span>
+<span class="c1">#        fig,ax = plot_force(self.Results.R[inc].lpf*self.ExtForces.forces[:,3*(step-1):3*step],</span>
+<span class="c1">#                   self.Nodes.coords+self.Results.R[inc].U,</span>
+<span class="c1">#                   fig,ax,view=view,</span>
+<span class="c1">#                   scale=force_scale)</span>
+    
+    <span class="k">if</span> <span class="n">force_scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;deformed&#39;</span> <span class="ow">in</span> <span class="n">config</span> <span class="ow">or</span> <span class="s1">&#39;undeformed&#39;</span> <span class="ow">in</span> <span class="n">config</span><span class="p">):</span>
+        <span class="c1"># these are matplotlib.patch.Patch properties</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">view</span> <span class="o">==</span> <span class="s1">&#39;3d&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text2D</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="n">textstr</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">,</span> <span class="n">textstr</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+                <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">props</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">str_ins</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">str_ins</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span>
+    <span class="k">if</span> <span class="n">view</span><span class="o">==</span><span class="s1">&#39;3d&#39;</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;INCREMENT: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="o">+</span><span class="n">str_ins</span><span class="o">+</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;INCREMENT: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">inc</span><span class="p">)</span><span class="o">+</span><span class="n">str_ins</span><span class="o">+</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">view</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">view</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+       <span class="c1">#plot_force(self.ExtForces.forces,self.Nodes.coords)</span>
+    <span class="c1">#plt.show()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+       
+<div class="viewcode-block" id="p_movie"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_movie">[docs]</a><span class="k">def</span> <span class="nf">p_movie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">config</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span><span class="n">view</span><span class="o">=</span><span class="s1">&#39;xz&#39;</span><span class="p">,</span><span class="n">contour</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">lim_scale</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span><span class="n">force_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">cbar_limits</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="n">incs</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">incs</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">nsteps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">nsteps</span><span class="p">):</span>
+                <span class="n">b</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">incs</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">incs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">incs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">incs</span>
+        <span class="n">incs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;figures/&#39;</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="s1">&#39;figures/&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;figures/&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;figures/png/&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">incs</span><span class="p">:</span>
+        
+<span class="c1">#        if contour == &#39;stretch&#39;:</span>
+<span class="c1">#            if cbar_limits == &#39;auto&#39;:</span>
+<span class="c1">#                contour_lim = [1-max(abs(self.Results.R[i].stretch[:,0]-1)),1+max(abs(self.Results.R[i].stretch[:,0]-1))]</span>
+<span class="c1">#            else:</span>
+<span class="c1">#                contour_lim = cbar_limits</span>
+<span class="c1">#            con = contour, self.Results.R[i].stretch[:,0], contour_lim</span>
+<span class="c1">#        if contour == &#39;force&#39;:</span>
+<span class="c1">#            if cbar_limits == &#39;auto&#39;:</span>
+<span class="c1">#                contour_lim = [-max(abs(self.Results.R[i].element_force[:,0])),max(abs(self.Results.R[i].element_force[:,0]))]</span>
+<span class="c1">#            else:</span>
+<span class="c1">#                contour_lim = cbar_limits</span>
+<span class="c1">#            con = contour, self.Results.R[i].element_force[:,0], contour_lim</span>
+<span class="c1">#        if contour == &#39;stress&#39;:</span>
+<span class="c1">#            if cbar_limits == &#39;auto&#39;:</span>
+<span class="c1">#                contour_lim = [-max(abs(self.Results.R[i].element_stress[:,0])),max(abs(self.Results.R[i].element_stress[:,0]))]</span>
+<span class="c1">#            else:</span>
+<span class="c1">#                contour_lim = cbar_limits</span>
+<span class="c1">#            con = contour, self.Results.R[i].element_stress[:,0], contour_lim</span>
+<span class="c1">#        if type(contour)==tuple:</span>
+<span class="c1">#            if contour[0] == &#39;stretch&#39;:</span>
+<span class="c1">#                con_data = self.Results.R[i].stretch[:,0]</span>
+<span class="c1">#            elif contour[0] == &#39;force&#39;:</span>
+<span class="c1">#                con_data = self.Results.R[i].element_force[:,0]</span>
+<span class="c1">#            elif contour[0] == &#39;stress&#39;:</span>
+<span class="c1">#                con_data = self.Results.R[i].element_stress[:,0]</span>
+<span class="c1">#            con = contour[0], con_data, contour[1]</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">config</span><span class="p">,</span><span class="n">view</span><span class="p">,</span><span class="n">contour</span><span class="p">,</span><span class="n">lim_scale</span><span class="p">,</span><span class="n">force_scale</span><span class="p">,</span><span class="n">cbar_limits</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;figures/png/fig_</span><span class="si">{:03d}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+    <span class="n">png_to_gif</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="p_path"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_path">[docs]</a><span class="k">def</span> <span class="nf">p_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodepath</span><span class="p">,</span> <span class="n">increment</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="s1">&#39;Displacement X&#39;</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># loop over increments</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dir_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+    
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">[</span><span class="n">increment</span><span class="p">]</span>
+    
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodepath</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;Displacement&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">node</span><span class="p">)][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;LPF&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">lpf</span>
+        <span class="k">elif</span> <span class="s1">&#39;Force&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">node</span><span class="p">)][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;State Variable&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">stv_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">state_v</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">node</span><span class="p">)][</span><span class="mi">0</span><span class="p">][</span><span class="n">stv_index</span><span class="p">]</span>
+        <span class="n">xx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">yy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plot_pth</span><span class="p">(</span><span class="n">nodepath</span><span class="p">,</span><span class="n">yy</span><span class="p">,</span><span class="n">increment</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1">#print(np.array(xx),np.array(yy))</span>
+    <span class="c1">#plt.show()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+<div class="viewcode-block" id="p_history"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_history">[docs]</a><span class="k">def</span> <span class="nf">p_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">increments</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="s1">&#39;Displacement X&#39;</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="s1">&#39;LPF&#39;</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># loop over increments</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dir_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+    
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">for</span> <span class="n">R</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;Displacement&#39;</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;LPF&#39;</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">lpf</span>
+        <span class="k">elif</span> <span class="s1">&#39;Force&#39;</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;State Variable&#39;</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+            <span class="n">stv_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">state_v</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">stv_index</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="s1">&#39;Displacement&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;LPF&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">lpf</span>
+        <span class="k">elif</span> <span class="s1">&#39;Force&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">dir_dict</span><span class="p">[</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]]</span>
+        <span class="k">elif</span> <span class="s1">&#39;State Variable&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+            <span class="n">stv_index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">state_v</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">labels</span> <span class="o">==</span> <span class="n">nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])][</span><span class="mi">0</span><span class="p">][</span><span class="n">stv_index</span><span class="p">]</span>
+        <span class="n">xx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">yy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;Increments&#39;</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;Increments&#39;</span> <span class="ow">in</span> <span class="n">Y</span><span class="p">:</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">R</span><span class="p">))</span>
+    
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plot_hist</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">,</span><span class="n">nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1">#print(np.array(xx),np.array(yy))</span>
+    <span class="c1">#plt.show()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+    
+<div class="viewcode-block" id="p_show"><a class="viewcode-back" href="../../../api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_show">[docs]</a><span class="k">def</span> <span class="nf">p_show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Home</a>&#160;|</li>
+        <li><a href="../../../usage/getting_started.html">Quickstart</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+Truss Element
+=============
+
+This section describes the **Kinematics** and **Constitution** of a Truss element :class:`trusspy.elements.element_definition.truss`.
+
+Kinematics
+----------
+
+For a truss element the stretch may be calculated as
+
+.. math::
+
+   \Lambda = \frac{l}{L} = \sqrt{1 + 2 \left(\frac{\boldsymbol{\Delta X}}{L}\right)^T \left(\frac{\boldsymbol{\Delta U}}{L}\right) + \left(\frac{\boldsymbol{\Delta U}}{L}\right)^T \left(\frac{\boldsymbol{\Delta U}}{L}\right)}
+
+which follows from
+
+.. math::
+
+   l^2 &= \boldsymbol{\Delta x}^T \boldsymbol{\Delta x} \\
+   L^2 &= \boldsymbol{\Delta X}^T \boldsymbol{\Delta X}
+   
+and enables the Biot strain measure:
+
+.. math::
+
+   E_{11} = \Lambda - 1
+   
+
+Constitution
+------------
+
+The normal force of a truss depends directly on the geometric exactly defined strain measure :math:`E_{11}`. For the general case of a nonlinear material behaviour the normal force is defined as
+
+.. math::
+
+   N = S_{11}(E_{11})~A + N_0
+   
+and the derivative
+
+.. math::
+
+   \frac{\partial N}{\partial E_{11}} = \frac{\partial S_{11}(E_{11})}{\partial E_{11}}~A
+   
+For the case of a linear elastic material this reduces to
+
+.. math::
+
+   S_{11}(E_{11}) &= E~E_{11} \\
+   N              &= EA~E_{11} + N_0 \\
+   \frac{\partial N}{\partial E_{11}} &= EA
+   
+Kinetics
+--------
+
+The nodal (nonlinear) internal force vector may be expressed as a function of the elemental force :math:`N` and the deformed unit vector :math:`\boldsymbol{n}`.  The indices `A` and `E` represent the begin node `A` and end node `E`.
+
+.. math::
+
+   \boldsymbol{r} = \begin{bmatrix}
+                       \boldsymbol{r}_A \\
+                       \boldsymbol{r}_E
+                    \end{bmatrix}            = N \begin{bmatrix}
+                                                    -\boldsymbol{n} \\
+                                                     \boldsymbol{n}
+                                                 \end{bmatrix}
+                                                 
+Stiffness Matrix
+----------------
+
+The elemental stiffness matrix for a truss can be divided in four block matrices of the same components but with different signs.
+
+.. math::
+
+   \boldsymbol{K}_{6,6} = \begin{bmatrix}
+                             \boldsymbol{K}_{AA} & \boldsymbol{K}_{AE}\\
+                             \boldsymbol{K}_{EA} & \boldsymbol{K}_{EE}
+                          \end{bmatrix}                                   \begin{bmatrix}
+                                                                              \boldsymbol{K}_{EE} & -\boldsymbol{K}_{EE}\\
+                                                                             -\boldsymbol{K}_{EE} &  \boldsymbol{K}_{EE}
+                                                                          \end{bmatrix}
+                                                                          
+Whereas a change in theinternal force vector at the end node `E` w.r.t. a small change of the displacements at node `E` is defined as the tangent stiffnes `EE`.
+
+.. math::
+
+   \boldsymbol{K}_{EE} &= \frac{\partial \boldsymbol{r}_E}{\partial \boldsymbol{U}_E} \\
+   \boldsymbol{K}_{EE} &= \frac{A}{L} ~ \frac{\partial S_{11}(E_{11})}{\partial E_{11}} \boldsymbol{n} \otimes \boldsymbol{n} + \frac{N}{l} \left( \boldsymbol{1} - \boldsymbol{n} \otimes \boldsymbol{n} \right)
+   
+Continue to :doc:`assembly`.

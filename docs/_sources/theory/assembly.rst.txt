@@ -1,0 +1,13 @@
+Global Assembly
+===============
+
+The element force contributions have to be assembled into a system equilibrium.
+
+.. math::
+   \boldsymbol{r}_{System} = \bigcup_{k=1}^{n_{el}} \boldsymbol{r}_k
+   
+   
+The same also applies for the elemental tangent stiffness.
+
+.. math::
+   \boldsymbol{K}_{T,System} = \bigcup_{k=1}^{n_{el}} \boldsymbol{K}_{T,k}

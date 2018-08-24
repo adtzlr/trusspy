@@ -1,0 +1,59 @@
+Equilibrium
+===========
+
+This section covers the description of global system equilibrium equations and their linearization. For local (element-based) contributions see TrussPy's API.
+
+System Equilibrium
+------------------
+
+The system vector of nodal equilibrium equations is formulated as the component-wise sum for each DOF of negative internal forces :math:`-\boldsymbol{r}(\boldsymbol{U})` and prescribed nodal external forces :math:`\boldsymbol{f} = \lambda~\boldsymbol{f}_0`.
+
+.. math::
+
+   \boldsymbol{g}(\boldsymbol{U},\lambda) = -\boldsymbol{r}(\boldsymbol{U}) + \lambda~\boldsymbol{f}_0 \le \boldsymbol{\varepsilon}_{tol}
+   
+with
+
+.. tabularcolumns:: |c|l|
+
+.. table:: Description of system parameters
+
+   ====================================== =============================================================================
+         Symbol                             Description
+   ====================================== =============================================================================
+   :math:`\boldsymbol{g}`                   system vector of (nonlinear) nodal equilibrium equations
+   :math:`\boldsymbol{r}`                   system vector of nodal internal forces
+   :math:`\boldsymbol{U}`                   system vector of nodal displacements
+   :math:`\lambda`                          load-proportionality-factor (LPF)
+   :math:`\boldsymbol{f}_0`                 prescribed external nodal load vector (reference loadcase)
+   :math:`\boldsymbol{\varepsilon}_{tol}`   tolerance vector for allowable numerical violation of the equilibrum state
+   ====================================== =============================================================================
+   
+   
+Linearized System Equlibrium
+----------------------------
+
+The linearized equilibrium equations for a given equlibrium state :math:`\boldsymbol{g}(\boldsymbol{U},\lambda)` are approximated with the help of a 1st order taylor - expansion:
+
+.. math::
+
+   \boldsymbol{g}(\boldsymbol{U}+\boldsymbol{dU}, \lambda+d\lambda) &= -\boldsymbol{r}(\boldsymbol{U}+\boldsymbol{dU}) &+ (\lambda + d\lambda)\boldsymbol{f}_0 &&\\
+                                                                    &\approx -\left(\boldsymbol{r}(\boldsymbol{U}) + \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} \right) &+ (\lambda + d\lambda)\boldsymbol{f}_0 & &= \boldsymbol{0}\\
+                                                                    &\approx -\boldsymbol{r}(\boldsymbol{U}) + \lambda \boldsymbol{f}_0 &+ \left(-\frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} \right) &+ d\lambda~\boldsymbol{f}_0 &= \boldsymbol{0} \\
+                                                                    &\approx \quad\boldsymbol{g}(\boldsymbol{U}, \lambda) &- \boldsymbol{K}_T(\boldsymbol{U})~\boldsymbol{dU} &+ d\lambda~\boldsymbol{f}_0 &= \boldsymbol{0}
+                                                                    
+Newton-Rhapson Iteration and Update of Displacements
+----------------------------------------------------
+                                                                    
+The linearized equilibrium equations may also be expressed as a simple linear equation system. The right hand side of this equation enforces a self-correction over incremental updates of the displacement vector.
+
+.. math::
+
+   \quad\boldsymbol{K}_T(\boldsymbol{U}) - d\lambda \boldsymbol{f}_0 = \boldsymbol{g}(\boldsymbol{U}, \lambda)
+   
+with 
+
+.. math::
+
+   \boldsymbol{U} &\leftarrow (\boldsymbol{U} + d\boldsymbol{U}) \\
+   \lambda        &\leftarrow (\lambda        + d\lambda)
