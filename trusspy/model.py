@@ -282,50 +282,6 @@ class Model:
                 print('+ Reduce step size factor           "reduce":', 1/self.Settings.reduce)
                 print('+ Increase step size factor       "increase":', self.Settings.increase)
             print('')
-
-        # stiffness matrix, extended to nDOF+1
-        def dgdV(Vred,V0red,j,Vmax,analysis=None,statev_write=False):
-            
-            if analysis is not None:
-                self.Analysis = analysis
-            
-            # copy active control component to current result
-            self.Analysis.j = j
-            
-            # qc ... control equation
-            qc = np.zeros(self.ndof1+1)
-            qc[abs(j)-1] = 1
-
-            # f0red ... external force vector f0 with active DOF
-            #           reshaped to column-vector
-            
-            # modified stiffness
-            #
-            #          | KT       f0red |
-            # KT_mod = | qcU  qc_lambda |
-            
-            
-            self.Analysis.Kmod = np.vstack((np.hstack((self.stiffness(Vred[:-1],analysis=analysis),
-                                                 -self.Analysis.f0red)),qc))
-            
-            return self.Analysis.Kmod
-        
-        # equilibrium function, extended to nDOF+1
-        def g(Vred,V0red,j,Vmax,analysis=None,statev_write=False):
-            
-            if analysis is not None:
-                self.Analysis = analysis
-            
-            # copy active control component to current result
-            self.Analysis.j = j
-            
-            # negative sign for default newton-rhapson function
-            #if statev_write:
-            #    print('xxx')
-            #    return analysis
-            #else:
-            return np.append(-self.equilibrium(Vred,V0red,analysis=analysis,statev_write=statev_write),
-                             Vred[abs(j)-1]-Vmax)
             
         # measure time
         self.time0_run = time.time()
@@ -373,28 +329,29 @@ class Model:
             
             self.Analysis.step = 1+step
             
-            
-            res_V,res_a = pathfollow(g,dgdV, self.Analysis.Vred, self.Analysis,
-                             dxmax=[self.Settings.du,self.Settings.dlpf],
-                             j=self.Settings.j0,
-                             j_fixed = self.Settings.j_fixed,
-                             xlimit = xlimit,
-                             incs=incs,
-                             nfev=self.Settings.nfev,
-                             cycl=self.Settings.cycl,
-                             ftol=10**-self.Settings.ftol,
-                             xtol=10**-self.Settings.xtol,
-                             stepcontrol=self.Settings.stepcontrol,
-                             maxfac=self.Settings.maxfac,
-                             minfac=self.Settings.minfac,
-                             reduce=self.Settings.reduce,
-                             increase=self.Settings.increase,
-                             dxtol=self.Settings.dxtol,
-                             verbose=self.Settings.log)
+            res_V,res_a = pathfollow(self.equilibrium,self.stiffness, 
+                                     self.Analysis.Ured, self.Analysis,
+                                     dxmax=[self.Settings.du,self.Settings.dlpf],
+                                     j=self.Settings.j0,
+                                     j_fixed = self.Settings.j_fixed,
+                                     j_pre = self.Settings.j_pre,
+                                     xlimit = xlimit,
+                                     incs=incs,
+                                     nfev=self.Settings.nfev,
+                                     cycl=self.Settings.cycl,
+                                     ftol=10**-self.Settings.ftol,
+                                     xtol=10**-self.Settings.xtol,
+                                     stepcontrol=self.Settings.stepcontrol,
+                                     maxfac=self.Settings.maxfac,
+                                     minfac=self.Settings.minfac,
+                                     reduce=self.Settings.reduce,
+                                     increase=self.Settings.increase,
+                                     dxtol=self.Settings.dxtol,
+                                     verbose=self.Settings.log)
             
             print('\nCreate result object from analysis results for step {0:3d}'.format(1+step))
             for i,(r_V,r_a) in enumerate(zip(res_V[1:],res_a[1:])):
-                print('  write result {0:3d}/{1:3d} (LPF: {2:8.4f})'.format(1+i,len(res_V[1:]),r_a.lpf))
+                print('  write result {0:3d}/{1:3d} (LPF: {2:10.4g})'.format(1+i,len(res_V[1:]),r_a.lpf))
                 self.Results.R[-1] = r_a
                 self.Results.copy_increment()
                 
@@ -420,15 +377,13 @@ class Model:
         time_dtime_run    = time.time()  - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
         time_dtime_build  = self.time1_build  - self.time0_build
-        print('\ntotal  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
-        print('total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
-        print('\ntotal  cpu time "run": {:10.3f} seconds'.format(time_dclock_run))
-        print('total wall time "run": {:10.3f} seconds\n'.format(time_dtime_run))
-        sys.stdout = self.stdout
-        print('\ntotal  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
-        print('total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
-        print('\ntotal  cpu time "run": {:10.3f} seconds'.format(time_dclock_run))
-        print('total wall time "run": {:10.3f} seconds\n'.format(time_dtime_run))
+        print('\nJob duration')
+        print(  '------------\n')
+        print(  'Time measurement for execution times of "Model.build()" and "Model.run()".\n')
+        print('* total  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
+        print('* total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
+        print('* total  cpu time "run":   {:10.3f} seconds'.format(time_dclock_run))
+        print('* total wall time "run":   {:10.3f} seconds\n'.format(time_dtime_run))
         
 
     def stiffness(self,Ured,analysis=None):

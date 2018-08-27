@@ -10,6 +10,7 @@ import numpy as np
 from numpy.linalg import solve,norm
 from scipy.sparse.linalg import spsolve
 from scipy.sparse import csr_matrix,csc_matrix
+#from numba import jit
 
 def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
     """Find the roots of a function using the Newton-Rhapson algorithm.

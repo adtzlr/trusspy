@@ -68,7 +68,7 @@
   <body>
 <div class="pageheader">
     <div >
-        <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
     </div>
   <ul>
     <li><a href="../../../index.html">Home</a></li>
@@ -128,14 +128,163 @@
 
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">solve</span><span class="p">,</span><span class="n">norm</span>
-<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">spsolve</span>
-<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">csr_matrix</span><span class="p">,</span><span class="n">csc_matrix</span>
 
 <span class="kn">from</span> <span class="nn">.zerosearch</span> <span class="k">import</span> <span class="n">newton</span>
 
-<div class="viewcode-block" id="pathfollow"><a class="viewcode-back" href="../../../api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.pathfollow">[docs]</a><span class="k">def</span> <span class="nf">pathfollow</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">dxmax</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.02</span><span class="p">],</span>
-               <span class="n">j</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">xlimit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+
+<div class="viewcode-block" id="f"><a class="viewcode-back" href="../../../api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.f">[docs]</a><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">Vred</span><span class="p">,</span><span class="n">V0red</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">Vmax</span><span class="p">,</span><span class="n">equilibrium</span><span class="p">,</span><span class="n">stiffness</span><span class="p">,</span><span class="n">analysis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">statev_write</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;equilibrium function, extended to (nDOF+1)&quot;&quot;&quot;</span>
+    
+    <span class="n">analysis</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">equilibrium</span><span class="p">(</span><span class="n">Vred</span><span class="p">,</span><span class="n">V0red</span><span class="p">,</span>
+                                  <span class="n">analysis</span><span class="o">=</span><span class="n">analysis</span><span class="p">,</span>
+                                  <span class="n">statev_write</span><span class="o">=</span><span class="n">statev_write</span><span class="p">),</span>
+                     <span class="n">Vred</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">Vmax</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="dfdx"><a class="viewcode-back" href="../../../api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.dfdx">[docs]</a><span class="k">def</span> <span class="nf">dfdx</span><span class="p">(</span><span class="n">Vred</span><span class="p">,</span><span class="n">V0red</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">Vmax</span><span class="p">,</span><span class="n">equilibrium</span><span class="p">,</span><span class="n">stiffness</span><span class="p">,</span><span class="n">analysis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">statev_write</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;stiffness matrix, extended to (nDOF+1,nDOF+1)&quot;&quot;&quot;</span>
+
+    <span class="n">analysis</span><span class="o">.</span><span class="n">j</span> <span class="o">=</span> <span class="n">j</span>
+    
+    <span class="c1"># qc ... control equation</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Vred</span><span class="p">))</span>
+    <span class="n">qc</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># f0red ... external force vector f0 with active DOF</span>
+    <span class="c1">#           reshaped to column-vector</span>
+    
+    <span class="c1"># modified stiffness</span>
+    <span class="c1">#</span>
+    <span class="c1">#          | KT       f0red |</span>
+    <span class="c1"># KT_mod = | qcU  qc_lambda |</span>
+    
+    
+    <span class="n">analysis</span><span class="o">.</span><span class="n">Kmod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">stiffness</span><span class="p">(</span><span class="n">Vred</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                             <span class="n">analysis</span><span class="o">=</span><span class="n">analysis</span><span class="p">),</span>
+                                         <span class="o">-</span><span class="n">analysis</span><span class="o">.</span><span class="n">f0red</span><span class="p">)),</span>
+                                  <span class="n">qc</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">analysis</span><span class="o">.</span><span class="n">Kmod</span></div>
+
+
+
+<div class="viewcode-block" id="dxmax_control"><a class="viewcode-back" href="../../../api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.dxmax_control">[docs]</a><span class="k">def</span> <span class="nf">dxmax_control</span><span class="p">(</span><span class="n">dxmax</span><span class="p">,</span><span class="n">dxmax0</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">j0</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">cycl</span><span class="p">,</span><span class="n">nr_success</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">nfev</span><span class="p">,</span>
+              <span class="n">minfac</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="n">maxfac</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">reduce</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span><span class="n">increase</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Automatic control for incremental limit of system vector x. Based on the</span>
+<span class="sd">    success of the nonlinear solution process the incremental limit will be</span>
+<span class="sd">    either increased or decreased. If the newton iterations in the current inc.</span>
+<span class="sd">    converged and the last 3 increments were successful (without any recycle)</span>
+<span class="sd">    an increase of `dxmax` is performed. The amount of successful increments</span>
+<span class="sd">    before the current one is read by the parameter `b`. The increase factor is</span>
+<span class="sd">    based on a constant value `increase` and on the convergence rate of the</span>
+<span class="sd">    current increment. The total increase factor is calculated as</span>
+<span class="sd">    `increase_total = 1 + (nfev-n)/nfev * increase`. On the other hand, </span>
+<span class="sd">    if the current increment did not converge, `dxmax` will be reduced by a</span>
+<span class="sd">    given value `decrease`. Both an increase and decrease is only performed</span>
+<span class="sd">    inside the interval `minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0`.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameter</span>
+<span class="sd">    ---------</span>
+<span class="sd">    dxmax : ndarray</span>
+<span class="sd">        current incremental limit of system vector x</span>
+<span class="sd">    dxmax0 : ndarray</span>
+<span class="sd">        initial incremental limit of system vector x</span>
+<span class="sd">    j : int</span>
+<span class="sd">        current control component of x</span>
+<span class="sd">    j0 : int</span>
+<span class="sd">        initial control component of x (at the beginning of the inc.)</span>
+<span class="sd">    z : int</span>
+<span class="sd">        number of recycles in current increment</span>
+<span class="sd">    cycl: int</span>
+<span class="sd">        max. number of recycles</span>
+<span class="sd">    nr_success : bool</span>
+<span class="sd">        flag to check if nonlinear solution process converged</span>
+<span class="sd">    b : int</span>
+<span class="sd">        number of converged increments before this increment</span>
+<span class="sd">    n : int</span>
+<span class="sd">        number of newton iterations until convergence was reached</span>
+<span class="sd">    nfev : int</span>
+<span class="sd">        allowed number of newton iterations</span>
+<span class="sd">    minfac : float, optional</span>
+<span class="sd">        minimum factor of dxmax0 where a decrease of dxmax is performed</span>
+<span class="sd">        (`minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0`)</span>
+<span class="sd">    maxfac : float, optional</span>
+<span class="sd">        minimum factor of dxmax0 where a decrease of dxmax is performed</span>
+<span class="sd">        (`minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0`)</span>
+<span class="sd">    reduce : flaot, optional</span>
+<span class="sd">        factor do decrease dxmax if current increment did not converge.</span>
+<span class="sd">        (`dxmax= dxmax/reduce`)</span>
+<span class="sd">    increase : float, optional</span>
+<span class="sd">        factor do increase dxmax if current increment and the 3 increments</span>
+<span class="sd">        before did converge.</span>
+<span class="sd">        (`dxmax = dxmax * (1 + (nfev-n)/nfev * increase)`)</span>
+<span class="sd">    verbose : int, optional</span>
+<span class="sd">        Level of information during iterations (default is 0): </span>
+<span class="sd">        `verbose=0,1` ... no information, </span>
+<span class="sd">        `verbose=2`   ... print dxmax changes</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dxmax : ndarray</span>
+<span class="sd">        updated incremental limit of system vector x</span>
+<span class="sd">    z : int</span>
+<span class="sd">        updated number of recycles in current increment</span>
+<span class="sd">    b : int</span>
+<span class="sd">        updated number of converged increments before this increment</span>
+<span class="sd">    dx_changed : bool</span>
+<span class="sd">        flag to indicate if a change in dxmax was performed</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="c1"># not converged</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nr_success</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dxmax0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">minfac</span><span class="p">:</span>
+            
+            <span class="k">if</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="n">cycl</span><span class="p">:</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">-</span><span class="mi">1</span>
+                <span class="n">final_step_reduction</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step although control comp. changes (max. recycles reached).             |&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">final_step_reduction</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step size by factor: (inactive) due to recycle.                          |&#39;</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span> <span class="ow">or</span> <span class="n">final_step_reduction</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                                          |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">reduce</span><span class="p">))</span>
+                <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">/</span><span class="n">reduce</span>
+                <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># reset counter to increase width again</span>
+                
+    <span class="c1"># converged</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dxmax0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">maxfac</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: (inactive due to recycling).                      |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: (inactive). incs since last reduction: </span><span class="si">{0:1d}</span><span class="s1">/</span><span class="si">{1:1d}</span><span class="s1">        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># increase factor depends on convergence rate</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># Example</span>
+                    <span class="c1"># -------</span>
+                    <span class="c1">#   nfev = 8, n = 4</span>
+                    <span class="c1">#   1+(8-n)/8 = 1.5</span>
+                    <span class="c1">#   total_increase = increase*1.5</span>
+                    <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span> <span class="o">*</span> <span class="n">increase</span><span class="p">)</span>
+                    <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                                        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span><span class="o">*</span><span class="n">increase</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">j</span><span class="o">==</span><span class="n">j0</span><span class="p">:</span> 
+                <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">*</span><span class="n">maxfac</span>
+                <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">True</span>
+                
+    <span class="k">return</span> <span class="n">dxmax</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">dx_changed</span></div>
+
+<div class="viewcode-block" id="pathfollow"><a class="viewcode-back" href="../../../api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.pathfollow">[docs]</a><span class="k">def</span> <span class="nf">pathfollow</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">dgdx</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">dxmax</span><span class="o">=</span><span class="p">[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.02</span><span class="p">],</span>
+               <span class="n">j</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_fixed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">j_pre</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xlimit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="n">incs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">nfev</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">cycl</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">ftol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
                <span class="n">stepcontrol</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">maxfac</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">minfac</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span><span class="n">reduce</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">increase</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">dxtol</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
@@ -166,7 +315,15 @@
 <span class="sd">        during an increment (default is None which will use last</span>
 <span class="sd">        component of Dx --&gt; LPF load component)</span>
 <span class="sd">    j_fixed : bool, optional</span>
-<span class="sd">        lock control component to initial j</span>
+<span class="sd">        Lock control component to initial j (default is False). If True, a</span>
+<span class="sd">        dedicated control component j has to be specified.</span>
+<span class="sd">    j_pre : bool, optional</span>
+<span class="sd">        Use linearized solution at the beginning of each increment to determine</span>
+<span class="sd">        the control component j. The determinant of K control the sign of j.</span>
+<span class="sd">        (default is True)</span>
+<span class="sd">    x_limit : list, optional</span>
+<span class="sd">        List of length 2 containing [j,max_value] to limit the </span>
+<span class="sd">        loadcase execution. (default is None)</span>
 <span class="sd">    incs : int, optional</span>
 <span class="sd">        Maximum number of increments. (default is 20)</span>
 <span class="sd">    nfev : int, optional</span>
@@ -217,8 +374,11 @@
 <span class="sd">        res_x[0] contains start solution which is typically zeros.</span>
 <span class="sd">        </span>
 <span class="sd">    res_a: Analysis</span>
-<span class="sd">        Analysis Class (..core.analysis.Analysis) with converged solution.</span>
+<span class="sd">        Analysis Class (trusspy.core.analysis.Analysis) with converged solution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># extend x by one dimension</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     
     <span class="c1"># init result</span>
     <span class="n">res_x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -226,6 +386,9 @@
     
     <span class="c1"># check if dxmax is a vector</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># check if dxmax has length 2: use first entry for all components of dx</span>
+        <span class="c1"># except the last one.</span>
+        <span class="c1"># The second value is for the last component of dx.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> <span class="c1"># [du,dlpf]</span>
             <span class="n">dxm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
             <span class="n">dxm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -233,25 +396,24 @@
             <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxm</span>
             
     <span class="k">except</span><span class="p">:</span>
+        <span class="c1"># if dxmax is a scalar: assign it to every component of dx</span>
         <span class="n">dxmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">dxmax</span>
     <span class="n">dxmax0</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        
-    <span class="c1"># INIT CONTROL PARAMETER</span>
-    <span class="c1">#xmax = x[abs(j)-1] + dxmax[abs(j)-1] *np.sign(j)</span>
-    <span class="c1">#if verbose &gt; 1 and not np.allclose(x,0):</span>
-    <span class="c1">#    print(&#39;\ninitial x-values:\n&#39;,x.reshape(len(x),1),&#39;\n&#39;)</span>
-    <span class="c1">#    print(&#39;\ninitial equlibrium:\n&#39;,f(x,x,j,xmax).reshape(len(x),1),&#39;\n&#39;)</span>
     
-    <span class="c1"># INCREMENTS SINCE LAST REFINEMENT (stepcontrol)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># init control component to LPF</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># init INCREMENTS SINCE LAST REFINEMENT (stepcontrol)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">4</span>
         
-    <span class="c1"># increments</span>
+    <span class="c1"># init stop flag</span>
     <span class="n">stop</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="c1"># loop over increments</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">incs</span><span class="p">):</span>
         
-        <span class="c1">#if verbose &gt; 0: print(&#39;\n--------------------- START OF INCREMENT&#39;, i+1,&#39;---------------------------------------------&#39;)</span>
+        <span class="c1"># print informations</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                     INCREMENT</span><span class="si">{:5d}</span><span class="s1">                                                   |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+===+======+=======+=========+=========+===========+===========+===========+===========+&#39;</span><span class="p">)</span>
@@ -259,154 +421,137 @@
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|Cyc|NR-It.|Control|    Eq.  |   dx    | i:  Value | i:  Value | i:  Value | i:  Value |&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+        
         <span class="c1"># COPY RESULT</span>
         <span class="n">x0</span>    <span class="o">=</span>    <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         
         <span class="c1"># RECYCLE UNTIL VALID SOLUTION IS FOUND</span>
         <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
         
+        
+        <span class="c1"># init success flag of pre-identification of j</span>
         <span class="n">nr_success_pre</span> <span class="o">=</span> <span class="kc">False</span>
+        
         <span class="c1"># -----------------------------------------------------------------</span>
         <span class="c1"># BEGIN PRE-IDENTIFY j</span>
-        <span class="c1"># SIGN OF DLPF??? CURRENTLY IDENTIFIED BY SIGN(DET(KT))</span>
         <span class="c1"># -----------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">j_pre</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">j_fixed</span><span class="p">:</span>
         
-        <span class="n">nfev_pre</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">sign_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">dfdx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="n">j_pre0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sign_pre</span><span class="p">)</span>
-        <span class="n">xmax_pre</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span>
-        <span class="n">x_pre</span><span class="p">,</span><span class="n">nr_success_pre</span><span class="p">,</span><span class="n">n_pre</span><span class="p">,</span><span class="n">f_norm_pre</span><span class="p">,</span><span class="n">x_norm_pre</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev_pre</span><span class="p">,</span><span class="n">ftol</span><span class="p">,</span><span class="n">xtol</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">j_pre0</span><span class="p">,</span><span class="n">xmax_pre</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># only one nr-iteration</span>
+            <span class="n">nfev_pre</span> <span class="o">=</span> <span class="mi">1</span> 
+            
+            <span class="c1"># j is initially set to the LPF-component</span>
+            <span class="c1"># sign of j is identified by the sign of the stiffness matrix K</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">dgdx</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span>
+            <span class="n">sign_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">dfdx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">j_pre0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sign_pre</span><span class="p">)</span>
+            <span class="n">xmax_pre</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">j_pre0</span><span class="p">)</span>
+            
+            <span class="c1"># get linearized solution x</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span><span class="n">j_pre0</span><span class="p">,</span><span class="n">xmax_pre</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">dgdx</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span>
+            <span class="n">x_pre</span><span class="p">,</span><span class="n">nr_success_pre</span><span class="p">,</span><span class="n">n_pre</span><span class="p">,</span><span class="n">f_norm_pre</span><span class="p">,</span><span class="n">x_norm_pre</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev_pre</span><span class="p">,</span><span class="n">ftol</span><span class="p">,</span><span class="n">xtol</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+            
+            <span class="c1"># incremental solution</span>
+            <span class="n">Dx_pre</span> <span class="o">=</span> <span class="n">x_pre</span><span class="o">-</span><span class="n">x0</span>
+            
+            <span class="c1"># Dx/dxmax --&gt; get j-th component with maximum value and it&#39;s sign</span>
+            <span class="n">Dxi_pre</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span>
+            <span class="n">Dxs_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">Dxi_pre</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+            <span class="n">i1</span><span class="p">,</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">j_pre</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|</span><span class="si">{0:2d}</span><span class="s1"> |  </span><span class="si">{1:3s}</span><span class="s1"> |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:1.3e}</span><span class="s1">|</span><span class="si">{5:2d}</span><span class="s1">:</span><span class="si">{6:8.1g}</span><span class="s1">|           |           |           |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                      <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span><span class="n">j_pre0</span><span class="p">,</span><span class="n">f_norm_pre</span><span class="p">,</span><span class="n">x_norm_pre</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+            
+            <span class="c1"># set the found solution to j</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">j_pre</span>
         
-        <span class="n">Dx_pre</span> <span class="o">=</span> <span class="n">x_pre</span><span class="o">-</span><span class="n">x0</span>
+            <span class="c1"># if the solution did already converge --&gt; stop the increment</span>
+            <span class="k">if</span> <span class="n">nr_success_pre</span><span class="p">:</span>
+                <span class="n">analysis</span><span class="o">.</span><span class="n">Vred</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="n">analysis</span><span class="o">.</span><span class="n">Ured</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">analysis</span><span class="o">.</span><span class="n">lpf</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         
-        <span class="n">Dxi_pre</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span>
-        <span class="n">Dxs_pre</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="p">(</span><span class="n">Dx_pre</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">Dxi_pre</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
-        <span class="n">i1</span><span class="p">,</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">j_pre</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|</span><span class="si">{0:2d}</span><span class="s1"> |  </span><span class="si">{1:3s}</span><span class="s1"> |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:1.3e}</span><span class="s1">|</span><span class="si">{5:2d}</span><span class="s1">:</span><span class="si">{6:8.1g}</span><span class="s1">|           |           |           |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                  <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;pre&#39;</span><span class="p">,</span><span class="n">j_pre0</span><span class="p">,</span><span class="n">f_norm_pre</span><span class="p">,</span><span class="n">x_norm_pre</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-        
-        <span class="n">j</span> <span class="o">=</span> <span class="n">j_pre</span>
-        
-        <span class="k">if</span> <span class="n">nr_success_pre</span><span class="p">:</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">Vred</span> <span class="o">=</span> <span class="n">x</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">Ured</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">analysis</span><span class="o">.</span><span class="n">lpf</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    
-            <span class="n">res_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">res_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
-            <span class="n">res_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">analysis</span><span class="p">))</span>
+                <span class="n">res_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">res_x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+                <span class="n">res_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">analysis</span><span class="p">))</span>
         
         <span class="c1"># -----------------------------------------------------------------</span>
         <span class="c1"># END PRE-IDENTIFY j</span>
         <span class="c1"># -----------------------------------------------------------------</span>
         
+        <span class="c1"># recylce loop</span>
         <span class="k">while</span> <span class="n">nr_success_pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
             
-            <span class="c1"># RESET X TO START SOLUTION X0</span>
+            <span class="c1"># RESET X TO START SOLUTION X0 and COPY j to j0</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
             <span class="n">j0</span> <span class="o">=</span> <span class="n">j</span>
             
-            <span class="c1"># UPDATE CONTROL PARAMETER</span>
+            <span class="c1"># UPDATE CONTROL PARAMETER WITH CURRENT CONTROL COMPONENT</span>
             <span class="n">xmax</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
             
-            <span class="c1"># NEWTON-RHAPSON ITERATIONS</span>
-            <span class="n">x</span><span class="p">,</span><span class="n">nr_success</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">x_norm</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev</span><span class="p">,</span><span class="n">ftol</span><span class="p">,</span><span class="n">xtol</span><span class="p">,</span><span class="n">verbose</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># NEWTON-RHAPSON ITERATIONS (nonlinear solution process)</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">dgdx</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">False</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">nr_success</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">x_norm</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev</span><span class="p">,</span><span class="n">ftol</span><span class="p">,</span><span class="n">xtol</span><span class="p">,</span><span class="n">verbose</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
                 
             <span class="c1"># TOTAL INCREMENTAL SOLUTION</span>
             <span class="n">Dx</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">x0</span>
             
+            <span class="c1"># GET MAXIMUM COMPONENT AND SIGN</span>
             <span class="n">Dxi</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span>
             <span class="n">Dxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">Dxi</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
             
             <span class="n">i1</span><span class="p">,</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">i2</span><span class="p">,</span><span class="n">v2</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">i3</span><span class="p">,</span><span class="n">v3</span><span class="p">,</span> <span class="n">i4</span><span class="p">,</span><span class="n">v4</span><span class="p">,</span> <span class="n">i5</span><span class="p">,</span><span class="n">v5</span><span class="p">,</span> <span class="n">i6</span><span class="p">,</span><span class="n">v6</span><span class="p">,</span> <span class="n">i7</span><span class="p">,</span><span class="n">v7</span><span class="p">,</span> <span class="n">i8</span><span class="p">,</span><span class="n">v8</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+            <span class="n">i3</span><span class="p">,</span><span class="n">i4</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="n">v3</span><span class="p">,</span><span class="n">v4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">i3</span><span class="p">,</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="n">i4</span><span class="p">,</span> <span class="n">v4</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
             
+            <span class="c1"># PRINT INFORMATIONS ON BIGGEST INCREMENTAL COMPONENTS</span>
             <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> 
-                <span class="c1"># if len(x) &lt;= 1:</span>
-                    <span class="c1"># print(&#39; {0:3d}    {1:2d}    {2:2d}    |{3:1.3e} {4:1.3e}|{5:2d} {6:8.3f}&#39;.format(</span>
-                          <span class="c1"># i,n,j,f_norm,x_norm,i1,v1))</span>
-                <span class="c1"># elif len(x) &lt;= 2:</span>
-                    <span class="c1"># print(&#39; {0:3d}    {1:2d}    {2:2d}    |{3:1.3e} {4:1.3e}|{5:2d} {6:8.3f}|{7:2d} {8:8.3f}&#39;.format(</span>
-                          <span class="c1"># i,n,j,f_norm,x_norm,i1,v1,i2,v2))</span>
-                <span class="c1"># elif len(x) &lt;= 3:</span>
-                    <span class="c1"># print(&#39; {0:3d}    {1:2d}    {2:2d}    |{3:1.3e} {4:1.3e}|{5:2d} {6:8.3f}|{7:2d} {8:8.3f}|{9:2d} {10:8.3f}&#39;.format(</span>
-                          <span class="c1"># i,n,j,f_norm,x_norm,i1,v1,i2,v2,i3,v3))</span>
-                <span class="c1"># elif len(x) &lt;= 4:</span>
-                    <span class="c1"># print(&#39; {0:3d}    {1:2d}    {2:2d}    |{3:1.3e} {4:1.3e}|{5:2d} {6:8.3f}|{7:2d} {8:8.3f}|{9:2d} {10:8.3f}|{11:2d} {12:8.3f}&#39;.format(</span>
-                          <span class="c1"># i,n,j,f_norm,x_norm,i1,v1,i2,v2,i3,v3,i4,v4))</span>
-                <span class="c1">#else:</span>
-                <span class="c1">#print(&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|tot| sum  | used  |  final  |  final  |   final                                       |&#39;</span><span class="p">)</span>
-                <span class="c1">#print(&#39;+===+======+=======+=========+=========+===========+===========+===========+===========+&#39;)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|</span><span class="si">{0:2d}</span><span class="s1"> |  </span><span class="si">{1:2d}</span><span class="s1">  |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:1.3e}</span><span class="s1">|</span><span class="si">{5:2d}</span><span class="s1">:</span><span class="si">{6:8.4f}</span><span class="s1">|</span><span class="si">{7:2d}</span><span class="s1">:</span><span class="si">{8:8.4f}</span><span class="s1">|</span><span class="si">{9:2d}</span><span class="s1">:</span><span class="si">{10:8.4f}</span><span class="s1">|</span><span class="si">{11:2d}</span><span class="s1">:</span><span class="si">{12:8.4f}</span><span class="s1">|&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                       <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">x_norm</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">i2</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">i3</span><span class="p">,</span><span class="n">v3</span><span class="p">,</span><span class="n">i4</span><span class="p">,</span><span class="n">v4</span><span class="p">))</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-        
-            <span class="c1"># UPDATE CONTROL COMPONENT</span>
-            <span class="c1">#j = 1+np.where( abs((Dx)/dxmax) == max(abs((Dx)/dxmax)))[0][0]</span>
-            <span class="c1">#j = int(j * np.sign(((Dx)/dxmax)[j-1]))</span>
-            
-            <span class="c1">#if nr_success and not j_fixed:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">+</span><span class="mi">86</span><span class="o">*</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+                
+            <span class="c1"># set new control comp. if not fixed by the user</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">j_fixed</span><span class="p">:</span>
                 <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
-            
-            <span class="n">sc_changed</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="c1"># STEP WIDTH CONTROL</span>
-            <span class="c1"># ------------------------------------------</span>
+                
+            <span class="c1"># save current dxmax as dVmax to analysis object</span>
+            <span class="c1"># (do this **before** an adoption of dxmax is performed by</span>
+            <span class="c1">#  `stepcontrol`)</span>
             <span class="n">analysis</span><span class="o">.</span><span class="n">dVmax</span> <span class="o">=</span> <span class="n">dxmax</span>
             
-            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                                      |&#39;</span><span class="p">)</span>
+            <span class="c1"># init flag for *stepcontrol changed dxmax* (sc_changed) to False</span>
+            <span class="n">sc_changed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># -----------------------STEP WIDTH CONTROL------------------------</span>
             <span class="k">if</span> <span class="n">stepcontrol</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">nr_success</span><span class="p">:</span> <span class="c1">#n == nfev-1:  # not converged</span>
-                    <span class="k">if</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">dxmax0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">minfac</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="n">j0</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">)))</span>
-                        <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">)):</span><span class="c1">#j0==j:</span>
-                            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                                          |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">reduce</span><span class="p">))</span>
-                            <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">/</span><span class="n">reduce</span>
-                            <span class="n">sc_changed</span> <span class="o">=</span> <span class="kc">True</span>
-                            <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">else</span><span class="p">:</span> <span class="c1"># converged</span>
-                    <span class="k">if</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dxmax0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">maxfac</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span><span class="p">:</span> 
-                            <span class="k">if</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
-                                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: (inactive). incs since last reduction: </span><span class="si">{0:1d}</span><span class="s1">/</span><span class="si">{1:1d}</span><span class="s1">        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-                            <span class="k">else</span><span class="p">:</span>
-                                <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span> <span class="o">*</span> <span class="n">increase</span><span class="p">)</span>
-                                <span class="n">sc_changed</span> <span class="o">=</span> <span class="kc">True</span>
-                                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                                        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span><span class="p">))</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">j</span><span class="o">==</span><span class="n">j0</span><span class="p">:</span> 
-                            <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">*</span><span class="n">maxfac</span>
-                            <span class="n">sc_changed</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="c1"># ------------------------------------------</span>
-
-            <span class="c1"># RE-UPDATE CONTROL COMPONENT</span>
-            <span class="k">if</span> <span class="n">sc_changed</span><span class="p">:</span>
-                
-                <span class="c1">#j = 1+np.where( abs((Dx)/dxmax) == max(abs((Dx)/dxmax)))[0][0]</span>
-                <span class="c1">#j = int(j * np.sign(((Dx)/dxmax)[j-1]))</span>
-                <span class="n">Dxi</span> <span class="o">=</span> <span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span>
-                <span class="n">Dxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span> <span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">Dxi</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
-                <span class="n">i1</span><span class="p">,</span> <span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">nr_success</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">j_fixed</span><span class="p">:</span>
-                    <span class="n">jx</span> <span class="o">=</span> <span class="n">j</span>
-                    <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">jx</span><span class="o">==</span><span class="n">j</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...update control component due to change in NR-step size: </span><span class="si">{:3d}</span><span class="s1"> to </span><span class="si">{:3d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">jx</span><span class="p">,</span><span class="n">j</span><span class="p">))</span>
+                <span class="n">dxmax</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">sc_changed</span> <span class="o">=</span> <span class="n">dxmax_control</span><span class="p">(</span><span class="n">dxmax</span><span class="p">,</span><span class="n">dxmax0</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">j0</span><span class="p">,</span>
+                                                     <span class="n">z</span><span class="p">,</span><span class="n">cycl</span><span class="p">,</span><span class="n">nr_success</span><span class="p">,</span><span class="n">b</span><span class="p">,</span>
+                                                     <span class="n">n</span><span class="p">,</span><span class="n">nfev</span><span class="p">,</span><span class="n">minfac</span><span class="p">,</span><span class="n">maxfac</span><span class="p">,</span>
+                                                     <span class="n">reduce</span><span class="p">,</span><span class="n">increase</span><span class="p">,</span>
+                                                     <span class="n">verbose</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             
-            
-            <span class="c1"># CHECK IF SOLUTION IS VALID -- GOTO NEXT INCREMENT</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">Dx</span><span class="p">)</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">):</span><span class="c1"># and nr_success:</span>
+            <span class="c1"># CHECK IF SOLUTION IS VALID --&gt; GO TO NEXT INCREMENT</span>
+            <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">j_fixed</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">:</span>
+                    <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">Dx</span><span class="p">)</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">):</span>
+                    <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">True</span>
+                    
+            <span class="k">if</span> <span class="n">solution_valid</span> <span class="ow">and</span> <span class="n">nr_success</span><span class="p">:</span>
                 <span class="c1"># UPDATE STATE VARIABLES</span>
-                <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x0</span><span class="p">,</span><span class="n">j0</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span><span class="n">j0</span><span class="p">,</span><span class="n">xmax</span><span class="p">,</span><span class="n">g</span><span class="p">,</span><span class="n">dgdx</span><span class="p">,</span><span class="n">analysis</span><span class="p">,</span><span class="kc">True</span>
+                <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
                 <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">+</span><span class="mi">1</span>
                 <span class="c1">#print(z, np.all(abs((Dx)/dxmax) &lt;= 1+tol))</span>
                 <span class="k">break</span>
@@ -431,7 +576,7 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
             
         
-        
+        <span class="c1"># save results to analysis object</span>
         <span class="n">analysis</span><span class="o">.</span><span class="n">Vred</span> <span class="o">=</span> <span class="n">x</span>
         <span class="n">analysis</span><span class="o">.</span><span class="n">Ured</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">analysis</span><span class="o">.</span><span class="n">lpf</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -451,7 +596,11 @@
     
         <span class="c1"># Maximum value reached</span>
         <span class="k">if</span> <span class="n">xlimit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xlimit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">xlimit</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="k">break</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xlimit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">xlimit</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                                      |&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * WARNING 1: Job stopped - max value of control component reached.                   |&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+                <span class="k">break</span>
     
     <span class="k">return</span> <span class="n">res_x</span><span class="p">,</span><span class="n">res_a</span></div>
 </pre></div>

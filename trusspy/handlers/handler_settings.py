@@ -35,6 +35,7 @@ class SettingsHandler:
         self.log = log
         
         self.j0 = None
+        self.j_pre = True
         self.j_fixed = False
         
         self.nstatev = 0

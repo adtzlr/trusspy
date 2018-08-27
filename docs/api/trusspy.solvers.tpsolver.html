@@ -68,7 +68,7 @@
   <body>
 <div class="pageheader">
     <div >
-        <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
     </div>
   <ul>
     <li><a href="../index.html">Home</a></li>
@@ -122,8 +122,90 @@
 <p>Created on Mon Jul 30 17:36:41 2018</p>
 <p>&#64;author: adutz</p>
 <dl class="function">
+<dt id="trusspy.solvers.tpsolver.dfdx">
+<code class="descclassname">trusspy.solvers.tpsolver.</code><code class="descname">dfdx</code><span class="sig-paren">(</span><em>Vred</em>, <em>V0red</em>, <em>j</em>, <em>Vmax</em>, <em>equilibrium</em>, <em>stiffness</em>, <em>analysis=None</em>, <em>statev_write=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#dfdx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.dfdx" title="Permalink to this definition">¶</a></dt>
+<dd><p>stiffness matrix, extended to (nDOF+1,nDOF+1)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.dxmax_control">
+<code class="descclassname">trusspy.solvers.tpsolver.</code><code class="descname">dxmax_control</code><span class="sig-paren">(</span><em>dxmax</em>, <em>dxmax0</em>, <em>j</em>, <em>j0</em>, <em>z</em>, <em>cycl</em>, <em>nr_success</em>, <em>b</em>, <em>n</em>, <em>nfev</em>, <em>minfac=1e-06</em>, <em>maxfac=10</em>, <em>reduce=8.0</em>, <em>increase=0.5</em>, <em>verbose=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#dxmax_control"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.dxmax_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatic control for incremental limit of system vector x. Based on the
+success of the nonlinear solution process the incremental limit will be
+either increased or decreased. If the newton iterations in the current inc.
+converged and the last 3 increments were successful (without any recycle)
+an increase of <cite>dxmax</cite> is performed. The amount of successful increments
+before the current one is read by the parameter <cite>b</cite>. The increase factor is
+based on a constant value <cite>increase</cite> and on the convergence rate of the
+current increment. The total increase factor is calculated as
+<cite>increase_total = 1 + (nfev-n)/nfev * increase</cite>. On the other hand,
+if the current increment did not converge, <cite>dxmax</cite> will be reduced by a
+given value <cite>decrease</cite>. Both an increase and decrease is only performed
+inside the interval <cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>.</p>
+<dl class="docutils">
+<dt>dxmax <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>current incremental limit of system vector x</dd>
+<dt>dxmax0 <span class="classifier-delimiter">:</span> <span class="classifier">ndarray</span></dt>
+<dd>initial incremental limit of system vector x</dd>
+<dt>j <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>current control component of x</dd>
+<dt>j0 <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>initial control component of x (at the beginning of the inc.)</dd>
+<dt>z <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of recycles in current increment</dd>
+<dt>cycl: int</dt>
+<dd>max. number of recycles</dd>
+<dt>nr_success <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>flag to check if nonlinear solution process converged</dd>
+<dt>b <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of converged increments before this increment</dd>
+<dt>n <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of newton iterations until convergence was reached</dd>
+<dt>nfev <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>allowed number of newton iterations</dd>
+<dt>minfac <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd>minimum factor of dxmax0 where a decrease of dxmax is performed
+(<cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>)</dd>
+<dt>maxfac <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd>minimum factor of dxmax0 where a decrease of dxmax is performed
+(<cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>)</dd>
+<dt>reduce <span class="classifier-delimiter">:</span> <span class="classifier">flaot, optional</span></dt>
+<dd>factor do decrease dxmax if current increment did not converge.
+(<cite>dxmax= dxmax/reduce</cite>)</dd>
+<dt>increase <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd>factor do increase dxmax if current increment and the 3 increments
+before did converge.
+(<cite>dxmax = dxmax * (1 + (nfev-n)/nfev * increase)</cite>)</dd>
+<dt>verbose <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd>Level of information during iterations (default is 0):
+<cite>verbose=0,1</cite> … no information,
+<cite>verbose=2</cite>   … print dxmax changes</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>dxmax</strong> (<em>ndarray</em>) – updated incremental limit of system vector x</li>
+<li><strong>z</strong> (<em>int</em>) – updated number of recycles in current increment</li>
+<li><strong>b</strong> (<em>int</em>) – updated number of converged increments before this increment</li>
+<li><strong>dx_changed</strong> (<em>bool</em>) – flag to indicate if a change in dxmax was performed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.f">
+<code class="descclassname">trusspy.solvers.tpsolver.</code><code class="descname">f</code><span class="sig-paren">(</span><em>Vred</em>, <em>V0red</em>, <em>j</em>, <em>Vmax</em>, <em>equilibrium</em>, <em>stiffness</em>, <em>analysis=None</em>, <em>statev_write=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>equilibrium function, extended to (nDOF+1)</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="trusspy.solvers.tpsolver.pathfollow">
-<code class="descclassname">trusspy.solvers.tpsolver.</code><code class="descname">pathfollow</code><span class="sig-paren">(</span><em>f, dfdx, x, analysis, dxmax=[0.02, 0.02], j=None, j_fixed=False, xlimit=None, incs=20, nfev=8, cycl=4, ftol=1e-08, xtol=1e-08, stepcontrol=True, maxfac=10, minfac=1e-06, reduce=8, increase=1, dxtol=1.25, verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#pathfollow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.pathfollow" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">trusspy.solvers.tpsolver.</code><code class="descname">pathfollow</code><span class="sig-paren">(</span><em>g, dgdx, x, analysis, dxmax=[0.02, 0.02], j=None, j_fixed=False, j_pre=True, xlimit=None, incs=20, nfev=8, cycl=4, ftol=1e-08, xtol=1e-08, stepcontrol=True, maxfac=10, minfac=1e-06, reduce=8, increase=1, dxtol=1.25, verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#pathfollow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.pathfollow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Path following algorithm of a curve.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -143,7 +225,13 @@ assigns each component of dxmax to the corresponding component of x.
 <li><strong>j</strong> (<em>int</em><em>, </em><em>optional</em>) – initial control component. Limit j-th component of Dx
 during an increment (default is None which will use last
 component of Dx –&gt; LPF load component)</li>
-<li><strong>j_fixed</strong> (<em>bool</em><em>, </em><em>optional</em>) – lock control component to initial j</li>
+<li><strong>j_fixed</strong> (<em>bool</em><em>, </em><em>optional</em>) – Lock control component to initial j (default is False). If True, a
+dedicated control component j has to be specified.</li>
+<li><strong>j_pre</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use linearized solution at the beginning of each increment to determine
+the control component j. The determinant of K control the sign of j.
+(default is True)</li>
+<li><strong>x_limit</strong> (<em>list</em><em>, </em><em>optional</em>) – List of length 2 containing [j,max_value] to limit the
+loadcase execution. (default is None)</li>
 <li><strong>incs</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of increments. (default is 20)</li>
 <li><strong>nfev</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of newton iterations (default is 8)</li>
 <li><strong>cycl</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of recycles, either due to a switch in control component
@@ -177,7 +265,7 @@ cycles. (default is 1.25)</li>
 <cite>res_x.shape = (incs, len(x)+1)</cite>. Result array <cite>res_x[1]</cite> contains the
 converged solution vector for the first increment. Result component
 res_x[0] contains start solution which is typically zeros.</li>
-<li><strong>res_a</strong> (<em>Analysis</em>) – Analysis Class (..core.analysis.Analysis) with converged solution.</li>
+<li><strong>res_a</strong> (<em>Analysis</em>) – Analysis Class (trusspy.core.analysis.Analysis) with converged solution.</li>
 </ul>
 </p>
 </td>

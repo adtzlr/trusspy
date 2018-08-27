@@ -68,7 +68,7 @@
   <body>
 <div class="pageheader">
     <div >
-        <a href="https://github.com/you"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
     </div>
   <ul>
     <li><a href="../../../index.html">Home</a></li>
@@ -131,6 +131,7 @@
 <span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">solve</span><span class="p">,</span><span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="k">import</span> <span class="n">spsolve</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="k">import</span> <span class="n">csr_matrix</span><span class="p">,</span><span class="n">csc_matrix</span>
+<span class="c1">#from numba import jit</span>
 
 <div class="viewcode-block" id="newton"><a class="viewcode-back" href="../../../api/trusspy.solvers.zerosearch.html#trusspy.solvers.zerosearch.newton">[docs]</a><span class="k">def</span> <span class="nf">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">ftol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Find the roots of a function using the Newton-Rhapson algorithm.</span>
