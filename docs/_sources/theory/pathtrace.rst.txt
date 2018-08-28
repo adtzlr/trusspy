@@ -1,99 +1,32 @@
 Path-Following Algorithm
 ========================
 
-This section gives an overview of the algorithm for the path-following :func:`trusspy.solvers.tpsolver.pathfollow` of the equilibrium curve. The algorithm is called once for each step, which contains solutions for a number of increments. During an increment several Newton-Rhapson (NR) iterations are performed to obtain a fullfilled equilibrium. For an easier understanding this description uses a mixed Python and pseudo-code style with omitting namespaces, etc.
+This section gives an overview of the algorithm for the path-following :func:`trusspy.solvers.tpsolver.pathfollow` of the equilibrium curve. The algorithm is called once for each step, which contains solutions for a number of increments. During an increment several Newton-Rhapson (NR) iterations are performed to obtain a fullfilled equilibrium.
 
-.. code-block:: none
-
-   + step 1                # <-- path-following algorithm is called the first time
-     - increment 1
-         * iteration 1
-         * iteration 2
-         * iteration 3
-         * ...
-         * iteration n
-     - incrmeent 2
-         * iteration 1
-         * iteration 2
-         * iteration 3
-         * ...
-         * iteration n
+.. figure:: pathtracing.*
+   :align: center
+   :width: 90%
+   :alt: Curve-Following Algorithm
    
-   + step 2                # <-- path-following algorithm is called the 2-nd time
-   + ...   
-   + step s                # <-- path-following algorithm is called the s-th time
+   Curve-Following Algorithm
    
-Initialization
---------------
-Some initializations have to be made before the calculation loops may start. First, there is a init section for the *step* followed by an initialization for each *increment*. If the user doesn't freeze the control component for the whole analysis, the control component is initialized to the incremental load-proportionality-factor `dlpf` which is the last component in `x`.
+Description
+-----------
+For the first increment the control component is unknown. Therefore it is set to the load-proportionality-factor (LPF) component, which is the last one in :math:`\boldsymbol{V}`. An Increment starts with the linearized Newton-Rhapson Iteration of the extended equilibrium equations. After finishing this Iteration a check on the control component is performed: If the control component changes, the overshoot in the highest component will be compensated by the application of a scale factor for the whole system vector :math:`\Delta\boldsymbol{V}`. Otherwise the solution will be saved and the nonlinear solution process (Newton-Rhapson Iterations) is called. If no convergence was found, the calculation stops. If the control component changes and the nonlinear solution process converged, the Increment will be recycled. Therefore the solution :math:`\Delta\boldsymbol{V}` is resetted to the value from the beginning of the increment. The recycle will be performed with the updated control component. If the nonlinear solution process did converge and all components of the incremental system vector are inside the specified tolerances:math:`|\Delta\boldsymbol{V}| \le \Delta\boldsymbol{V}_{max}`, the results are saved and the increment is successful. After that the next increment will be startet.
 
-.. code::
+Newton-Rhapson Iterations
+=========================
 
-   if j==None:
-       j = len(x)
-       
-If we use the automatic incremental stepwidth control (has **absolutely nothing** to do with the *global* step) a internal variable is pre-defined for later use. This will ensure a stepwidth increase is only performed if the previous `b` increments were successfully solved within the specified number of iterations and without any recycles.
-
-.. code::
-
-   b = 3
-
-
-Increment Loop
---------------
-
-For each increment several recycles `z` are allowed. The amount of recycle loops is controlled with the `cycl` parameter and defaults to `cycl=4`. The system vector `x` is copied to `x0` so we can go back to the initial system vector if a recycle will be necessary.
-
-Initialization - Determination of the control component `j`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A success flag for the pre - NR-iteration is initiated to `False`. The amount of NR-iterations is limited to 1, as we are interested only in the linear solution of the equilibrium equations. Note that it is important to know the direction of the incremental LPF to determine the direction for the upcoming equilibrium state. Is it always positive? No! So we'll use the determinant of the global stiffness matrix at the given state `x` (beginning of the increment) to get the direction information. As we are not yet interested in the control equation - or, with other - we don't know it yet, we just omit the last dimensions by slicing the matrix `dfdx(x`*args)[:-1,:-1]`.
-
-.. code:: python
-
-   sgn = sign( det( dfdx(x)[:-1,:-1] ) )
-   j   = len(x) * sgn
-
-The absolute scalar-valued control parameter for the pre - NR-iteration is further determined as `xmax = x[j] + dxmax[j]`. As Python is indexing arrays with starting `0` we have to take care to get the right value and subtract j by 1 in the component selection. The solution for the pre-identification is then performed with a single NR-iteration.
-
-.. code:: python
-
-   xmax = x[abs(j)-1] + dxmax[abs(j)-1] * sign(j)
-   solution_pre = newton(f,dfdx,x,nfev_pre,ftol,xtol,*args)
+.. figure:: newton.*
+   :align: center
+   :width: 90%
+   :alt: Newton-Rhapson Iterations (nonlinear solution process) for an arbirtrary Increment.
    
-   x = solution_pre[0]
-   nr_success_pre = sultion_pre[1]
-   
-   Dx = x-x0
+   Newton-Rhapson Iterations (nonlinear solution process) for an arbirtrary Increment.
 
-As we are interested in the incremental `Dx` and not the absolute `x` vector we build the difference. (OK, this is unnecessary but easier to code). Now we look for the biggest componenet in Dx and it's sign. Both informations are stored inside the single variable `j`. Again, taking care of Python's 0-indexing.
+A Newton-Rhapson algorithm is used to obtain valid solutions of the extended system equlibrium vector with small incremental solutions :math:`\delta\boldsymbol{V}`. During an increment several Newton-Iterations (nonlinear sultion process) are performed. The total incremental solution :math:`\Delta\boldsymbol{V}` of an Increment is obtained by a sum of the iterative incremental results. During the nonlinear solution process the **control component remains fixed**.
 
-.. code:: python
+..  ::math
 
-   j = (index(Dx,max)+1) * sign(Dx,max)
-   
-What we got so far is:
+    \Delta\boldsymbol{V} = \sum_{n=1}^{n_{max}} \delta\boldsymbol{V}_n
 
-* determination of the control component `j` and
-* corresponding solution `x`.
-
-If the solution did converge in this single increment, then the increment is finished. This is indicated by the success flag `nr_success_pre`. Increment results are copied to :class:`trusspy.core.analysis.Analysis` - go to next increment.
-
-Recycle Loop (Nonlinear solution process)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If the pre NR-iteration did not converge (`nr_success_pre = False`) a recycle loop is started. For later usage the current control component `j` is copied to `j0`. Also, we reset the system vector `x` to `x0`. Before the NR-iterations :func:`trusspy.solvers.zerosearch.newton` are called the allowed control component `xmax` is updated with the current values of `j` and `dxmax`.
-
-.. code:: python
-
-   while nr_success_pre is not True:
-   
-       x = x0.copy()
-       j0 = j
-   
-       xmax = x[abs(j)-1] + dxmax[abs(j)-1] *np.sign(j)
-       x,nr_success,n,f_norm,x_norm = newton(f,dfdx,x,nfev,ftol,xtol,verbose,*args)
-   
-       Dx = x-x0
-   
-The total incremental system vector is then obtained by the difference between the end and beginning state of the increment (or, alternatively as a sum over all virtual NR-iteration solutions `Dx = sum(dx)` ). If the solution has met our tolarences we stop the recycle loop, call the equilibrium function `f(x)` once again with a flag to store internal variables inside the material definition, append the analysis :class:`trusspy.core.analysis.Analysis` to :class:`trusspy.handlers.handler_result.ResultHandler` and proceed to the next increment. Otherwise, when the used and final control component differ each other, once again recycle is performed. Therefore the recycle variable is increased `z = z+1`. The final control component will be used for the recycle of the increment. This procedure is done not more than `cycl` times as long as the control component does not change anymore and the required tolerances are met. Otherwise the calculation stops.

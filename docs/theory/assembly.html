@@ -134,12 +134,54 @@
             
   <div class="section" id="global-assembly">
 <h1>Global Assembly<a class="headerlink" href="#global-assembly" title="Permalink to this headline">¶</a></h1>
-<p>The element force contributions have to be assembled into a system equilibrium.</p>
+<p>The fixing force contributions of each element <cite>k</cite> have to be assembled into a global system column vector of fixing forces.</p>
+<div class="math" id="equation-global_r">
+<span class="eqno">(1)<a class="headerlink" href="#equation-global_r" title="Permalink to this equation">¶</a></span>\[\boldsymbol{r} = \bigcup_{k=1}^{n_{el}} \boldsymbol{r}_k\]</div>
+<p>The same also applies for the tangent stiffness contributions <cite>k</cite> of each element into a global system stiffness matrix.</p>
+<div class="math" id="equation-global_K">
+<span class="eqno">(2)<a class="headerlink" href="#equation-global_K" title="Permalink to this equation">¶</a></span>\[\boldsymbol{K}_{T} = \bigcup_{k=1}^{n_{el}} \boldsymbol{K}_{T,k}\]</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>The contributions of a truss <cite>k=1</cite> with it’s connectivities <cite>(A,E) = (1,3)</cite> and a truss <cite>k=2</cite> with <cite>(A,E) = (3,2)</cite> to a global system with a total number of 3 nodes is assembled as follows: The system fixing force column vector <span class="math">\(\boldsymbol{r}\)</span> has a total length of <cite>(nnodes*ndim)=(9)</cite> (assuming <cite>ndim=3</cite>). The contributions of the trusses <cite>k=1</cite> and <cite>k=2</cite> are then assembled by their connectivity information <cite>A</cite> and <cite>E</cite>.</p>
 <div class="math" id="equation-theory/assembly:0">
-<span class="eqno">(1)<a class="headerlink" href="#equation-theory/assembly:0" title="Permalink to this equation">¶</a></span>\[\boldsymbol{r}_{System} = \bigcup_{k=1}^{n_{el}} \boldsymbol{r}_k\]</div>
-<p>The same also applies for the elemental tangent stiffness.</p>
+<span class="eqno">(3)<a class="headerlink" href="#equation-theory/assembly:0" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{r} = \left[\begin{array}{c}
+                         \boldsymbol{r}_1 \\
+                         \boldsymbol{r}_2 \\
+                         \boldsymbol{r}_3 \\
+                         \end{array}\right]\end{split}\]</div>
 <div class="math" id="equation-theory/assembly:1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-theory/assembly:1" title="Permalink to this equation">¶</a></span>\[\boldsymbol{K}_{T,System} = \bigcup_{k=1}^{n_{el}} \boldsymbol{K}_{T,k}\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-theory/assembly:1" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{r} &amp;= \quad \boldsymbol{r}_{k=1} &amp;+ \quad \boldsymbol{r}_{k=2} \\
+\boldsymbol{r} &amp;= \left[\begin{array}{c}
+                         \boldsymbol{r}_{A=1} \\
+                         \boldsymbol{0}       \\
+                         \boldsymbol{r}_{E=3} \\
+                         \end{array}\right]              &amp;+
+                                                             \left[\begin{array}{c}
+                                                             \boldsymbol{0}       \\
+                                                             \boldsymbol{r}_{E=2} \\
+                                                             \boldsymbol{r}_{A=3} \\
+                                                             \end{array}\right]\end{split}\]</div>
+<p>The total system fixing force column vector of all elements <cite>k</cite> is finally obtained with equation <a class="reference internal" href="#equation-global_r">(1)</a>. For the stiffness contribution the same method applies to <cite>A</cite> end <cite>E</cite>. For example, the submatrix <cite>(AE)</cite> of element <cite>k</cite> is assembled at system position <cite>(13)</cite>.</p>
+<div class="math" id="equation-theory/assembly:2">
+<span class="eqno">(5)<a class="headerlink" href="#equation-theory/assembly:2" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{T~(9,9)} = \begin{bmatrix}
+                           \boldsymbol{K}_{11} &amp; \boldsymbol{K}_{12} &amp; \boldsymbol{K}_{13}\\
+                           \boldsymbol{K}_{21} &amp; \boldsymbol{K}_{22} &amp; \boldsymbol{K}_{23}\\
+                           \boldsymbol{K}_{31} &amp; \boldsymbol{K}_{32} &amp; \boldsymbol{K}_{33}
+                           \end{bmatrix}\end{split}\]</div>
+<p>The total system stiffness matrix of all elements <cite>k</cite> is again obtained with equation <a class="reference internal" href="#equation-global_K">(2)</a>.</p>
+<div class="math" id="equation-theory/assembly:3">
+<span class="eqno">(6)<a class="headerlink" href="#equation-theory/assembly:3" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_T &amp;= \quad \quad \quad \boldsymbol{K}_{T,k=1} &amp;+ \quad \quad \quad \boldsymbol{K}_{T,k=2} \\
+\boldsymbol{K}_T &amp;= \begin{bmatrix}
+                           \boldsymbol{K}_{k=1,AA} &amp; \boldsymbol{0} &amp; \boldsymbol{K}_{k=1,AE}\\
+                           \boldsymbol{0} &amp; \boldsymbol{0} &amp; \boldsymbol{0}\\
+                           \boldsymbol{K}_{k=1,EA} &amp; \boldsymbol{0} &amp; \boldsymbol{K}_{k=1,AA}
+                   \end{bmatrix} &amp;+
+                   \begin{bmatrix}
+                           \boldsymbol{0} &amp; \boldsymbol{0}          &amp; \boldsymbol{0}\\
+                           \boldsymbol{0} &amp; \boldsymbol{K}_{k=2,EE} &amp; \boldsymbol{K}_{k=2,EA}\\
+                           \boldsymbol{0} &amp; \boldsymbol{K}_{k=2,AE} &amp; \boldsymbol{K}_{k=2,AA}
+                   \end{bmatrix}\end{split}\]</div>
+</div>
 </div>
 
 

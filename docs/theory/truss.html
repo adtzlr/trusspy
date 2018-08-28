@@ -134,7 +134,11 @@
             
   <div class="section" id="truss-element">
 <h1>Truss Element<a class="headerlink" href="#truss-element" title="Permalink to this headline">¶</a></h1>
-<p>This section describes the <strong>Kinematics</strong> and <strong>Constitution</strong> of a Truss element <a class="reference internal" href="../api/trusspy.elements.element_definition.html#trusspy.elements.element_definition.truss" title="trusspy.elements.element_definition.truss"><code class="xref py py-class docutils literal"><span class="pre">trusspy.elements.element_definition.truss</span></code></a>.</p>
+<p>This section describes the <strong>Kinematics</strong> and <strong>Constitution</strong> of a Truss element <a class="reference internal" href="../api/trusspy.elements.element_definition.html#trusspy.elements.element_definition.truss" title="trusspy.elements.element_definition.truss"><code class="xref py py-class docutils literal"><span class="pre">trusspy.elements.element_definition.truss</span></code></a>. A Truss <cite>k</cite> is connected to a system by it’s begin (<cite>A</cite>) and end (<cite>E</cite>) nodes. The cross section remains constant over the element length. It has three coordinates and three degrees of freedom.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/truss.png"><img alt="Arbitrary deformed (stretched and rotated) truss `k` and it's contribution to the equilibrium on nodes A and E." src="../_images/truss.png" style="width: 90%;" /></a>
+<p class="caption"><span class="caption-text">Arbitrary deformed (stretched and rotated) truss k and it’s contribution to the equilibrium on nodes A and E.</span></p>
+</div>
 <div class="section" id="kinematics">
 <h2>Kinematics<a class="headerlink" href="#kinematics" title="Permalink to this headline">¶</a></h2>
 <p>For a truss element the stretch may be calculated as</p>
@@ -164,31 +168,48 @@ N              &amp;= EA~E_{11} + N_0 \\
 </div>
 <div class="section" id="kinetics">
 <h2>Kinetics<a class="headerlink" href="#kinetics" title="Permalink to this headline">¶</a></h2>
-<p>The nodal (nonlinear) internal force vector may be expressed as a function of the elemental force <span class="math">\(N\)</span> and the deformed unit vector <span class="math">\(\boldsymbol{n}\)</span>.  The indices <cite>A</cite> and <cite>E</cite> represent the begin node <cite>A</cite> and end node <cite>E</cite>.</p>
+<p>The (nonlinear) fixing force column vector with dimension <cite>(ndim)</cite> may be expressed as a function of the elemental force <span class="math">\(N_k\)</span> and the deformed unit vector <span class="math">\(\boldsymbol{n}_k\)</span>.</p>
 <div class="math" id="equation-theory/truss:6">
-<span class="eqno">(7)<a class="headerlink" href="#equation-theory/truss:6" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{r} = \begin{bmatrix}
+<span class="eqno">(7)<a class="headerlink" href="#equation-theory/truss:6" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{r}_k = \begin{bmatrix}
                     \boldsymbol{r}_A \\
                     \boldsymbol{r}_E
-                 \end{bmatrix}            = N \begin{bmatrix}
-                                                 -\boldsymbol{n} \\
-                                                  \boldsymbol{n}
-                                              \end{bmatrix}\end{split}\]</div>
+                 \end{bmatrix}            = N_k  \begin{pmatrix}
+                                                 -\boldsymbol{n}_k \\
+                                                 \phantom{-}\boldsymbol{n}_k
+                                                 \end{pmatrix}\end{split}\]</div>
 </div>
 <div class="section" id="stiffness-matrix">
 <h2>Stiffness Matrix<a class="headerlink" href="#stiffness-matrix" title="Permalink to this headline">¶</a></h2>
-<p>The elemental stiffness matrix for a truss can be divided in four block matrices of the same components but with different signs.</p>
+<p>The elemental stiffness matrix of a truss has dimensions <cite>(2*ndim,2*ndim)</cite> and contains partial derivatives of the element fixing forces w.r.t to the displacements. The matrix components for the case of <cite>ndim=3</cite> results in</p>
 <div class="math" id="equation-theory/truss:7">
-<span class="eqno">(8)<a class="headerlink" href="#equation-theory/truss:7" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{6,6} = \begin{bmatrix}
+<span class="eqno">(8)<a class="headerlink" href="#equation-theory/truss:7" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{k~(6,6)} = \left[\begin{array}{ccc:ccc}
+                             \frac{\partial r_{A,x}}{\partial U_{A,x}} &amp; \frac{\partial r_{A,y}}{\partial U_{A,x}} &amp; \frac{\partial r_{A,z}}{\partial U_{A,x}} &amp; \frac{\partial r_{E,x}}{\partial U_{A,x}} &amp; \frac{\partial r_{E,y}}{\partial U_{A,x}} &amp; \frac{\partial r_{E,z}}{\partial U_{A,x}}\\
+                             \frac{\partial r_{A,x}}{\partial U_{A,y}} &amp; \frac{\partial r_{A,y}}{\partial U_{A,y}} &amp; \frac{\partial r_{A,z}}{\partial U_{A,y}} &amp; \frac{\partial r_{E,x}}{\partial U_{A,y}} &amp; \frac{\partial r_{E,y}}{\partial U_{A,y}} &amp; \frac{\partial r_{E,z}}{\partial U_{A,y}}\\
+                             \frac{\partial r_{A,x}}{\partial U_{A,z}} &amp; \frac{\partial r_{A,z}}{\partial U_{A,z}} &amp; \frac{\partial r_{A,z}}{\partial U_{A,z}} &amp; \frac{\partial r_{E,x}}{\partial U_{A,z}} &amp; \frac{\partial r_{E,y}}{\partial U_{A,z}} &amp; \frac{\partial r_{E,z}}{\partial U_{A,z}}\\ \hdashline
+                             \frac{\partial r_{A,x}}{\partial U_{E,x}} &amp; \frac{\partial r_{A,y}}{\partial U_{E,x}} &amp; \frac{\partial r_{A,z}}{\partial U_{E,x}} &amp; \frac{\partial r_{E,x}}{\partial U_{E,x}} &amp; \frac{\partial r_{E,y}}{\partial U_{E,x}} &amp; \frac{\partial r_{E,z}}{\partial U_{E,x}}\\
+                             \frac{\partial r_{A,x}}{\partial U_{E,y}} &amp; \frac{\partial r_{A,y}}{\partial U_{E,y}} &amp; \frac{\partial r_{A,z}}{\partial U_{E,y}} &amp; \frac{\partial r_{E,x}}{\partial U_{E,y}} &amp; \frac{\partial r_{E,y}}{\partial U_{E,y}} &amp; \frac{\partial r_{E,z}}{\partial U_{E,y}}\\
+                             \frac{\partial r_{A,x}}{\partial U_{E,z}} &amp; \frac{\partial r_{A,z}}{\partial U_{E,z}} &amp; \frac{\partial r_{A,z}}{\partial U_{E,z}} &amp; \frac{\partial r_{E,x}}{\partial U_{E,z}} &amp; \frac{\partial r_{E,y}}{\partial U_{E,z}} &amp; \frac{\partial r_{E,z}}{\partial U_{E,z}}
+                           \end{array}\right]\end{split}\]</div>
+<p>For a truss the stiffness matrix may be divided into four block matrices of the same components but with different signs.</p>
+<div class="math" id="equation-theory/truss:8">
+<span class="eqno">(9)<a class="headerlink" href="#equation-theory/truss:8" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{k~(6,6)} = \begin{bmatrix}
                           \boldsymbol{K}_{AA} &amp; \boldsymbol{K}_{AE}\\
                           \boldsymbol{K}_{EA} &amp; \boldsymbol{K}_{EE}
-                       \end{bmatrix}                                   \begin{bmatrix}
-                                                                           \boldsymbol{K}_{EE} &amp; -\boldsymbol{K}_{EE}\\
-                                                                          -\boldsymbol{K}_{EE} &amp;  \boldsymbol{K}_{EE}
-                                                                       \end{bmatrix}\end{split}\]</div>
-<p>Whereas a change in theinternal force vector at the end node <cite>E</cite> w.r.t. a small change of the displacements at node <cite>E</cite> is defined as the tangent stiffnes <cite>EE</cite>.</p>
-<div class="math" id="equation-theory/truss:8">
-<span class="eqno">(9)<a class="headerlink" href="#equation-theory/truss:8" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{EE} &amp;= \frac{\partial \boldsymbol{r}_E}{\partial \boldsymbol{U}_E} \\
+                       \end{bmatrix}                                 =  \begin{pmatrix}
+                                                                           \phantom{-}\boldsymbol{K}_{EE} &amp; -\boldsymbol{K}_{EE}\\
+                                                                          -\boldsymbol{K}_{EE} &amp;  \phantom{-}\boldsymbol{K}_{EE}
+                                                                       \end{pmatrix}\end{split}\]</div>
+<p>Whereas a change in the fixing force vector at the end node <cite>E</cite> w.r.t. a small change of the displacements at node <cite>E</cite> is defined as the tangent stiffnes <cite>EE</cite>.</p>
+<div class="math" id="equation-theory/truss:9">
+<span class="eqno">(10)<a class="headerlink" href="#equation-theory/truss:9" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{EE} &amp;= \frac{\partial \boldsymbol{r}_E}{\partial \boldsymbol{U}_E} \\
 \boldsymbol{K}_{EE} &amp;= \frac{A}{L} ~ \frac{\partial S_{11}(E_{11})}{\partial E_{11}} \boldsymbol{n} \otimes \boldsymbol{n} + \frac{N}{l} \left( \boldsymbol{1} - \boldsymbol{n} \otimes \boldsymbol{n} \right)\end{split}\]</div>
+<p>with the identity matrix <span class="math">\(\boldsymbol{1}\)</span></p>
+<div class="math" id="equation-theory/truss:10">
+<span class="eqno">(11)<a class="headerlink" href="#equation-theory/truss:10" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
+1 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1\\
+\end{bmatrix}\end{split}\]</div>
 <p>Continue to <a class="reference internal" href="assembly.html"><span class="doc">Global Assembly</span></a>.</p>
 </div>
 </div>

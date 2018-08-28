@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Modified system equations &#8212; TrussPy 2018.08 documentation</title>
+    <title>Extended system equations &#8212; TrussPy 2018.08 documentation</title>
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -132,94 +132,110 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="modified-system-equations">
-<h1>Modified system equations<a class="headerlink" href="#modified-system-equations" title="Permalink to this headline">¶</a></h1>
-<p>In order to solve the equilibrium equations a equation system with <cite>n+1</cite> DOF’s will be formulated. The extra degree of freedom arises from the external load - scale parameter, also denoted as load-proportionality-factor <span class="math">\(\lambda\)</span>, which will be appended to the system vector <span class="math">\(\boldsymbol{U}\)</span>. The transformation will be shown for both the equilibrium and tangent stiffness.</p>
+  <div class="section" id="extended-system-equations">
+<h1>Extended system equations<a class="headerlink" href="#extended-system-equations" title="Permalink to this headline">¶</a></h1>
+<p>In order to solve the equilibrium equations a equation system with <cite>n+1</cite> DOF’s will be formulated. The extra degree of freedom arises from the external load - scale parameter, also denoted as load-proportionality-factor <span class="math">\(\lambda\)</span>, which will be appended to the system vector <span class="math">\(\boldsymbol{U}\)</span>. The transformation will be shown for both the equilibrium and tangent stiffness. This extension is performed by appending the LPF factor <span class="math">\(\lambda\)</span> to the system displacement column vector <span class="math">\(\boldsymbol{U}\)</span>. This new combined system column vector is called <span class="math">\(\boldsymbol{V}\)</span>.</p>
 <div class="math" id="equation-theory/modified:0">
-<span class="eqno">(1)<a class="headerlink" href="#equation-theory/modified:0" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{V} = \begin{bmatrix}
+<span class="eqno">(1)<a class="headerlink" href="#equation-theory/modified:0" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{V} = \left[\begin{array}
+                          ~ \\
                           \boldsymbol{U} \\
+                          ~ \\ \hdashline
                           {\lambda}
-                 \end{bmatrix}\end{split}\]</div>
-<div class="section" id="modified-equilibrium">
-<h2>Modified equilibrium<a class="headerlink" href="#modified-equilibrium" title="Permalink to this headline">¶</a></h2>
-<p>The modified equilibrium is extended by one extra equation, which is also referred to as <strong>control equation</strong>.</p>
+                 \end{array}\right]\end{split}\]</div>
+<div class="section" id="extended-system-equilibrium">
+<h2>Extended system equilibrium<a class="headerlink" href="#extended-system-equilibrium" title="Permalink to this headline">¶</a></h2>
+<p>The extended system equilibrium is expanded by one extra equation, which is also referred to as <strong>control equation</strong> <span class="math">\({g}_{C}(\boldsymbol{V})\)</span>.</p>
 <div class="math" id="equation-theory/modified:1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-theory/modified:1" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{g}_{mod} = \begin{bmatrix}
-                          \boldsymbol{g}(\boldsymbol{V}) \\
-                          {g}_{control}(\boldsymbol{V})
-                       \end{bmatrix} = \begin{bmatrix}
-                          \boldsymbol{g}(\boldsymbol{U},\lambda) \\
-                          {g}_{control}(\boldsymbol{U},\lambda)
-                       \end{bmatrix}\end{split}\]</div>
+<span class="eqno">(2)<a class="headerlink" href="#equation-theory/modified:1" title="Permalink to this equation">¶</a></span>\[\begin{split}-\boldsymbol{g}_{extended} = \left[\begin{array}
+                              ~ \\
+                              -\boldsymbol{g}(\boldsymbol{V}) \\
+                              ~ \\ \hdashline
+                              -{g}_{C}(\boldsymbol{V})
+                            \end{array}\right]\end{split}\]</div>
 <p>This extra control equation is formulated as a linear constraint to limit the control component <cite>j</cite>.</p>
 <div class="math" id="equation-theory/modified:2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-theory/modified:2" title="Permalink to this equation">¶</a></span>\[{g}_{control} = {V}_j - {V}_{j,max}\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-theory/modified:2" title="Permalink to this equation">¶</a></span>\[-{g}_{C} = {V}_j - {V}_{j,max}\]</div>
 <p>With this definition the modified system equilibrium becomes</p>
 <div class="math" id="equation-theory/modified:3">
-<span class="eqno">(4)<a class="headerlink" href="#equation-theory/modified:3" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{g}_{mod} = \begin{bmatrix}
-                          \boldsymbol{g}          (\boldsymbol{U},\lambda) \\
-                                     {g}_{control}(\boldsymbol{U},\lambda)
-                       \end{bmatrix} = \begin{bmatrix}
-                                         -\boldsymbol{r}(\boldsymbol{U}) + \lambda~\boldsymbol{f}_0 \\
-                                          {V}_j - {V}_{j,max}
-                                       \end{bmatrix} \le \boldsymbol{\varepsilon}_{tol}\end{split}\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-theory/modified:3" title="Permalink to this equation">¶</a></span>\[\begin{split}-&amp;\boldsymbol{g}_{extended}(\boldsymbol{V}) &amp;= \left[\begin{array}
+                          ~ \\
+                          -\boldsymbol{g}(\boldsymbol{V}) \\
+                          ~ \\ \hdashline
+                          -{g}_{C}(\boldsymbol{V})
+                          \end{array}\right] = \left[\begin{array}
+                                            ~ \\
+                                            \boldsymbol{r}(\boldsymbol{U}) - \lambda~\boldsymbol{f}_0 \\
+                                            ~ \\ \hdashline
+                                            {V}_j - {V}_{j,max}
+                                          \end{array}\right] = \boldsymbol{0} \\
+||(-)&amp;\boldsymbol{g}_{extended}(\boldsymbol{V})|| &amp;\le \varepsilon_{tol}\end{split}\]</div>
 </div>
-<div class="section" id="modified-tangent-stiffness">
-<h2>Modified tangent stiffness<a class="headerlink" href="#modified-tangent-stiffness" title="Permalink to this headline">¶</a></h2>
-<p>The modified tangent stiffness <span class="math">\(\boldsymbol{K}_{T,mod}\)</span> is now calculated w.r.t. the modified system vector <span class="math">\(\boldsymbol{V}\)</span>.</p>
-<div class="math" id="equation-theory/modified:4">
-<span class="eqno">(5)<a class="headerlink" href="#equation-theory/modified:4" title="Permalink to this equation">¶</a></span>\[ \begin{align}\begin{aligned}\begin{split}\boldsymbol{K}_{T,mod} &amp;= \begin{bmatrix}
-                           \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}}     &amp; -\boldsymbol{f}_0 \\
-                           \frac{\partial {g}_{control}}{\partial \boldsymbol{U}}      &amp;  \frac{\partial {g}_{control}}{\partial \lambda}
-                          \end{bmatrix} \\\end{split}\\\begin{split}\boldsymbol{K}_{T,mod} &amp;= \begin{bmatrix}
-                           \boldsymbol{K}_{T}                &amp; -\boldsymbol{f}_0 \\
-                           \boldsymbol{q}_{c,\boldsymbol{U}} &amp;  \boldsymbol{q}_{c,\lambda}
-                          \end{bmatrix}\end{split}\end{aligned}\end{align} \]</div>
-<p>with the partial derivatives of the control equation:</p>
-<div class="math" id="equation-theory/modified:5">
-<span class="eqno">(6)<a class="headerlink" href="#equation-theory/modified:5" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{q}_{c,\boldsymbol{U}} &amp;= \frac{\partial {g}_{control}(\boldsymbol{U},\lambda)}{\partial \boldsymbol{U}} \\
-\boldsymbol{q}_{c,\lambda}        &amp;= \frac{\partial {g}_{control}(\boldsymbol{U},\lambda)}{\partial \lambda}\end{split}\]</div>
+<div class="section" id="extended-system-tangent-stiffness-matrix">
+<h2>Extended system tangent stiffness matrix<a class="headerlink" href="#extended-system-tangent-stiffness-matrix" title="Permalink to this headline">¶</a></h2>
 <p>To illustrate the components of the partial derivatives of the control equation we formulate the first order derivative of the control equation for small changes in <span class="math">\(\boldsymbol{dU}\)</span> and <span class="math">\(d\lambda\)</span> at a given state <span class="math">\((\boldsymbol{U},\lambda)\)</span>.</p>
-<div class="math" id="equation-theory/modified:6">
-<span class="eqno">(7)<a class="headerlink" href="#equation-theory/modified:6" title="Permalink to this equation">¶</a></span>\[\boldsymbol{g}_{control}(\boldsymbol{U}+\boldsymbol{dU},\lambda+d \lambda) = {g}_{control}(\boldsymbol{U},\lambda) + {dg}_{control}(\boldsymbol{U},\lambda) = {V}_j - {V}_{j,max} + {dV}_j - {dV}_{j,max} = 0\]</div>
+<div class="math" id="equation-theory/modified:4">
+<span class="eqno">(5)<a class="headerlink" href="#equation-theory/modified:4" title="Permalink to this equation">¶</a></span>\[\begin{split}-\boldsymbol{g}_{C}(\boldsymbol{V}+\boldsymbol{dV}) &amp;= &amp;-{g}_{C}(\boldsymbol{V}) &amp;- \quad {dg}_{C}(\boldsymbol{V}) &amp;= \\
+&amp;= {V}_j &amp;- {V}_{j,max} &amp;- \frac{\partial ({V}_j - {V}_{j,max})}{\partial \boldsymbol{V}}~\boldsymbol{dV} &amp;= 0\end{split}\]</div>
+<p>and therefore</p>
+<div class="math" id="equation-theory/modified:5">
+<span class="eqno">(6)<a class="headerlink" href="#equation-theory/modified:5" title="Permalink to this equation">¶</a></span>\[\frac{\partial {V}_j}{\partial \boldsymbol{V}}~\boldsymbol{dV} = {g}_{C}(\boldsymbol{V})\]</div>
 <p>with</p>
-<div class="math" id="equation-theory/modified:7">
-<span class="eqno">(8)<a class="headerlink" href="#equation-theory/modified:7" title="Permalink to this equation">¶</a></span>\[\begin{split}{dV}_j &amp;= \frac{\partial {V}_j}{\partial \boldsymbol{U}} ~ &amp;\boldsymbol{dU} &amp;+ \frac{\partial {V}_j}{\partial \lambda} ~ &amp;d \lambda \\
+<div class="math" id="equation-theory/modified:6">
+<span class="eqno">(7)<a class="headerlink" href="#equation-theory/modified:6" title="Permalink to this equation">¶</a></span>\[\begin{split}{dV}_j &amp;= \frac{\partial {V}_j}{\partial \boldsymbol{U}} ~ &amp;\boldsymbol{dU} &amp;+ \frac{\partial {V}_j}{\partial \lambda} ~ &amp;d \lambda \\
 {dV}_j &amp;= \boldsymbol{q}_{c,\boldsymbol{U}} ~ &amp;\boldsymbol{dU} &amp;+ {q}_{c,\lambda}  ~ &amp;d \lambda\end{split}\]</div>
-<p>The combined partial derivate of the control equation may be expressed as:</p>
+<p>The modified tangent stiffness <span class="math">\(\boldsymbol{K}_{T,extended}\)</span> is now calculated w.r.t. the modified system vector <span class="math">\(\boldsymbol{V}\)</span>.</p>
+<div class="math" id="equation-theory/modified:7">
+<span class="eqno">(8)<a class="headerlink" href="#equation-theory/modified:7" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{T,extended} = \left[\begin{array}{ccc:c}
+                                     ~ &amp; ~ &amp; ~ &amp; ~ \\
+                                     ~ &amp; \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} &amp; ~ &amp; -\boldsymbol{f}_0 \\
+                                     ~ &amp; ~ &amp; ~ &amp; ~ \\ \hdashline
+                                     ~ &amp; \frac{\partial {g}_{C}}{\partial \boldsymbol{U}} &amp; ~ &amp; \frac{\partial {g}_{C}}{\partial \lambda}
+                          \end{array}\right]\end{split}\]</div>
 <div class="math" id="equation-theory/modified:8">
-<span class="eqno">(9)<a class="headerlink" href="#equation-theory/modified:8" title="Permalink to this equation">¶</a></span>\[\boldsymbol{q}_{c} = \begin{bmatrix}
-                       \boldsymbol{q}_{c,\boldsymbol{U}} &amp; {q}_{c,\lambda}
-                     \end{bmatrix}\]</div>
-<p>and is a row vector with a length of <cite>nDOF+1</cite> entries filled with zeros, except for the <cite>j</cite>-th entry (control component ), which is one. Let’s assume we have a system of 6 DOF and the control component is identified to <cite>j=4</cite> then <span class="math">\(\boldsymbol{q}_{c}\)</span> looks like</p>
+<span class="eqno">(9)<a class="headerlink" href="#equation-theory/modified:8" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{T,extended} = \left[\begin{array}{ccc:c}
+                                     ~ &amp; ~ &amp; ~ &amp; ~ \\
+                                     ~ &amp; \boldsymbol{K}_{T} &amp; ~ &amp; -\boldsymbol{f}_0 \\
+                                     ~ &amp; ~ &amp; ~ &amp; ~ \\ \hdashline
+                                     ~ &amp; \boldsymbol{q}_{C,\boldsymbol{U}} &amp; ~ &amp; {q}_{C,\lambda}
+                          \end{array}\right]\end{split}\]</div>
+<p>with the partial derivatives of the control equation:</p>
 <div class="math" id="equation-theory/modified:9">
-<span class="eqno">(10)<a class="headerlink" href="#equation-theory/modified:9" title="Permalink to this equation">¶</a></span>\[\boldsymbol{q}_{c} = \begin{bmatrix}
+<span class="eqno">(10)<a class="headerlink" href="#equation-theory/modified:9" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{q}_{C,\boldsymbol{U}} &amp;= \frac{\partial {g}_{C}(\boldsymbol{U},\lambda)}{\partial \boldsymbol{U}} \\
+\boldsymbol{q}_{C,\lambda}        &amp;= \frac{\partial {g}_{C}(\boldsymbol{U},\lambda)}{\partial \lambda}\end{split}\]</div>
+<p>The combined partial derivate of the control equation may be expressed as:</p>
+<div class="math" id="equation-theory/modified:10">
+<span class="eqno">(11)<a class="headerlink" href="#equation-theory/modified:10" title="Permalink to this equation">¶</a></span>\[\boldsymbol{q}_{C} = \begin{bmatrix}
+                       \boldsymbol{q}_{C,\boldsymbol{U}} &amp; {q}_{C,\lambda}
+                     \end{bmatrix}\]</div>
+<p>and is a system row vector with a length of <cite>nDOF+1</cite> entries filled with zeros, except for the <cite>j</cite>-th entry (control component), which is one. Let’s assume we have a system of 6 DOF and the control component is identified to <cite>j=4</cite> then <span class="math">\(\boldsymbol{q}_{C}\)</span> looks like</p>
+<div class="math" id="equation-theory/modified:11">
+<span class="eqno">(12)<a class="headerlink" href="#equation-theory/modified:11" title="Permalink to this equation">¶</a></span>\[\boldsymbol{q}_{C} = \begin{bmatrix}
                        0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0
                      \end{bmatrix}\]</div>
 </div>
 <div class="section" id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
 <p>The final equation system for the <a class="reference internal" href="pathtrace.html"><span class="doc">Path-Following Algorithm</span></a> may now be formulated as</p>
-<div class="math" id="equation-theory/modified:10">
-<span class="eqno">(11)<a class="headerlink" href="#equation-theory/modified:10" title="Permalink to this equation">¶</a></span>\[\boldsymbol{K}_{T,mod} ~ \boldsymbol{dV} = -\boldsymbol{g}_{mod}(\boldsymbol{V})\]</div>
+<div class="math" id="equation-theory/modified:12">
+<span class="eqno">(13)<a class="headerlink" href="#equation-theory/modified:12" title="Permalink to this equation">¶</a></span>\[\boldsymbol{K}_{T,extended} ~ \boldsymbol{dV} = \boldsymbol{g}_{extended}(\boldsymbol{V})\]</div>
 <p>and in detail</p>
-<div class="math" id="equation-theory/modified:11">
-<span class="eqno">(12)<a class="headerlink" href="#equation-theory/modified:11" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
+<div class="math" id="equation-theory/modified:13">
+<span class="eqno">(14)<a class="headerlink" href="#equation-theory/modified:13" title="Permalink to this equation">¶</a></span>\[\begin{split}\begin{bmatrix}
   \boldsymbol{K}_{T}                &amp; -\boldsymbol{f}_0 \\
   \boldsymbol{q}_{c,\boldsymbol{U}} &amp;  \boldsymbol{q}_{c,\lambda}
 \end{bmatrix} \begin{bmatrix}
                                             \boldsymbol{dU} \\
                                             d{\lambda}
                                         \end{bmatrix} = \begin{bmatrix}
-                                                           -\boldsymbol{g}(\boldsymbol{U},\lambda) \\
-                                                           {g}_{control}(\boldsymbol{U},\lambda)
+                                                           \boldsymbol{g} \\
+                                                           {g}_{C}
                                                         \end{bmatrix}\end{split}\]</div>
-<p>The control component <span class="math">\(j\)</span> is defined as the index of the biggest component of the incremental system vector <span class="math">\(\boldsymbol{dV}\)</span>. This component remains fixed during all newton-iterations inside an increment. To initialize the control component <span class="math">\(j\)</span> the linear equation system is solved. Last but not least the sign of <span class="math">\(j\)</span> is estimated with the help of the determinant of the stiffness matrix.</p>
-<div class="math" id="equation-theory/modified:12">
-<span class="eqno">(13)<a class="headerlink" href="#equation-theory/modified:12" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{T} ~ \boldsymbol{dU} &amp;= d \lambda_{max} \boldsymbol{f}_0 \\
+<p>The control component <span class="math">\(j\)</span> is defined as the <strong>signed index of the biggest component</strong> of the incremental system vector <span class="math">\(\boldsymbol{dV}\)</span>. This component remains fixed during all newton-iterations inside an increment. To initialize the control component <span class="math">\(j\)</span> the linear equation system is solved with an incremental load proportionality factor <span class="math">\(d\lambda\)</span>.</p>
+<div class="math" id="equation-theory/modified:14">
+<span class="eqno">(15)<a class="headerlink" href="#equation-theory/modified:14" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{K}_{T} ~ \boldsymbol{dU} &amp;= d \lambda \boldsymbol{f}_0 \\
 \rightarrow \boldsymbol{dU} &amp;= \dots\end{split}\]</div>
-<div class="math" id="equation-theory/modified:13">
-<span class="eqno">(14)<a class="headerlink" href="#equation-theory/modified:13" title="Permalink to this equation">¶</a></span>\[j = \text{index} [\max (\boldsymbol{dU})] ~ \text{sign} ( \det{\boldsymbol{K}_{T}} )\]</div>
+<div class="math" id="equation-theory/modified:15">
+<span class="eqno">(16)<a class="headerlink" href="#equation-theory/modified:15" title="Permalink to this equation">¶</a></span>\[j = \text{index} [\max (|\boldsymbol{dU}|)] \cdot \text{sign} [\max (|\boldsymbol{dU}|)]\]</div>
 </div>
 </div>
 

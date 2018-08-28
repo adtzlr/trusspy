@@ -25,7 +25,7 @@
 
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Modified system equations" href="modified.html" />
+    <link rel="next" title="Extended system equations" href="modified.html" />
     <link rel="prev" title="Global Assembly" href="assembly.html" />
     <link rel="canonical" href="http://www.sphinx-doc.org/en/master/theory/equilibrium.html" />
 
@@ -95,7 +95,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modified.html" title="Modified system equations"
+          <a href="modified.html" title="Extended system equations"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="assembly.html" title="Global Assembly"
@@ -113,7 +113,7 @@
                         title="previous chapter">Global Assembly</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="modified.html"
-                        title="next chapter">Modified system equations</a></p>
+                        title="next chapter">Extended system equations</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -134,15 +134,16 @@
             
   <div class="section" id="equilibrium">
 <h1>Equilibrium<a class="headerlink" href="#equilibrium" title="Permalink to this headline">¶</a></h1>
-<p>This section covers the description of global system equilibrium equations and their linearization. For local (element-based) contributions see TrussPy’s API.</p>
+<p>This section covers the description of global system equilibrium equations and their linearization. For local (element-based) contributions see refer to <a class="reference internal" href="truss.html"><span class="doc">Truss Element</span></a>.</p>
 <div class="section" id="system-equilibrium">
 <h2>System Equilibrium<a class="headerlink" href="#system-equilibrium" title="Permalink to this headline">¶</a></h2>
-<p>The system vector of nodal equilibrium equations is formulated as the component-wise sum for each DOF of negative internal forces <span class="math">\(-\boldsymbol{r}(\boldsymbol{U})\)</span> and prescribed nodal external forces <span class="math">\(\boldsymbol{f} = \lambda~\boldsymbol{f}_0\)</span>.</p>
-<div class="math" id="equation-theory/equilibrium:0">
-<span class="eqno">(1)<a class="headerlink" href="#equation-theory/equilibrium:0" title="Permalink to this equation">¶</a></span>\[\boldsymbol{g}(\boldsymbol{U},\lambda) = -\boldsymbol{r}(\boldsymbol{U}) + \lambda~\boldsymbol{f}_0 \le \boldsymbol{\varepsilon}_{tol}\]</div>
+<p>The system vector of nodal equilibrium equations is formulated as the component-wise difference for each DOF of nodal element fixing forces <span class="math">\(\boldsymbol{r}(\boldsymbol{U})\)</span> and prescribed nodal external forces <span class="math">\(\boldsymbol{f} = \lambda~\boldsymbol{f}_0\)</span>. Given to the fact that we enforce the stiffness matrix to contain a positive sign for the partial derivative of the system fixing force column vector w.r.t to the nodal displacement system column vector the sign of the system equilibrium <span class="math">\(\boldsymbol{g}\)</span> in equation <a class="reference internal" href="#equation-equilibrium_1">(1)</a> is shifted.</p>
+<div class="math" id="equation-equilibrium_1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-equilibrium_1" title="Permalink to this equation">¶</a></span>\[\begin{split}-&amp;\boldsymbol{g}(\boldsymbol{U},\lambda) &amp;= \boldsymbol{r}(\boldsymbol{U}) - \lambda~\boldsymbol{f}_0  = \boldsymbol{0}\\
+||(-)&amp;\boldsymbol{g}(\boldsymbol{U},\lambda)|| &amp;\le \varepsilon_{tol}\end{split}\]</div>
 <p>with</p>
 <table border="1" class="docutils" id="id1">
-<caption><span class="caption-text">Description of system parameters</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">Overview of system parameters</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col width="33%" />
 <col width="67%" />
@@ -154,13 +155,13 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><span class="math">\(\boldsymbol{g}\)</span></td>
-<td>system vector of (nonlinear) nodal equilibrium equations</td>
+<td>system column vector of (nonlinear) nodal equilibrium equations</td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(\boldsymbol{r}\)</span></td>
-<td>system vector of nodal internal forces</td>
+<td>system column vector of nodal element fixing forces</td>
 </tr>
 <tr class="row-even"><td><span class="math">\(\boldsymbol{U}\)</span></td>
-<td>system vector of nodal displacements</td>
+<td>system column vector of nodal displacements</td>
 </tr>
 <tr class="row-odd"><td><span class="math">\(\lambda\)</span></td>
 <td>load-proportionality-factor (LPF)</td>
@@ -177,20 +178,23 @@
 <div class="section" id="linearized-system-equlibrium">
 <h2>Linearized System Equlibrium<a class="headerlink" href="#linearized-system-equlibrium" title="Permalink to this headline">¶</a></h2>
 <p>The linearized equilibrium equations for a given equlibrium state <span class="math">\(\boldsymbol{g}(\boldsymbol{U},\lambda)\)</span> are approximated with the help of a 1st order taylor - expansion:</p>
+<div class="math" id="equation-theory/equilibrium:0">
+<span class="eqno">(2)<a class="headerlink" href="#equation-theory/equilibrium:0" title="Permalink to this equation">¶</a></span>\[\begin{split}-\boldsymbol{g}(\boldsymbol{U}+\boldsymbol{dU}, \lambda+d\lambda) &amp;= \boldsymbol{r}(\boldsymbol{U}+\boldsymbol{dU}) &amp;- (\lambda + d\lambda)\boldsymbol{f}_0 &amp;&amp;\\
+                                                                 &amp;\approx \left(\boldsymbol{r}(\boldsymbol{U}) + \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} \right) &amp;- (\lambda + d\lambda)\boldsymbol{f}_0 &amp; &amp;= \boldsymbol{0}\\
+                                                                 &amp;\approx \quad \phantom{-}\boldsymbol{r}(\boldsymbol{U}) - \lambda \boldsymbol{f}_0 &amp;+ \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} &amp;- d\lambda~\boldsymbol{f}_0 &amp;= \boldsymbol{0} \\
+                                                                 &amp;\approx \quad-\boldsymbol{g}(\boldsymbol{U}, \lambda) &amp;+ \boldsymbol{K}_T(\boldsymbol{U})~\boldsymbol{dU} &amp;- d\lambda~\boldsymbol{f}_0 &amp;= \boldsymbol{0}\end{split}\]</div>
+<p>The linearized equilibrium equations may also be expressed as a simple linear equation system. The right hand side of this equation enforces a self-correction over incremental updates of the displacement vector.</p>
 <div class="math" id="equation-theory/equilibrium:1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-theory/equilibrium:1" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{g}(\boldsymbol{U}+\boldsymbol{dU}, \lambda+d\lambda) &amp;= -\boldsymbol{r}(\boldsymbol{U}+\boldsymbol{dU}) &amp;+ (\lambda + d\lambda)\boldsymbol{f}_0 &amp;&amp;\\
-                                                                 &amp;\approx -\left(\boldsymbol{r}(\boldsymbol{U}) + \frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} \right) &amp;+ (\lambda + d\lambda)\boldsymbol{f}_0 &amp; &amp;= \boldsymbol{0}\\
-                                                                 &amp;\approx -\boldsymbol{r}(\boldsymbol{U}) + \lambda \boldsymbol{f}_0 &amp;+ \left(-\frac{\partial \boldsymbol{r}}{\partial \boldsymbol{U}} \boldsymbol{dU} \right) &amp;+ d\lambda~\boldsymbol{f}_0 &amp;= \boldsymbol{0} \\
-                                                                 &amp;\approx \quad\boldsymbol{g}(\boldsymbol{U}, \lambda) &amp;- \boldsymbol{K}_T(\boldsymbol{U})~\boldsymbol{dU} &amp;+ d\lambda~\boldsymbol{f}_0 &amp;= \boldsymbol{0}\end{split}\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-theory/equilibrium:1" title="Permalink to this equation">¶</a></span>\[\quad\boldsymbol{K}_T(\boldsymbol{U})~\boldsymbol{dU} - d\lambda~\boldsymbol{f}_0 = \boldsymbol{g}(\boldsymbol{U}, \lambda)\]</div>
 </div>
 <div class="section" id="newton-rhapson-iteration-and-update-of-displacements">
 <h2>Newton-Rhapson Iteration and Update of Displacements<a class="headerlink" href="#newton-rhapson-iteration-and-update-of-displacements" title="Permalink to this headline">¶</a></h2>
 <p>The linearized equilibrium equations may also be expressed as a simple linear equation system. The right hand side of this equation enforces a self-correction over incremental updates of the displacement vector.</p>
 <div class="math" id="equation-theory/equilibrium:2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-theory/equilibrium:2" title="Permalink to this equation">¶</a></span>\[\quad\boldsymbol{K}_T(\boldsymbol{U}) - d\lambda \boldsymbol{f}_0 = \boldsymbol{g}(\boldsymbol{U}, \lambda)\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-theory/equilibrium:2" title="Permalink to this equation">¶</a></span>\[\quad\boldsymbol{K}_T(\boldsymbol{U})~\boldsymbol{dU} - d\lambda~\boldsymbol{f}_0 = \boldsymbol{g}(\boldsymbol{U}, \lambda)\]</div>
 <p>with</p>
 <div class="math" id="equation-theory/equilibrium:3">
-<span class="eqno">(4)<a class="headerlink" href="#equation-theory/equilibrium:3" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{U} &amp;\leftarrow (\boldsymbol{U} + d\boldsymbol{U}) \\
+<span class="eqno">(5)<a class="headerlink" href="#equation-theory/equilibrium:3" title="Permalink to this equation">¶</a></span>\[\begin{split}\boldsymbol{U} &amp;\leftarrow (\boldsymbol{U} + d\boldsymbol{U}) \\
 \lambda        &amp;\leftarrow (\lambda        + d\lambda)\end{split}\]</div>
 </div>
 </div>
@@ -211,7 +215,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="modified.html" title="Modified system equations"
+          <a href="modified.html" title="Extended system equations"
              >next</a> |</li>
         <li class="right" >
           <a href="assembly.html" title="Global Assembly"
