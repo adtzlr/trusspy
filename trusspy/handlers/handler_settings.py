@@ -5,6 +5,8 @@ Created on Tue Jun 26 18:44:30 2018
 @author: adutz
 """
 
+import numpy as np
+
 class SettingsHandler:
     def __init__(self,ndim=3,lpf=0.02,dlpf = 0.02,du=0.02,log=2):
         self.ndim = ndim
@@ -20,7 +22,7 @@ class SettingsHandler:
         self.dxtol = 1.001
         
         self.ftol = 8
-        self.xtol = 8
+        self.xtol = 0
         
         self.cycl = 4
         self.nfev = 8
@@ -30,7 +32,8 @@ class SettingsHandler:
         self.dlpf = dlpf
         self.du = du
         
-        self.xlimit = (0,1.0)
+        #self.xlimit = (0,1.0)
+        self.xlimit = (0,np.inf)
 
         self.log = log
         

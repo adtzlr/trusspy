@@ -123,15 +123,15 @@ def dxmax_control(dxmax,dxmax0,j,j0,z,cycl,nr_success,b,n,nfev,
         if dxmax[0] > dxmax0[0]*minfac:
             
             if z+1==cycl:
-                z = z-1
+                z = 0
                 final_step_reduction = True
-                if verbose > 1: print('| * reduce NR-step although control comp. changes (max. recycles reached).             |')
+                if verbose > 1: print('| * reduce NR-step although control comp. changes (max. recycles reached).   |')
             else:
                 final_step_reduction = False
-                if verbose > 1: print('| * reduce NR-step size by factor: (inactive) due to recycle.                          |')
+                if verbose > 1: print('| * reduce NR-step size by factor: (inactive) due to recycle.                |')
             
-            if j0==j or final_step_reduction:
-                if verbose > 1: print('| * reduce NR-step size by factor: {:10.3g}                                          |'.format(1/reduce))
+            if j0==j or final_step_reduction or True:
+                if verbose > 1: print('| * reduce NR-step size by factor: {:10.3g}                                |'.format(1/reduce))
                 dxmax = dxmax/reduce
                 dx_changed = True
                 b = 0 # reset counter to increase width again
@@ -141,9 +141,9 @@ def dxmax_control(dxmax,dxmax0,j,j0,z,cycl,nr_success,b,n,nfev,
         if dxmax[0] < dxmax0[0]*maxfac:
             if j0==j:
                 if z > 0:
-                    if verbose > 1: print('| * increase NR-step size by factor: (inactive due to recycling).                      |'.format(b,3))
+                    if verbose > 1: print('| * increase NR-step size by factor: (inactive due to recycling).            |'.format(b,3))
                 elif b <= 3:
-                    if verbose > 1: print('| * increase NR-step size by factor: (inactive). incs since last reduction: {0:1d}/{1:1d}        |'.format(b,3))
+                    if verbose > 1: print('| * increase NR-step (inactive). incs since last reduction: {0:1d}/{1:1d}              |'.format(b,3))
                 else:
                     # increase factor depends on convergence rate
                     #
@@ -154,7 +154,7 @@ def dxmax_control(dxmax,dxmax0,j,j0,z,cycl,nr_success,b,n,nfev,
                     #   total_increase = increase*1.5
                     dxmax = dxmax*(1+(nfev-n)/nfev * increase)
                     dx_changed = True
-                    if verbose > 1: print('| * increase NR-step size by factor: {:10.3g}                                        |'.format(1+(nfev-n)/nfev*increase))
+                    if verbose > 1: print('| * increase NR-step size by factor: {:10.3g}                              |'.format(1+(nfev-n)/nfev*increase))
         else:
             if j==j0: 
                 dxmax = dxmax0.copy()*maxfac
@@ -280,7 +280,7 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
     dxmax0 = dxmax.copy()
     
     # init control component to LPF
-    j = len(x)
+    if not j_fixed: j = len(x)
 
     # init INCREMENTS SINCE LAST REFINEMENT (stepcontrol)
     b = 4
@@ -293,13 +293,13 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
         
         # print informations
         if verbose > 0: print('\n')
-        if verbose > 1: print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
-        if verbose > 0: print('|                     INCREMENT{:5d}                                                   |'.format(i+1))
-        if verbose > 1: print('+===+======+=======+=========+=========+===========+===========+===========+===========+')
-        if verbose > 1: print('|                  |       Norm        |        sorted Dx/Dxmax (descending)           |')
-        if verbose > 1: print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
-        if verbose > 1: print('|Cyc|NR-It.|Control|    Eq.  |   dx    | i:  Value | i:  Value | i:  Value | i:  Value |')
-        if verbose > 1: print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
+        if verbose > 1: print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
+        if verbose > 0: print('|                     INCREMENT{:5d}                                         |'.format(i+1))
+        if verbose > 1: print('+===+======+=======+=========+===========+===========+===========+===========+')
+        if verbose > 1: print('|                  |  Norm   |        sorted Dx/Dxmax (descending)           |')
+        if verbose > 1: print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
+        if verbose > 1: print('|Cyc|NR-It.|Control|  ||g||  | i:  Value | i:  Value | i:  Value | i:  Value |')
+        if verbose > 1: print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
         
         # COPY RESULT
         x0    =    x.copy()
@@ -314,6 +314,7 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
         # -----------------------------------------------------------------
         # BEGIN PRE-IDENTIFY j
         # -----------------------------------------------------------------
+        n_pre = 0
         if j_pre and not j_fixed:
         
             # only one nr-iteration
@@ -321,13 +322,16 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             
             # j is initially set to the LPF-component
             # sign of j is identified by the sign of the stiffness matrix K
-            args = x0,len(x),0,g,dgdx,analysis,False
-            sign_pre = np.sign(np.linalg.det(dfdx(x,*args)[:-1,:-1]))
-            j_pre0 = int(len(x)*sign_pre)
-            xmax_pre = x[abs(j_pre0)-1] + dxmax[abs(j_pre0)-1] *np.sign(j_pre0)
+            #args = x0,len(x),0,g,dgdx,analysis,False
+            #sign_pre = np.sign(np.linalg.det(dfdx(x,*args)[:-1,:-1]))
+            #j_pre0 = int(len(x)*sign_pre)
+            #xmax_pre = x[abs(j_pre0)-1] + dxmax[abs(j_pre0)-1] *np.sign(j_pre0)
+            
             
             # get linearized solution x
-            args = x0,j_pre0,xmax_pre,g,dgdx,analysis,False
+            xmax_pre = x[abs(j)-1] + dxmax[abs(j)-1] *np.sign(j)
+            args = x0,j,xmax_pre,g,dgdx,analysis,False
+            
             x_pre,nr_success_pre,n_pre,f_norm_pre,x_norm_pre = newton(f,dfdx,x,nfev_pre,ftol,xtol,0,*args)
             
             # incremental solution
@@ -339,21 +343,15 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             i1,v1 = Dxi_pre[-1], Dxs_pre[-1]
             j_pre = int(i1*np.sign(v1))
             if verbose > 1:
-                print('|{0:2d} |  {1:3s} |  {2:2d}   |{3:1.3e}|{4:1.3e}|{5:2d}:{6:8.1g}|           |           |           |'.format(
-                      z+1,'pre',j_pre0,f_norm_pre,x_norm_pre,i1,v1))
-                print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
+                print('|{0:2d} |  {1:2d}  |  {2:2d}   |{3:1.3e}|{4:2d}:{5:8.1g}|           |           |           |'.format(
+                      z+1,n_pre-1,j,f_norm_pre,i1,v1))
+                print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
             
             # set the found solution to j
             j = j_pre
-        
-            # if the solution did already converge --> stop the increment
-            if nr_success_pre:
-                analysis.Vred = x
-                analysis.Ured = x[:-1]
-                analysis.lpf = x[-1]
-        
-                res_x = np.vstack((res_x, x))
-                res_a.append(copy.deepcopy(analysis))
+            
+            if v1 > dxtol+1e-6:
+                nr_success_pre = False
         
         # -----------------------------------------------------------------
         # END PRE-IDENTIFY j
@@ -371,7 +369,10 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             
             # NEWTON-RHAPSON ITERATIONS (nonlinear solution process)
             args = x0,j,xmax,g,dgdx,analysis,False
-            x,nr_success,n,f_norm,x_norm = newton(f,dfdx,x,nfev,ftol,xtol,verbose,*args)
+            if z==0 and j_pre and not j_fixed:
+                x = x0 + Dx_pre/abs(Dxs_pre[-1])
+
+            x,nr_success,n,f_norm,x_norm = newton(f,dfdx,x,nfev-n_pre,ftol,xtol,verbose,*args)
                 
             # TOTAL INCREMENTAL SOLUTION
             Dx = x-x0
@@ -392,12 +393,12 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             
             # PRINT INFORMATIONS ON BIGGEST INCREMENTAL COMPONENTS
             if verbose > 1: 
-                print('|tot| sum  | used  |  final  |  final  |   final                                       |')
-                print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
-                print('|{0:2d} |  {1:2d}  |  {2:2d}   |{3:1.3e}|{4:1.3e}|{5:2d}:{6:8.4f}|{7:2d}:{8:8.4f}|{9:2d}:{10:8.4f}|{11:2d}:{12:8.4f}|'.format(
-                      z+1,n,j,f_norm,x_norm,i1,v1,i2,v2,i3,v3,i4,v4))
-                print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
-                print('|'+86*' '+'|')
+                print('|tot| sum  | used  |  final  |   final                                       |')
+                print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
+                print('|{0:2d} |  {1:2d}  |  {2:2d}   |{3:1.3e}|{4:2d}:{5:8.4f}|{6:2d}:{7:8.4f}|{8:2d}:{9:8.4f}|{10:2d}:{11:8.4f}|'.format(
+                      z+1,n+n_pre,j,f_norm,i1,v1,i2,v2,i3,v3,i4,v4))
+                print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
+                print('|'+76*' '+'|')
                 
             # set new control comp. if not fixed by the user
             if not j_fixed:
@@ -408,25 +409,25 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             #  `stepcontrol`)
             analysis.dVmax = dxmax
             
+            # CHECK IF SOLUTION IS VALID --> GO TO NEXT INCREMENT
+            solution_valid = False
+            if j_fixed:
+                if abs(Dx[abs(j)-1]/dxmax[abs(j)-1]) <= dxtol+1e-6:
+                    solution_valid = True
+            else:
+                if np.all(abs(Dx/dxmax) <= dxtol+1e-6):
+                    solution_valid = True
+            
             # init flag for *stepcontrol changed dxmax* (sc_changed) to False
             sc_changed = False
             # -----------------------STEP WIDTH CONTROL------------------------
             if stepcontrol:
                 dxmax,z,b,sc_changed = dxmax_control(dxmax,dxmax0,j,j0,
                                                      z,cycl,nr_success,b,
-                                                     n,nfev,minfac,maxfac,
+                                                     n,nfev-n_pre,minfac,maxfac,
                                                      reduce,increase,
                                                      verbose=2)
-            
-            # CHECK IF SOLUTION IS VALID --> GO TO NEXT INCREMENT
-            solution_valid = False
-            if j_fixed:
-                if abs(Dx[abs(j)-1]/dxmax[abs(j)-1]) <= dxtol:
-                    solution_valid = True
-            else:
-                if np.all(abs((Dx)/dxmax) <= dxtol):
-                    solution_valid = True
-                    
+             
             if solution_valid and nr_success:
                 # UPDATE STATE VARIABLES
                 args = x0,j0,xmax,g,dgdx,analysis,True
@@ -437,25 +438,32 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
             
             if z+1==cycl:
                 stop=True
-                print('|                                                                                      |')
-                print('| * ERROR 1: Job stopped - NR-iterations failed, maximum number of recycles reached.   |')
-                print('|         Reduce dVmax and/or activate adaptive stepwidth-control.                     |')
+                print('|                                                                            |')
+                print('| * ERROR 1: Job stopped - NR-it. failed, max. number of recycles reached.   |')
+                print('|         Reduce dVmax and/or activate adaptive stepwidth-control.           |')
                 break
-            
+
             if (j0==j and nr_success is False and sc_changed is False):
                 stop=True
-                print('|                                                                                      |')
-                print('| * ERROR 2: Job stopped - NR-iterations failed, control component does not change.    |')
-                print('|         Reduce dVmax and/or activate adaptive stepwidth-control.                     |')
+                print('|                                                                            |')
+                print('| * ERROR 2: Job stopped - NR-it. failed, control component does not change. |')
+                print('|         Reduce dVmax and/or activate adaptive stepwidth-control.           |')
                 break
             
+            #reset j
+            if not nr_success:
+                j = j0
+            
             z=z+1
+            n_pre = 0
+            
             #print('\n')
-            print('|               ...recycling increment                                                 |')
-            print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
+            print('|               ...recycling increment                                       |')
+            print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
             
         
         # save results to analysis object
+        #if not stop:
         analysis.Vred = x
         analysis.Ured = x[:-1]
         analysis.lpf = x[-1]
@@ -465,9 +473,9 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
         
         
         if verbose > 0:
-            if stop: print('|                                                                                      |')
-            print('| * final LPF: {0: 10.4g}                                                              |'.format(x[-1]))
-            print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
+            if stop: print('|                                                                            |')
+            print('| * final LPF: {0: 10.4g}                                                    |'.format(x[-1]))
+            print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
             #print('----------------------- END OF INCREMENT', i+1,'---------------------------------------------')
     
         # Stop due to error
@@ -476,9 +484,9 @@ def pathfollow(g,dgdx, x, analysis, dxmax=[0.02,0.02],
         # Maximum value reached
         if xlimit is not None:
             if abs(x[xlimit[0]-1]) > xlimit[1]:
-                print('|                                                                                      |')
-                print('| * WARNING 1: Job stopped - max value of control component reached.                   |')
-                print('+---+------+-------+---------+---------+-----------+-----------+-----------+-----------+')
+                print('|                                                                            |')
+                print('| * EXIT 1: Job stopped - max value of control component reached.            |')
+                print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
                 break
     
     return res_x,res_a
