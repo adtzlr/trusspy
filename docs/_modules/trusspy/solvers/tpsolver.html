@@ -470,6 +470,9 @@
             
             <span class="c1"># set the found solution to j</span>
             <span class="n">j</span> <span class="o">=</span> <span class="n">j_pre</span>
+            
+            <span class="k">if</span> <span class="n">v1</span> <span class="o">&gt;</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">:</span>
+                <span class="n">nr_success_pre</span> <span class="o">=</span> <span class="kc">False</span>
         
         <span class="c1"># -----------------------------------------------------------------</span>
         <span class="c1"># END PRE-IDENTIFY j</span>
@@ -530,7 +533,7 @@
             <span class="c1"># CHECK IF SOLUTION IS VALID --&gt; GO TO NEXT INCREMENT</span>
             <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">j_fixed</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">:</span>
                     <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">):</span>
