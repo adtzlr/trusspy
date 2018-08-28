@@ -19,8 +19,6 @@
 Documentation
 =============
 
-Use the online version of the Documentation (recommended) or download the whole Documentation as :download:`PDF-File <TrussPy_Documentation_latest.pdf>`.
-
 .. toctree::
    :maxdepth: 4
 
