@@ -24,6 +24,7 @@ import sys
 import os
 import copy
 import time
+from subprocess import run as sp_run
 
 # Numpy and Pandas
 import numpy as np
@@ -97,7 +98,7 @@ class Model:
     ----
     * move g(V), dgdV(V) from Model class to path_tracing function
     """
-    def __init__(self,file=None,log=2,logfile=False):
+    def __init__(self,file=None,log=2,logfile=False,logfile_name='analysis'):
         """Init Model class with default values. If input file is specified,
         collect all data and create model.
         
@@ -121,12 +122,13 @@ class Model:
             #self.logfile = False
         
         if self.file is not None:
-            logfile_name = '.'.join(self.file.split('.')[:-1])
+            self.logfile_name = '.'.join(self.file.split('.')[:-1])
         else:
-            logfile_name = 'analysis'
+            self.logfile_name = logfile_name
             #self.logfile = False
         if self.logfile:
-            sys.stdout = open(logfile_name+'.log', 'w')
+            sys.stdout = open(self.logfile_name+'.md', 'w')
+            print(r"<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>")
             
             
         print("""
@@ -140,7 +142,7 @@ class Model:
                                       |___/ 
         
         TrussPy - Object Oriented Truss Solver for Python
-                  SNAPSHOT-20180807
+                  Version 2018.08 (Build 20180829)
 
         Author: Dutzler A.
                 Graz University of Technology, 2018
@@ -153,9 +155,8 @@ class Model:
         """)
 
         if log > 1: print('')
-        if log > 1: print('Initialize Model...')
-        if log > 1: print('-'*88)
-        if log > 1: print(' loading Managers...')
+        if log > 1: print('# Initialize Model')
+        if log > 1: print('* loading Managers\n')
         
         self.Nodes = NodeHandler()
         self.Elements = ElementHandler()
@@ -165,11 +166,11 @@ class Model:
         #self.Results = ResultHandler()
         #self.Analysis = Analysis()
         
-        if log > 1: print(' ...finished.')
-        if log > 1: print('-'*88+'\n')
+        if log > 1: print('    - finished.\n')
+        #if log > 1: print('-'*88+'\n')
         
         if file is not None:
-            if log > 1: print(' loading INPUT-File: "'+file+'"')
+            if log > 1: print('* loading INPUT-File: "'+file+'"\n')
             Nodes = pd.read_excel(file,sheet_name="Nodes",skiprows=2).as_matrix()[:,:4].astype(float)
             Elements = pd.read_excel(file,sheet_name="Elements",skiprows=2).as_matrix()[:,:10].astype(float)
             Material = pd.read_excel(file,sheet_name="Material",skiprows=2).as_matrix()[:,:10].astype(float)
@@ -177,16 +178,16 @@ class Model:
             ExtForces = pd.read_excel(file,sheet_name="ExternalForces",skiprows=2).as_matrix()[:,:1+5*3].astype(float)
             Boundary_U = pd.read_excel(file,sheet_name="BoundaryU",skiprows=2).as_matrix()[:,:4].astype(float)
             Boundary_T = pd.read_excel(file,sheet_name="BoundaryT",skiprows=2).as_matrix()[:,:2].astype(float)
-            if log > 1: print(' ...successful.\n')
+            if log > 1: print('    - successful.\n')
             
-            if log > 1: print(' Converting Data...')
+            if log > 1: print('* Converting Data...\n')
             self.Nodes.add_node_matrix(Nodes)
             self.Elements.add_element_matrix(Elements,Material,Geometry,Boundary_T)
             self.ExtForces.add_force_matrix(ExtForces)
             self.Boundaries.add_bound_U_matrix(Boundary_U)
 
-            if log > 1: print(' ...Import finised.\n')
-            if log > 1: print('-'*88)
+            if log > 1: print('    - Import finished.\n')
+            #if log > 1: print('-'*88)
     
     def build(self):
         """build Model (r,U,K,...) with Model data and dimensions."""
@@ -230,18 +231,18 @@ class Model:
         
         if self.Settings.log > 1: 
             print('')
-            print('Build Model...')
-            print('-'*88)
-            print(' Analysis Dimension ...', self.Settings.ndim)
-            print(' Number of Nodes    ...', self.nnodes)
-            print(' Number of Elements ...', self.nelems)
+            print('# Model Summary')
+
+            print('    Analysis Dimension      "ndim":', self.Settings.ndim)
+            print('    Number of Nodes       "nnodes":', self.nnodes)
+            print('    Number of Elements    "nelems":', self.nelems)
             print(' ')
-            print(' System DOF ...', self.ndof)
-            print(' active DOF ...', self.ndof1)
-            print(' locked DOF ...', self.ndof0)
+            print('    System DOF              "ndof":', self.ndof)
+            print('    active DOF             "ndof1":', self.ndof1)
+            print('    locked DOF             "ndof2":', self.ndof0)
             print(' ')
-            print(' active DOF ...', self.nproDOF1)
-            print(' fixed  DOF ...', self.nproDOF0)
+            print('    active DOF          "nproDOF1":', self.nproDOF1)
+            print('    fixed  DOF          "nproDOF0":', self.nproDOF0)
             
         # init results, add empty increment
         self.Results.add_increment()
@@ -257,30 +258,38 @@ class Model:
         """Run job."""
         
         if self.Settings.log > 1: 
+            print(r'\pagebreak')
             print(' ')
-            print('Run Simulation...')
-            print('-'*88)
+            print('# Run Simulation')
+
             
         if self.Settings.log > 1:
-            print('\nSettings summary:')
-            print('-----------------\n')
-            print('Maximum increments                    "incs":', self.Settings.incs)
-            print('Maximum increment recycles            "cycl":', self.Settings.cycl)
-            print('Maximum Newton-Rhapson iterations     "nfev":', self.Settings.nfev)
-            print('Maximum incremental displacement        "du":', self.Settings.du)
-            print('Maximum incremental LPF               "dlpf":', self.Settings.dlpf)
-            print('Initial control component               "j0":', 'LPF' if self.Settings.j0==None else self.Settings.j0)
-            print('Locked control component           "j_fixed":', self.Settings.j_fixed)
-            print('Maximum incremental overshoot        "dxtol":', self.Settings.dxtol)
-            print('Tolerance for x                       "xtol":', self.Settings.xtol)
-            print('Tolerance for f                       "ftol":', self.Settings.ftol)
+            print('\n## Summary of Analysis Parameters')
+
+            print('|Description                          |Parameter|Value|')
+            print('|:------------------------------------|:--------|:--|')
+            print('|Maximum increments                   |   `incs`|', self.Settings.incs,'|')
+            print('|Maximum increment recycles           |   `cycl`|', self.Settings.cycl,'|')
+            print('|Maximum Newton-Rhapson iterations    |   `nfev`|', self.Settings.nfev,'|')
+            print('|Maximum incremental displacement     |     `du`|', self.Settings.du,'|')
+            print('|Maximum incremental LPF              |   `dlpf`|', self.Settings.dlpf,'|')
+            print('|Initial control component            |     `j0`|', 'LPF|' if self.Settings.j0==None else self.Settings.j0+'|')
+            print('|Locked control component             |`j_fixed`|', self.Settings.j_fixed,'|')
+            print('|Maximum incremental overshoot        |  `dxtol`|', self.Settings.dxtol,'|')
+            print('|Tolerance for x                      |   `xtol`|', self.Settings.xtol,'|')
+            print('|Tolerance for f                      |   `ftol`|', self.Settings.ftol,'|')
             
-            print('Adaptive control for stepwidth "inc.control":', self.Settings.stepcontrol)
+            
             if self.Settings.stepcontrol:
-                print('+ Minimum step size factor          "minfac":', self.Settings.minfac)
-                print('+ Maximum step size factor          "maxfac":', self.Settings.maxfac)
-                print('+ Reduce step size factor           "reduce":', 1/self.Settings.reduce)
-                print('+ Increase step size factor       "increase":', self.Settings.increase)
+                print('\n### Adaptive control for incremental stepwidth')
+
+                print('|Description                          |Parameter    |Value|')
+                print('|:------------------------------------|:------------|:--|')
+                print('|Adaptive control for inc. stepwidth  |`stepcontrol`|', self.Settings.stepcontrol,'|')
+                print('|Minimum step size factor             |     `minfac`|', self.Settings.minfac,'|')
+                print('|Maximum step size factor             |     `maxfac`|', self.Settings.maxfac,'|')
+                print('|Reduce step size factor              |     `reduce`|', 1/self.Settings.reduce,'|')
+                print('|Increase step size factor            |   `increase`|', self.Settings.increase,'|')
             print('')
             
         # measure time
@@ -308,7 +317,16 @@ class Model:
             else:
                 xlimit = self.Settings.xlimit
                 
-            if self.Settings.log > 0: print('\n'+21*'+'+' START OF STEP     ', step+1,45*'+')
+            if self.Settings.log > 0: print('\n## Step', step+1)
+            if self.Settings.log > 1:
+                print(r'* i(1) is index with 1st-biggest component in abs(Dx/Dx,max).')
+                print(r'* i(2) is index with 2nd-biggest component in abs(Dx/Dx,max).')
+                print(r'* i(3) is index with 3rd-biggest component in abs(Dx/Dx,max).')
+                print(r'* i(4) is index with 4th-biggest component in abs(Dx/Dx,max).')
+                print(r'* Value(i) is value of i-th component in abs(Dx/Dx,max).')
+                
+                print(r'$$\text{Value}_i = \left|\frac{D_x}{D_{x,max}}\right|_i$$')
+            
             # get reduced external force vector
             #f0red = self.ExtForces.forces[:,3*(step):3*(step+1)].flatten()[self.Analysis.DOF1]
             #self.Analysis.f0red = f0red.reshape(len(f0red),1)
@@ -319,9 +337,9 @@ class Model:
                 f0_const += self.Results.step_lpf_end[s]*self.ExtForces.forces[:,3*(s):3*(s+1)]
             if len(range(step)) is not 0:
                 print('\nconstant part of external forces due to previous step(s)')
-                print(f0_const,'\n')
+                print('    ',f0_const,'\n')
                 print('\ninitial values of active DOF due to previous step(s)')
-                print(self.Analysis.Vred,'\n')
+                print('    ',self.Analysis.Vred,'\n')
             self.Analysis.ExtForces.forces_const = f0_const
             self.Analysis.ExtForces.forces = self.ExtForces.forces[:,3*(step):3*(step+1)]
             f0red = self.Analysis.ExtForces.forces.flatten()[self.Analysis.DOF1]
@@ -349,9 +367,11 @@ class Model:
                                      dxtol=self.Settings.dxtol,
                                      verbose=self.Settings.log)
             
-            print('\nCreate result object from analysis results for step {0:3d}'.format(1+step))
+            print(r'\pagebreak')
+            print(' ')
+            print('\n### Create result object from analysis results for step {0:3d}\n'.format(1+step))
             for i,(r_V,r_a) in enumerate(zip(res_V[1:],res_a[1:])):
-                print('  write result {0:3d}/{1:3d} (LPF: {2:10.4g})'.format(1+i,len(res_V[1:]),r_a.lpf))
+                print('    write result {0:3d}/{1:3d} (LPF: {2:10.4g})'.format(1+i,len(res_V[1:]),r_a.lpf))
                 self.Results.R[-1] = r_a
                 self.Results.copy_increment()
                 
@@ -368,7 +388,7 @@ class Model:
             else:
                 self.Results.remove_last_increment()
                 
-            if self.Settings.log > 0: print('\n'+23*'+'+' END OF STEP     ', step+1,45*'+')
+            if self.Settings.log > 0: print('\nEnd of Step', step+1)
             
         # duplicate first increment to get right indices
         self.Results.duplicate_first_increment()
@@ -377,13 +397,19 @@ class Model:
         time_dtime_run    = time.time()  - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
         time_dtime_build  = self.time1_build  - self.time0_build
-        print('\nJob duration')
-        print(  '------------\n')
-        print(  'Time measurement for execution times of "Model.build()" and "Model.run()".\n')
-        print('* total  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
-        print('* total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
-        print('* total  cpu time "run":   {:10.3f} seconds'.format(time_dclock_run))
-        print('* total wall time "run":   {:10.3f} seconds\n'.format(time_dtime_run))
+        print(r'\pagebreak')
+        print(' ')
+        print('\n## Job duration')
+        print('Time measurement for execution times of "Model.build()" and "Model.run()".\n')
+        print('    total  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
+        print('    total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
+        print('    total  cpu time "run":   {:10.3f} seconds'.format(time_dclock_run))
+        print('    total wall time "run":   {:10.3f} seconds\n'.format(time_dtime_run))
+        
+        if self.logfile:
+            sys.stdout = self.stdout
+            sp_run(['pandoc', self.logfile_name+'.md', '-t', 'latex', '-o', self.logfile_name+'.pdf'])
+            if self.Settings.logpdf: sp_run(['pandoc', self.logfile_name+'.md', '-t', 'html', '-s', '-o', self.logfile_name+'.html'])
         
 
     def stiffness(self,Ured,analysis=None):

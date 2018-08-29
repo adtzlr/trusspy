@@ -246,13 +246,13 @@
             <span class="k">if</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="n">cycl</span><span class="p">:</span>
                 <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">final_step_reduction</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step although control comp. changes (max. recycles reached).   |&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* reduce NR-step although control comp. changes (max. recycles reached).&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">final_step_reduction</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step size by factor: (inactive) due to recycle.                |&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* reduce NR-step size by factor: (inactive) due to recycle.&#39;</span><span class="p">)</span>
             
-            <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span> <span class="ow">or</span> <span class="n">final_step_reduction</span> <span class="ow">or</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * reduce NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                                |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">reduce</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span> <span class="ow">or</span> <span class="n">final_step_reduction</span><span class="p">:</span><span class="c1"># or True:</span>
+                <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* reduce NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">reduce</span><span class="p">))</span>
                 <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">/</span><span class="n">reduce</span>
                 <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># reset counter to increase width again</span>
@@ -262,9 +262,10 @@
         <span class="k">if</span> <span class="n">dxmax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dxmax0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">maxfac</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">j0</span><span class="o">==</span><span class="n">j</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: (inactive due to recycling).            |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+                    <span class="k">pass</span>
+                    <span class="c1">#if verbose &gt; 1: print(&#39;* increase NR-step size by factor: (inactive due to recycling).&#39;.format(b,3))</span>
                 <span class="k">elif</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step (inactive). incs since last reduction: </span><span class="si">{0:1d}</span><span class="s1">/</span><span class="si">{1:1d}</span><span class="s1">              |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* increase NR-step (inactive). incs since last reduction: </span><span class="si">{0:1d}</span><span class="s1">/</span><span class="si">{1:1d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># increase factor depends on convergence rate</span>
                     <span class="c1">#</span>
@@ -275,7 +276,7 @@
                     <span class="c1">#   total_increase = increase*1.5</span>
                     <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span> <span class="o">*</span> <span class="n">increase</span><span class="p">)</span>
                     <span class="n">dx_changed</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * increase NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">                              |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span><span class="o">*</span><span class="n">increase</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* increase NR-step size by factor: </span><span class="si">{:10.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">nfev</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">nfev</span><span class="o">*</span><span class="n">increase</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">j</span><span class="o">==</span><span class="n">j0</span><span class="p">:</span> 
                 <span class="n">dxmax</span> <span class="o">=</span> <span class="n">dxmax0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">*</span><span class="n">maxfac</span>
@@ -413,14 +414,13 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">incs</span><span class="p">):</span>
         
         <span class="c1"># print informations</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                     INCREMENT</span><span class="si">{:5d}</span><span class="s1">                                         |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+===+======+=======+=========+===========+===========+===========+===========+&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                  |  Norm   |        sorted Dx/Dxmax (descending)           |&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|Cyc|NR-It.|Control|  ||g||  | i:  Value | i:  Value | i:  Value | i:  Value |&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1">#print(r&#39;\pagebreak&#39;)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;### Increment&#39;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                              
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;|Cycle|NR-It.|Control| Norm(g) |i(1)|Value   |i(2)|Value   |i(3)|Value   |&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;|:---:|:----:|:-----:|:-------:|:--:|:------:|:--:|:------:|:--:|:------:|&#39;</span><span class="p">)</span>
         
         <span class="c1"># COPY RESULT</span>
         <span class="n">x0</span>    <span class="o">=</span>    <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -437,6 +437,7 @@
         <span class="c1"># -----------------------------------------------------------------</span>
         <span class="n">n_pre</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">j_pre</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">j_fixed</span><span class="p">:</span>
+            
         
             <span class="c1"># only one nr-iteration</span>
             <span class="n">nfev_pre</span> <span class="o">=</span> <span class="mi">1</span> 
@@ -464,14 +465,13 @@
             <span class="n">i1</span><span class="p">,</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs_pre</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">j_pre</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v1</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|</span><span class="si">{0:2d}</span><span class="s1"> |  </span><span class="si">{1:2d}</span><span class="s1">  |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:2d}</span><span class="s1">:</span><span class="si">{5:8.1g}</span><span class="s1">|           |           |           |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| </span><span class="si">{0:2d}</span><span class="s1">  |  </span><span class="si">{1:2d}</span><span class="s1">  |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:4d}</span><span class="s1">|</span><span class="si">{5:8.1g}</span><span class="s1">|    |        |    |        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                       <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n_pre</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">f_norm_pre</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">))</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
             
             <span class="c1"># set the found solution to j</span>
             <span class="n">j</span> <span class="o">=</span> <span class="n">j_pre</span>
             
-            <span class="k">if</span> <span class="n">v1</span> <span class="o">&gt;</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dxtol</span><span class="p">:</span>
                 <span class="n">nr_success_pre</span> <span class="o">=</span> <span class="kc">False</span>
         
         <span class="c1"># -----------------------------------------------------------------</span>
@@ -480,6 +480,9 @@
         
         <span class="c1"># recylce loop</span>
         <span class="k">while</span> <span class="n">nr_success_pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;|Cycle|NR-It.|Control| Norm(g) |i(1)|Value   |i(2)|Value   |i(3)|Value   |&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span> <span class="s1">&#39;|:---:|:----:|:-----:|:-------:|:--:|:------:|:--:|:------:|:--:|:------:|&#39;</span><span class="p">)</span>
             
             <span class="c1"># RESET X TO START SOLUTION X0 and COPY j to j0</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -504,22 +507,18 @@
             
             <span class="n">i1</span><span class="p">,</span><span class="n">v1</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">i2</span><span class="p">,</span><span class="n">v2</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">i3</span><span class="p">,</span><span class="n">i4</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-            <span class="n">v3</span><span class="p">,</span><span class="n">v4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="n">i3</span><span class="p">,</span><span class="n">v3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
             
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">i3</span><span class="p">,</span> <span class="n">v3</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">i4</span><span class="p">,</span> <span class="n">v4</span> <span class="o">=</span> <span class="n">Dxi</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span> <span class="n">Dxs</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="c1">#if len(x) &gt; 3:</span>
+            <span class="c1">#    i4, v4 = Dxi[-4], Dxs[-4]</span>
             
             <span class="c1"># PRINT INFORMATIONS ON BIGGEST INCREMENTAL COMPONENTS</span>
             <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> 
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|tot| sum  | used  |  final  |   final                                       |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|</span><span class="si">{0:2d}</span><span class="s1"> |  </span><span class="si">{1:2d}</span><span class="s1">  |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:2d}</span><span class="s1">:</span><span class="si">{5:8.4f}</span><span class="s1">|</span><span class="si">{6:2d}</span><span class="s1">:</span><span class="si">{7:8.4f}</span><span class="s1">|</span><span class="si">{8:2d}</span><span class="s1">:</span><span class="si">{9:8.4f}</span><span class="s1">|</span><span class="si">{10:2d}</span><span class="s1">:</span><span class="si">{11:8.4f}</span><span class="s1">|&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                      <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="n">n_pre</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">i2</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">i3</span><span class="p">,</span><span class="n">v3</span><span class="p">,</span><span class="n">i4</span><span class="p">,</span><span class="n">v4</span><span class="p">))</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="o">+</span><span class="mi">76</span><span class="o">*</span><span class="s1">&#39; &#39;</span><span class="o">+</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|total| sum  | used  |  final  |    | final  |    | final  |    | final  |&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| </span><span class="si">{0:2d}</span><span class="s1">  |  </span><span class="si">{1:2d}</span><span class="s1">  |  </span><span class="si">{2:2d}</span><span class="s1">   |</span><span class="si">{3:1.3e}</span><span class="s1">|</span><span class="si">{4:4d}</span><span class="s1">|</span><span class="si">{5:8.4f}</span><span class="s1">|</span><span class="si">{6:4d}</span><span class="s1">|</span><span class="si">{7:8.4f}</span><span class="s1">|</span><span class="si">{8:4d}</span><span class="s1">|</span><span class="si">{9:8.4f}</span><span class="s1">|&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                      <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="n">n_pre</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">i1</span><span class="p">,</span><span class="n">v1</span><span class="p">,</span><span class="n">i2</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span><span class="n">i3</span><span class="p">,</span><span class="n">v3</span><span class="p">))</span>
                 
             <span class="c1"># set new control comp. if not fixed by the user</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">j_fixed</span><span class="p">:</span>
@@ -533,10 +532,10 @@
             <span class="c1"># CHECK IF SOLUTION IS VALID --&gt; GO TO NEXT INCREMENT</span>
             <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="n">j_fixed</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">dxmax</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">:</span>
                     <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="o">+</span><span class="mf">1e-6</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Dx</span><span class="o">/</span><span class="n">dxmax</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">dxtol</span><span class="p">):</span>
                     <span class="n">solution_valid</span> <span class="o">=</span> <span class="kc">True</span>
             
             <span class="c1"># init flag for *stepcontrol changed dxmax* (sc_changed) to False</span>
@@ -559,16 +558,16 @@
             
             <span class="k">if</span> <span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="o">==</span><span class="n">cycl</span><span class="p">:</span>
                 <span class="n">stop</span><span class="o">=</span><span class="kc">True</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                            |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * ERROR 1: Job stopped - NR-it. failed, max. number of recycles reached.   |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|         Reduce dVmax and/or activate adaptive stepwidth-control.           |&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* **ERROR 1**: Job stopped - NR-it. failed, max. number of recycles reached.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  Reduce dVmax and/or activate adaptive stepwidth-control.&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="n">j0</span><span class="o">==</span><span class="n">j</span> <span class="ow">and</span> <span class="n">nr_success</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">sc_changed</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="n">stop</span><span class="o">=</span><span class="kc">True</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                            |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * ERROR 2: Job stopped - NR-it. failed, control component does not change. |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|         Reduce dVmax and/or activate adaptive stepwidth-control.           |&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* **ERROR 2**: Job stopped - NR-it. failed, control component does not change.&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  Reduce dVmax and/or activate adaptive stepwidth-control.&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
             
             <span class="c1">#reset j</span>
@@ -578,9 +577,8 @@
             <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span>
             <span class="n">n_pre</span> <span class="o">=</span> <span class="mi">0</span>
             
-            <span class="c1">#print(&#39;\n&#39;)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|               ...recycling increment                                       |&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* recycling increment&#39;</span><span class="p">)</span>
             
         
         <span class="c1"># save results to analysis object</span>
@@ -594,20 +592,16 @@
         
         
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">stop</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                            |&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * final LPF: </span><span class="si">{0: 10.4g}</span><span class="s1">                                                    |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
-            <span class="c1">#print(&#39;----------------------- END OF INCREMENT&#39;, i+1,&#39;---------------------------------------------&#39;)</span>
-    
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* final LPF: </span><span class="si">{0: 10.4g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            
         <span class="c1"># Stop due to error</span>
         <span class="k">if</span> <span class="n">stop</span><span class="p">:</span> <span class="k">break</span>
     
         <span class="c1"># Maximum value reached</span>
         <span class="k">if</span> <span class="n">xlimit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xlimit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">xlimit</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|                                                                            |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;| * EXIT 1: Job stopped - max value of control component reached.            |&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;* EXIT 1: Job stopped - max value of control component reached.&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
     
     <span class="k">return</span> <span class="n">res_x</span><span class="p">,</span><span class="n">res_a</span></div>

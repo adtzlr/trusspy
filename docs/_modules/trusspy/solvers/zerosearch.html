@@ -235,8 +235,8 @@
         <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
             <span class="c1">#print(&#39;        {0:2d}          |{1:1.3e} {2:1.3e}|           |           |           |&#39;.format(</span>
             <span class="c1">#      n,f_norm,x_norm))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|   |  </span><span class="si">{0:2d}</span><span class="s1">  |       |</span><span class="si">{1:1.3e}</span><span class="s1">|           |           |           |           |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">f_norm</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|     |  </span><span class="si">{0:2d}</span><span class="s1">  |       |</span><span class="si">{1:1.3e}</span><span class="s1">|    |        |    |        |    |        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">f_norm</span><span class="p">))</span>
+            <span class="c1">#print(&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;)</span>
             
         <span class="k">if</span> <span class="p">(</span><span class="n">f_norm</span> <span class="o">&lt;</span> <span class="n">ftol</span> <span class="ow">and</span> <span class="n">x_norm</span> <span class="o">&lt;</span> <span class="n">xtol</span><span class="p">):</span>
             <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>

@@ -19,7 +19,7 @@ class SettingsHandler:
         self.increase = 0.5
         self.reduce = 8
         
-        self.dxtol = 1.001
+        self.dxtol = 1.000001
         
         self.ftol = 8
         self.xtol = 0
@@ -44,3 +44,5 @@ class SettingsHandler:
         self.nstatev = 0
         
         self.nsteps = 1
+        
+        self.logpdf = False
