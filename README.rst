@@ -52,32 +52,34 @@ Example
 
     import trusspy as tp
 
-    M = tp.Model()
+    M = tp.Model(logfile=False)
 
-    # create nodes
     with M.Nodes as MN:
-        MN.add_node( 1, (0,0,0) )
-        MN.add_node( 2, (1,0,0) )
+        MN.add_node( 1, coord=( 0, 0, 0))
+        MN.add_node( 2, coord=( 1, 0, 1))
+        MN.add_node( 3, coord=( 2, 0, 0))
 
-    # create element
     with M.Elements as ME:
-        ME.add_element( 1, [1,2] )
-        ME.assign_material('all', [1])
-        ME.assign_geometry('all', [1])
+        ME.add_element( 1, conn=(1,2), gprop=[1] )
+        ME.add_element( 2 ,conn=(2,3), gprop=[1] )
 
-    # create displacement (U) boundary conditions
+        E = 1     # elastic modulus
+        ME.assign_material( 'all', [E])
+
     with M.Boundaries as MB:
         MB.add_bound_U( 1, (0,0,0) )
-        MB.add_bound_U( 2, (1,0,0) )
+        MB.add_bound_U( 2, (0,0,1) )
+        MB.add_bound_U( 3, (0,0,0) )
 
-    # create external forces
-    with M.ExternalForces as MF:
-        MF.add_force( 2, (1,0,0) )
-
-    # build model, run, show results
+    with M.ExtForces as MF:
+        MF.add_force( 2, ( 0, 0,-1) )
+    
     M.build()
     M.run()
 
-    # plot results
-    M.plot_model()
-    M.plot_show()
+    M.plot_model(config=['undeformed','deformed'], 
+                 inc=20, 
+                 force_scale=2,
+                 contour='force'
+                 )
+    M.plot_history(nodes=[2,2], X='Displacement Z', Y='LPF')
