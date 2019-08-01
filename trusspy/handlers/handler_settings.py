@@ -22,7 +22,7 @@ class SettingsHandler:
         self.dxtol = 1.000001
         
         self.ftol = 8
-        self.xtol = 0
+        self.xtol = 8
         
         self.cycl = 4
         self.nfev = 8
