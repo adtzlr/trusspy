@@ -8,17 +8,42 @@ Created on Thu Jun 21 20:11:23 2018
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+from matplotlib.patches import FancyArrowPatch
+from mpl_toolkits.mplot3d import proj3d
 
 #from mpl_toolkits.mplot3d import Axes3D
 #from numpy.linalg import norm
 
 # projection : [‘aitoff’ | ‘hammer’ | ‘lambert’ | ‘mollweide’ | ‘polar’ | ‘rectilinear’], optional
 
+class Arrow3D(FancyArrowPatch):
+    def __init__(self, xs, ys, zs, *args, **kwargs):
+        FancyArrowPatch.__init__(self, (0,0), (0,0), *args, **kwargs)
+        self._verts3d = xs, ys, zs
+
+    def draw(self, renderer):
+        xs3d, ys3d, zs3d = self._verts3d
+        xs, ys, zs = proj3d.proj_transform(xs3d, ys3d, zs3d, renderer.M)
+        self.set_positions((xs[0],ys[0]),(xs[1],ys[1]))
+        FancyArrowPatch.draw(self, renderer)
+
 def plot_coord(ax,a=1.0):
-    ax.plot([0,a],[0,0],[0,0],'k')
-    ax.plot([0,0],[0,a],[0,0],'k')
-    ax.plot([0,0],[0,0],[0,a],'k')
+    ax.plot([0,a],[0,0],[0,0],alpha=0)
+    ax.plot([0,0],[0,a],[0,0],alpha=0)
+    ax.plot([0,0],[0,0],[0,a],alpha=0)
     ax.plot([0],[0],[0],'ko',ms=10)
+    arrow_properties = dict(mutation_scale=20, 
+                            lw=3,
+                            arrowstyle='-|>', 
+                            color='k',
+                            shrinkA=0, 
+                            shrinkB=0)
+    x1 = Arrow3D([0,a], [0,0], [0,0], **arrow_properties)
+    x2 = Arrow3D([0,0], [0,a], [0,0], **arrow_properties)
+    x3 = Arrow3D([0,0], [0,0], [0,a], **arrow_properties)
+    ax.add_artist(x1)
+    ax.add_artist(x2)
+    ax.add_artist(x3)
     return ax
 
 def plot_hist(x,y,nl,xl,yl='LPF',fig=None,ax=None):
@@ -104,18 +129,36 @@ def plot_force(f0,X,fig=None,ax=None,view='xz',color='C2',scale=0.5):
                 from mpl_toolkits.mplot3d import Axes3D
                 if fig is None: fig = plt.figure()
                 if ax is None: ax = fig.add_subplot(111, projection='3d')
-                if f0i[k] != 0: ax.plot([xx,xx],
-                                        [yy,yy],
-                                        [zz,zz+scale*f0i[k]],
-                                        color=color,linewidth=3,zorder=20)
-                if f0i[j] != 0: ax.plot([xx,xx],
-                                        [yy,yy+scale*f0i[j]],
-                                        [zz,zz],
-                                        color=color,linewidth=3,zorder=20)
-                if f0i[i] != 0: ax.plot([xx,xx+scale*f0i[i]],
-                                        [yy,yy],
-                                        [zz,zz],
-                                        color=color,linewidth=3,zorder=20)
+                arrow_properties = dict(mutation_scale=20, 
+                                        lw=3,
+                                        arrowstyle='-|>', 
+                                        color=color,
+                                        shrinkA=0, 
+                                        shrinkB=0,
+                                        zorder=20)
+                if f0i[k] != 0: 
+                    ax.plot([xx,xx], [yy,yy], [zz,zz+scale*f0i[k]],
+                    #        color=color,linewidth=3,zorder=20)
+                            alpha=0)
+                    a = Arrow3D([xx,xx], [yy,yy], [zz,zz+scale*f0i[k]],
+                                 **arrow_properties)
+                    ax.add_artist(a)
+                
+                if f0i[j] != 0: 
+                    ax.plot([xx,xx], [yy,yy+scale*f0i[j]], [zz,zz],
+                    #        color=color,linewidth=3,zorder=20)
+                            alpha=0)
+                    a = Arrow3D([xx,xx], [yy,yy+scale*f0i[j]], [zz,zz],
+                                 **arrow_properties)
+                    ax.add_artist(a)
+                    
+                if f0i[i] != 0: 
+                    ax.plot([xx,xx+scale*f0i[i]], [yy,yy], [zz,zz],
+                            #color=color,linewidth=3,zorder=20)
+                            alpha=0)
+                    a = Arrow3D([xx,xx+scale*f0i[i]], [yy,yy], [zz,zz],
+                                 **arrow_properties)
+                    ax.add_artist(a)
             else: #2d
                 fig = plt.gcf()
                 ax = plt.gca()

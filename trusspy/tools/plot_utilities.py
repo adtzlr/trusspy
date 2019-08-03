@@ -128,7 +128,7 @@ def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force
     #plt.show()
     return fig, ax
        
-def p_movie(self,config='both',view='xz',contour=None,lim_scale=1.2,force_scale=0.5,cbar_limits='auto',incs='all'):
+def p_movie(self,config='both',view='xz',contour=None,lim_scale=1.5,force_scale=0.5,cbar_limits='auto',incs='all'):
     if incs == 'all':
         if self.Settings.nsteps > 1:
             b = 0
