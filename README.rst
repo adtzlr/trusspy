@@ -12,14 +12,8 @@ Official Documentation: https://adtzlr.github.io/trusspy/
 
 Installation
 ============
-
-1) Either use pip to install TrussPy (recommended, **but not yet available!**)
-
-    .. code:: bash
-
-       pip install trusspy
    
-2) or download this repo as ZIP-file_, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:
+Download this repo as ZIP-file_, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:
     * open startmenu
     * search for "environment variable"
     * edit environment variable for this account
