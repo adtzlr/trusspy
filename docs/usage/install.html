@@ -1,18 +1,27 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Installation &#8212; TrussPy 2018.08 documentation</title>
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2018.08',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -57,7 +66,8 @@
       });
     </script>
 
-  </head><body>
+  </head>
+  <body>
 <div class="pageheader">
     <div >
         <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -82,6 +92,9 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="getting_started.html" title="Getting Started"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -101,13 +114,13 @@
   <p class="topless"><a href="getting_started.html"
                         title="next chapter">Getting Started</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
+  <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -120,21 +133,34 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<dl>
-<dt>Download this repo as <a class="reference external" href="https://github.com/adtzlr/trusspy/archive/master.zip">ZIP-file</a>, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:</dt><dd><ul>
-<li><p>open startmenu</p></li>
-<li><p>search for “environment variable”</p></li>
-<li><p>edit environment variable for this account</p></li>
-<li><dl class="simple">
-<dt>New… (user variable)</dt><dd><ul class="simple">
-<li><p>variable name: PYTHONPATH</p></li>
-<li><p>variable value: <cite>C:\Path\to\trusspy_package\</cite></p></li>
+<ol class="arabic">
+<li><p class="first">Either use pip to install TrussPy (recommended, <strong>but not yet available!</strong>)</p>
+<blockquote>
+<div><div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">trusspy</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>or download this repo as <a class="reference external" href="https://github.com/adtzlr/trusspy/archive/master.zip">ZIP-file</a>, unzip it and add the unzipped location to your PYTHONPATH. On Windows 10:</dt>
+<dd><ul class="first last">
+<li><p class="first">open startmenu</p>
+</li>
+<li><p class="first">search for “environment variable”</p>
+</li>
+<li><p class="first">edit environment variable for this account</p>
+</li>
+<li><dl class="first docutils">
+<dt>New… (user variable)</dt>
+<dd><ul class="first last simple">
+<li>variable name: PYTHONPATH</li>
+<li>variable value: <cite>C:\Path\to\trusspy_package\</cite></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p>to verify the correct path <cite>C:\Path\to\trusspy_package\</cite> this directory should contain the following files and folders:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>+ docs\
+<li><p class="first">to verify the correct path <cite>C:\Path\to\trusspy_package\</cite> this directory should contain the following files and folders:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>+ docs\
 + tests\
   - e101\
   - e102\
@@ -152,11 +178,13 @@ LICENSE
 </ul>
 </dd>
 </dl>
+</li>
+</ol>
 <p><strong>Hint:</strong> <em>Method 2) is a quick option for using the latest version of trusspy without installing it.</em></p>
 <p>🤦‍♂️ 🤦‍ 🤦‍♂️ 🤦 🤦‍♂️ 🤦Not yet familiar with Python but want to have a look at TrussPy in action? Give Python a try, it’s not that hard to start with. Install one of the popular scientific Python 3.x distributions</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.anaconda.com/download/">Anaconda</a> (Windows, Max, Linux) or</p></li>
-<li><p><a class="reference external" href="https://winpython.github.io/">WinPython</a> (Windows)</p></li>
+<li><a class="reference external" href="https://www.anaconda.com/download/">Anaconda</a> (Windows, Max, Linux) or</li>
+<li><a class="reference external" href="https://winpython.github.io/">WinPython</a> (Windows)</li>
 </ul>
 <p>and you’re ready to go. Python 3 Tutorials? Google is your friend (also search for NumPy, SciPy, SymPy and Matplotlib - these packages are already included with the above mentioned distributions). Ready to go? Proceed with 1) 😎.</p>
 </div>
@@ -174,6 +202,9 @@ LICENSE
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="getting_started.html" title="Getting Started"
              >next</a> |</li>
         <li class="right" >
@@ -186,7 +217,7 @@ LICENSE
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Trusspy.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
     </div>
   </body>
 </html>
