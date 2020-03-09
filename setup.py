@@ -12,7 +12,7 @@ with open('LICENSE') as f:
 
 setup(
     name='trusspy',
-    version='SNAPSHOT-20180816',
+    version='20180816',
     description='Truss Solver for Python',
     long_description=readme,
     author='Andreas Dutzler',
