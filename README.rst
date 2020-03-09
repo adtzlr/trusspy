@@ -6,7 +6,9 @@ Official Documentation: https://adtzlr.github.io/trusspy/
 Installation
 ============
 
-`pip install trusspy`
+.. code:: python
+
+    pip install trusspy
 
 Example
 =======
