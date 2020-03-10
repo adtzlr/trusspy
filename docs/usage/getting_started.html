@@ -1,27 +1,18 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Getting Started &#8212; TrussPy 2018.08 documentation</title>
     <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '2018.08',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -66,8 +57,7 @@
       });
     </script>
 
-  </head>
-  <body>
+  </head><body>
 <div class="pageheader">
     <div >
         <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -114,13 +104,13 @@
   <p class="topless"><a href="../theory/theory.html"
                         title="next chapter">Theory Guide</a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -134,19 +124,20 @@
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>The following basic example is written in interactive mode to show how trusspy works. <em>For mid-sized models it may be more convenient to use a Spreadsheet (Excel) - input file</em>. All model parameters except allowed incremental quantities are assumed with default values to enable a clean tutorial for the model creation process. We will consider a model with two nodes and one truss. Although this configuration does not include any geometric nonlinear effects it is the most basic example to start with. The left end of the truss (Node 1) is fixed whereas the right end displacement is free in direction x (Node 2). An external force acts on the right end of the truss in direction x. To sum up, this model contains two nodes, one element and one degree of freedom (DOF).</p>
+<p><strong>News</strong>: It is now possible to run TrussPy online without any installation. This section is now available as an <a class="reference external" href="https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=tests%2Fe101%2Fe101_nb_interactive.ipynb">Interactive Online Notebook</a>.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="../_images/getting_started-1.png"><img alt="The undeformed model with an **External Force** vector acting on **Node** 2." src="../_images/getting_started-1.png" style="width: 75%;" /></a>
-<p class="caption"><span class="caption-text">The undeformed model with an <strong>External Force</strong> vector acting on <strong>Node</strong> 2.</span></p>
+<p class="caption"><span class="caption-text">The undeformed model with an <strong>External Force</strong> vector acting on <strong>Node</strong> 2.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>First we import trusspy with it’s own namespace and create a Model object <code class="docutils literal"><span class="pre">M</span></code>.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">trusspy</span> <span class="k">as</span> <span class="nn">tp</span>
+<p>First we import trusspy with it’s own namespace and create a Model object <code class="docutils literal notranslate"><span class="pre">M</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">trusspy</span> <span class="kn">as</span> <span class="nn">tp</span>
 
 <span class="c1"># init model</span>
 <span class="n">M</span> <span class="o">=</span> <span class="n">tp</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Now we create Nodes with coordinate triples and Elements with a list of node connectivities and both material and geometric properties. Both Nodes and Elements are identified with their label.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create nodes</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create nodes</span>
 <span class="c1">#</span>
 <span class="c1">#    tp.Node( label,  coord  )</span>
 <span class="c1"># ----------------------------</span>
@@ -160,7 +151,7 @@
 </pre></div>
 </div>
 <p><strong>Mechanical boundary conditions</strong> must be supplied for all nodes which contain locked DOF’s: <cite>0 = inactive (locked)</cite> and <cite>1 = active (free)</cite>. The same applies to external forces - no <strong>External Force</strong> object has to be added to the <strong>Model</strong> if all components of a node are zero.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create displacement (U) boundary conditions</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># create displacement (U) boundary conditions</span>
 <span class="n">B1</span> <span class="o">=</span> <span class="n">tp</span><span class="o">.</span><span class="n">BoundaryU</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
 <span class="n">B2</span> <span class="o">=</span> <span class="n">tp</span><span class="o">.</span><span class="n">BoundaryU</span><span class="p">(</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
 
@@ -170,13 +161,13 @@
 </pre></div>
 </div>
 <p>We have to specify some important <strong>Settings Parameters</strong> concerning the trusspy path-tracing algorithm:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">M</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">dlpf</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># maximum allowed incremental load-proportionality-factor</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">M</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">dlpf</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># maximum allowed incremental load-proportionality-factor</span>
 <span class="n">M</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">du</span>   <span class="o">=</span> <span class="mf">0.02</span> <span class="c1"># maximum allowed incremental displacement component</span>
 <span class="n">M</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">incs</span> <span class="o">=</span> <span class="mi">50</span>   <span class="c1"># maximum number of increments</span>
 </pre></div>
 </div>
-<p>All generated items have to be added to the model <code class="docutils literal"><span class="pre">M</span></code>. Of course this is cumbersome for bigger models. Alternativly, one may wrap for example the Node object creation inside the <code class="docutils literal"><span class="pre">node_add</span></code> function of the Model object: <code class="docutils literal"><span class="pre">M.Nodes.add_node(tp.Node(label,</span> <span class="pre">coord))</span></code>. Either way we are able to <code class="docutils literal"><span class="pre">build</span></code> the model and <code class="docutils literal"><span class="pre">run</span></code> the job afterwards. The nodal ordering of Nodes, Boundaries and Forces inside the corresponding <cite>add</cite> function doesn’t matter. TrussPy will sort all nodal quantities by their node labels in the <cite>build</cite> method.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># add items to the model</span>
+<p>All generated items have to be added to the model <code class="docutils literal notranslate"><span class="pre">M</span></code>. Of course this is cumbersome for bigger models. Alternativly, one may wrap for example the Node object creation inside the <code class="docutils literal notranslate"><span class="pre">node_add</span></code> function of the Model object: <code class="docutils literal notranslate"><span class="pre">M.Nodes.add_node(tp.Node(label,</span> <span class="pre">coord))</span></code>. Either way we are able to <code class="docutils literal notranslate"><span class="pre">build</span></code> the model and <code class="docutils literal notranslate"><span class="pre">run</span></code> the job afterwards. The nodal ordering of Nodes, Boundaries and Forces inside the corresponding <cite>add</cite> function doesn’t matter. TrussPy will sort all nodal quantities by their node labels in the <cite>build</cite> method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># add items to the model</span>
 <span class="n">M</span><span class="o">.</span><span class="n">Nodes</span><span class="o">.</span><span class="n">add_nodes</span><span class="p">([</span><span class="n">N1</span><span class="p">,</span><span class="n">N2</span><span class="p">])</span>
 <span class="n">M</span><span class="o">.</span><span class="n">Elements</span><span class="o">.</span><span class="n">add_element</span><span class="p">(</span><span class="n">E1</span><span class="p">)</span>
 <span class="n">M</span><span class="o">.</span><span class="n">Boundaries</span><span class="o">.</span><span class="n">add_bounds_U</span><span class="p">([</span><span class="n">B1</span><span class="p">,</span><span class="n">B2</span><span class="p">])</span>
@@ -188,7 +179,7 @@
 </pre></div>
 </div>
 <p>When the job has finished we may post-process the deformed model and plot the force-displacement curve at Node 2.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># show results</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># show results</span>
 <span class="n">M</span><span class="o">.</span><span class="n">plot_model</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;deformed&#39;</span><span class="p">],</span>
              <span class="n">view</span><span class="o">=</span><span class="s1">&#39;xz&#39;</span><span class="p">,</span>
              <span class="n">contour</span><span class="o">=</span><span class="s1">&#39;force&#39;</span><span class="p">,</span>
@@ -201,14 +192,14 @@
 </div>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="../_images/getting_started-2.png"><img alt="The deformed model with the current **External Force** vector acting on **Node** 2." src="../_images/getting_started-2.png" style="width: 75%;" /></a>
-<p class="caption"><span class="caption-text">The deformed model with the current <strong>External Force</strong> vector acting on <strong>Node</strong> 2.</span></p>
+<p class="caption"><span class="caption-text">The deformed model with the current <strong>External Force</strong> vector acting on <strong>Node</strong> 2.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-center" id="id3">
 <a class="reference internal image-reference" href="../_images/getting_started-3.png"><img alt="The load-displacement curve for all increments at **Node** 2." src="../_images/getting_started-3.png" style="width: 75%;" /></a>
-<p class="caption"><span class="caption-text">The load-displacement curve for all increments at <strong>Node</strong> 2.</span></p>
+<p class="caption"><span class="caption-text">The load-displacement curve for all increments at <strong>Node</strong> 2.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
 </div>
 <p>It could also be helpful to show the animated deformation process within a simple GIF file (options should be self-explaining):</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># show results</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># show results</span>
 <span class="n">M</span><span class="o">.</span><span class="n">plot_movie</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;deformed&#39;</span><span class="p">],</span>
              <span class="n">view</span><span class="o">=</span><span class="s1">&#39;xz&#39;</span><span class="p">,</span>
              <span class="n">contour</span><span class="o">=</span><span class="s1">&#39;force&#39;</span><span class="p">,</span>
@@ -219,7 +210,7 @@
 </div>
 <div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="../_images/getting_started-4.gif"><img alt="An animation of the deformation process." src="../_images/getting_started-4.gif" style="width: 75%;" /></a>
-<p class="caption"><span class="caption-text">An animation of the deformation process.</span></p>
+<p class="caption"><span class="caption-text">An animation of the deformation process.</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </div>
 <p><em>Important Note:</em> A <strong>LOT</strong> of assumptions are made to run this model without specifying barely any parameter. Most important ones are incremental displacement values, incremental LPF value and the amount of increments to be solved. These critical parameters are responsible if the model solution will converge or not!</p>
 </div>
@@ -252,7 +243,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2018, Trusspy.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>
