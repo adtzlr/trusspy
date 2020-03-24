@@ -540,12 +540,12 @@ class Model:
     def plt_extforces(self,config='undeformed'):
         p_extforces(self,config)
 
-    def plot_model(self,config='both',view='xz',contour=None,lim_scale=1.2,force_scale=0.5,cbar_limits='auto',inc=-1):
-        fig, ax = p_model(self,config,view,contour,lim_scale,force_scale,cbar_limits,inc)
+    def plot_model(self,config='both',view='xz',contour=None,lim_scale=1.2,force_scale=0.5,nodesize=10,cbar_limits='auto',inc=-1):
+        fig, ax = p_model(self,config,view,contour,lim_scale,force_scale,nodesize,cbar_limits,inc)
         return fig, ax
            
-    def plot_movie(self,config='both',view='xz',contour=None,lim_scale=1.2,force_scale=0.5,cbar_limits='auto',incs='all'):
-        p_movie(self,config,view,contour,lim_scale,force_scale,cbar_limits,incs)
+    def plot_movie(self,config='both',view='xz',contour=None,lim_scale=1.2,force_scale=0.5,nodesize=10,cbar_limits='auto',incs='all'):
+        p_movie(self,config,view,contour,lim_scale,force_scale,nodesize,cbar_limits,incs)
         
     def plot_history(self, nodes=[1, 1], increments=None, X='Displacement X', Y='LPF', fig=None, ax=None):
         fig, ax = p_history(self,nodes,increments,X,Y,fig,ax)

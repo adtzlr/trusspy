@@ -32,7 +32,7 @@ def p_extforces(self,config='undeformed',step=1):
     else:
         plot_force(self.ExtForces.forces[:,3*(step-1):3*step],self.Nodes.coords+self.Results.U)
         
-def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force_scale=1.0,cbar_limits='auto',inc=-1,step=1):
+def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force_scale=1.0,nodesize=10,cbar_limits='auto',inc=-1,step=1):
     con = None
     plt.figure()
     fig, ax = None, None
@@ -65,7 +65,7 @@ def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force
         con = contour[0], con_data, contour[1]
         
     if 'undeformed' in config:
-        fig,ax = plot_nodes(self.Nodes.coords,color='k',view=view)
+        fig,ax = plot_nodes(self.Nodes.coords,color='k',view=view,size=nodesize)
         fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords,fig,ax,
                    color='C7',view=view,lim_scale=lim_scale)
         if 'deformed' not in config and force_scale is not None:
@@ -78,7 +78,7 @@ def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force
                                 fig,ax,view=view,
                                 scale=force_scale)
     if 'deformed' in config:
-        fig,ax = plot_nodes(self.Nodes.coords+self.Results.R[inc].U,fig,ax,color='k',view=view)
+        fig,ax = plot_nodes(self.Nodes.coords+self.Results.R[inc].U,fig,ax,color='k',view=view,size=nodesize)
         fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords+self.Results.R[inc].U,
                             fig,ax,color='C0',view=view,contour=con,lim_scale=lim_scale)
         if force_scale is not None:
@@ -128,7 +128,7 @@ def p_model(self,config='deformed',view='xz',contour='force',lim_scale=1.0,force
     #plt.show()
     return fig, ax
        
-def p_movie(self,config='both',view='xz',contour=None,lim_scale=1.5,force_scale=0.5,cbar_limits='auto',incs='all'):
+def p_movie(self,config='both',view='xz',contour=None,lim_scale=1.5,force_scale=0.5,nodesize=10,cbar_limits='auto',incs='all'):
     if incs == 'all':
         if self.Settings.nsteps > 1:
             b = 0
@@ -175,7 +175,7 @@ def p_movie(self,config='both',view='xz',contour=None,lim_scale=1.5,force_scale=
 #                con_data = self.Results.R[i].element_stress[:,0]
 #            con = contour[0], con_data, contour[1]
             
-        self.plot_model(config,view,contour,lim_scale,force_scale,cbar_limits,i)
+        self.plot_model(config,view,contour,lim_scale,force_scale,nodesize,cbar_limits,i)
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close('all')
     png_to_gif()

@@ -81,7 +81,7 @@ def plot_pth(x,y,inc,yl='LPF',fig=None,ax=None):
     #plt.gca().set_aspect('equal')
     return fig, ax
 
-def plot_nodes(X,fig=None,ax=None,view='xz',color='k'):
+def plot_nodes(X,fig=None,ax=None,view='xz',color='k',size=10):
     if view=='xz':
         i,j = 0,2
     if view=='xy':
@@ -94,9 +94,9 @@ def plot_nodes(X,fig=None,ax=None,view='xz',color='k'):
         if fig is None: fig = plt.figure()
         if ax is None: ax = fig.add_subplot(111, projection='3d')
         #ax.scatter(X[:,0],X[:,1],X[:,2],marker='o',s=150,color=color,zorder=30)
-        ax.plot(X[:,0],X[:,1],X[:,2],color+'o',ms=10,zorder=30)
+        ax.plot(X[:,0],X[:,1],X[:,2],color+'o',ms=size,zorder=30)
     else:
-        plt.scatter(X[:,i],X[:,j],marker='o',s=150,color=color,zorder=30)
+        plt.scatter(X[:,i],X[:,j],marker='o',s=15*size,color=color,zorder=30)
         fig = plt.gcf()
         ax = plt.gca()
     #plt.axes().set_aspect('equal');
