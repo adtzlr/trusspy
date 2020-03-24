@@ -37,7 +37,7 @@ Example
         MB.add_bound_U( 2, (1,0,0) )
 
     # create external forces
-    with M.ExternalForces as MF:
+    with M.ExtForces as MF:
         MF.add_force( 2, (1,0,0) )
 
     # build model, run, show results
