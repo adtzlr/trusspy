@@ -293,8 +293,9 @@ class Model:
             print('')
             
         # measure time
-        self.time0_run = time.perf_counter()
-        self.clock0_run = time.process_time()
+        self.clock0_run = time.perf_counter()
+        self.time0_run = time.process_time()
+        
         
         
         # reduced modified displacement vector to active DOF and LPF
