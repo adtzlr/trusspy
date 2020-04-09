@@ -195,8 +195,8 @@ class Model:
         self.Results = ResultHandler()
         self.Analysis = Analysis()
         
-        self.clock0_build = time.clock()
-        self.time0_build = time.time()
+        self.clock0_build = time.perf_counter()
+        self.time0_build = time.process_time()
         
         # initialize numbers: #nodes, #elements, #dof
         self.nnodes = len(self.Nodes.labels)
@@ -251,8 +251,8 @@ class Model:
                             self.Settings.nstatev)
         self.Results.R[-1] = copy.deepcopy(self.Analysis)
         
-        self.clock1_build = time.clock()
-        self.time1_build = time.time()
+        self.clock1_build = time.perf_counter()
+        self.time1_build = time.process_time()
             
     def run(self):
         """Run job."""
@@ -293,8 +293,8 @@ class Model:
             print('')
             
         # measure time
-        self.time0_run = time.time()
-        self.clock0_run = time.clock()
+        self.time0_run = time.perf_counter()
+        self.clock0_run = time.process_time()
         
         
         # reduced modified displacement vector to active DOF and LPF
@@ -393,8 +393,8 @@ class Model:
         # duplicate first increment to get right indices
         self.Results.duplicate_first_increment()
             
-        time_dclock_run   = time.clock() - self.clock0_run
-        time_dtime_run    = time.time()  - self.time0_run
+        time_dclock_run   = time.perf_counter() - self.clock0_run
+        time_dtime_run    = time.process_time()  - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
         time_dtime_build  = self.time1_build  - self.time0_build
         print(r'\pagebreak')
