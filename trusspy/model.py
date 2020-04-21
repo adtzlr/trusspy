@@ -171,13 +171,13 @@ class Model:
         
         if file is not None:
             if log > 1: print('* loading INPUT-File: "'+file+'"\n')
-            Nodes = pd.read_excel(file,sheet_name="Nodes",skiprows=2).as_matrix()[:,:4].astype(float)
-            Elements = pd.read_excel(file,sheet_name="Elements",skiprows=2).as_matrix()[:,:10].astype(float)
-            Material = pd.read_excel(file,sheet_name="Material",skiprows=2).as_matrix()[:,:10].astype(float)
-            Geometry = pd.read_excel(file,sheet_name="Geometry",skiprows=2).as_matrix()[:,:10].astype(float)
-            ExtForces = pd.read_excel(file,sheet_name="ExternalForces",skiprows=2).as_matrix()[:,:1+5*3].astype(float)
-            Boundary_U = pd.read_excel(file,sheet_name="BoundaryU",skiprows=2).as_matrix()[:,:4].astype(float)
-            Boundary_T = pd.read_excel(file,sheet_name="BoundaryT",skiprows=2).as_matrix()[:,:2].astype(float)
+            Nodes = pd.read_excel(file,sheet_name="Nodes",skiprows=2).values[:,:4].astype(float)
+            Elements = pd.read_excel(file,sheet_name="Elements",skiprows=2).values[:,:10].astype(float)
+            Material = pd.read_excel(file,sheet_name="Material",skiprows=2).values[:,:10].astype(float)
+            Geometry = pd.read_excel(file,sheet_name="Geometry",skiprows=2).values[:,:10].astype(float)
+            ExtForces = pd.read_excel(file,sheet_name="ExternalForces",skiprows=2).values[:,:1+5*3].astype(float)
+            Boundary_U = pd.read_excel(file,sheet_name="BoundaryU",skiprows=2).values[:,:4].astype(float)
+            Boundary_T = pd.read_excel(file,sheet_name="BoundaryT",skiprows=2).values[:,:2].astype(float)
             if log > 1: print('    - successful.\n')
             
             if log > 1: print('* Converting Data...\n')
