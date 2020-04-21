@@ -289,10 +289,11 @@ def plot_elems(E,X,fig=None,ax=None,view='xz',color='C0',contour=None,lim_scale=
             #print(ax.elev,ax.azim)
             ax.view_init(20, -40)
         else:
+            plt.gca().set_aspect('equal')
             if lim_scale < 0 and abs(lim_scale) < 100:
                 plt.xlim(-m,m)
                 plt.ylim(-m,m)
 
     plt.gcf().set_size_inches(8,6)
-    plt.gca().set_aspect('equal')
+    
     return fig, ax
