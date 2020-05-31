@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>trusspy.core.element module &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/api/trusspy.core.element.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../usage/install.html">Get it</a></li>
+    <li><a href="../usage/getting_started.html">Quickstart</a></li>
+    <li><a href="../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../index.html">
+      <img src="../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-trusspy.core.element">
+<span id="trusspy-core-element-module"></span><h1>trusspy.core.element module<a class="headerlink" href="#module-trusspy.core.element" title="Permalink to this headline">¶</a></h1>
+<p>Created on Tue Jun 26 18:46:06 2018</p>
+<p>&#64;author: adutz</p>
+<dl class="class">
+<dt id="trusspy.core.element.Element">
+<em class="property">class </em><code class="sig-prename descclassname">trusspy.core.element.</code><code class="sig-name descname">Element</code><span class="sig-paren">(</span><em class="sig-param">label, conn, elem_type=1, mat_type=1, material_properties=[nan], geometric_properties=[nan], mprop=None, gprop=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/core/element.html#Element"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.core.element.Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Element class.</p>
+<dl class="simple">
+<dt>label<span class="classifier">int</span></dt><dd><p>Element ID number</p>
+</dd>
+<dt>conn<span class="classifier">array_like</span></dt><dd><p>List of Element connectivity : <cite>[Node 1, Node 2]</cite></p>
+</dd>
+<dt>elem_type<span class="classifier">int, optional</span></dt><dd><p>Element Type. (default is 1 for truss)</p>
+</dd>
+<dt>mat_type<span class="classifier">int, optional</span></dt><dd><p>Material Type. (default is 1 for linear-elastic)</p>
+</dd>
+<dt>material_properties<span class="classifier">array_like, optional</span></dt><dd><p>List with material parameters,
+e.g. [Young’s modulus, Thermal expansion coefficient] (default is [])</p>
+</dd>
+<dt>geometric_properties<span class="classifier">array_like, optional</span></dt><dd><p>List with geometric parameters,
+e.g. [Section area] (default is [])</p>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.label">
+<code class="sig-name descname">label</code><a class="headerlink" href="#trusspy.core.element.Element.label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element ID number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.conn">
+<code class="sig-name descname">conn</code><a class="headerlink" href="#trusspy.core.element.Element.conn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Array containing Element connectivity : <cite>[Node 1, Node 2]</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.elem_type">
+<code class="sig-name descname">elem_type</code><a class="headerlink" href="#trusspy.core.element.Element.elem_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Element Type. (default is 1 for truss)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.mat_type">
+<code class="sig-name descname">mat_type</code><a class="headerlink" href="#trusspy.core.element.Element.mat_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Material Type. (default is 1 for linear-elastic)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.material_properties">
+<code class="sig-name descname">material_properties</code><a class="headerlink" href="#trusspy.core.element.Element.material_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>List with material parameters,
+e.g. [Young’s modulus, Thermal expansion coefficient] (default is [])</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>array_like, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.core.element.Element.geometric_proerties">
+<code class="sig-name descname">geometric_proerties</code><a class="headerlink" href="#trusspy.core.element.Element.geometric_proerties" title="Permalink to this definition">¶</a></dt>
+<dd><p>List with geometric parameters,
+e.g. [Section area] (default is [])</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>array_like, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

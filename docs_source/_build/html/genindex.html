@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Index &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/genindex.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="usage/install.html">Get it</a></li>
+    <li><a href="usage/getting_started.html">Quickstart</a></li>
+    <li><a href="theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="index.html">
+      <img src="_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="#" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Home</a>&#160;|</li>
+        <li><a href="usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.add_bound_T">add_bound_T() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.add_bound_U">add_bound_U() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.add_bound_U_matrix">add_bound_U_matrix() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.add_bounds_T">add_bounds_T() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.add_bounds_U">add_bounds_U() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.add_element">add_element() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.add_element_matrix">add_element_matrix() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.add_elements">add_elements() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler.add_force">add_force() (trusspy.handlers.handler_extforce.ExternalForceHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler.add_force_matrix">add_force_matrix() (trusspy.handlers.handler_extforce.ExternalForceHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler.add_forces">add_forces() (trusspy.handlers.handler_extforce.ExternalForceHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.add_increment">add_increment() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler.add_node">add_node() (trusspy.handlers.handler_node.NodeHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler.add_node_matrix">add_node_matrix() (trusspy.handlers.handler_node.NodeHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler.add_nodes">add_nodes() (trusspy.handlers.handler_node.NodeHandler method)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis">Analysis (class in trusspy.core.analysis)</a>
+
+      <ul>
+        <li><a href="api/trusspy.model.html#trusspy.model.Model.Analysis">(trusspy.model.Model attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.Arrow3D">Arrow3D (class in trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.assign_etype">assign_etype() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.assign_geometry">assign_geometry() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.assign_material">assign_material() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.assign_mtype">assign_mtype() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.Boundaries">Boundaries (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler">BoundaryHandler (class in trusspy.handlers.handler_boundary)</a>
+</li>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryT">BoundaryT (class in trusspy.core.boundary)</a>
+</li>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryU">BoundaryU (class in trusspy.core.boundary)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.build">build() (trusspy.core.analysis.Analysis method)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.build">(trusspy.core.result.Result method)</a>
+</li>
+        <li><a href="api/trusspy.model.html#trusspy.model.Model.build">(trusspy.model.Model method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.build_result">build_result() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.conn">conn (trusspy.core.element.Element attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.node.html#trusspy.core.node.Node.coord">coord (trusspy.core.node.Node attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.copy_increment">copy_increment() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.del_bound_U">del_bound_U() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.del_element">del_element() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler.del_force">del_force() (trusspy.handlers.handler_extforce.ExternalForceHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler.del_node">del_node() (trusspy.handlers.handler_node.NodeHandler method)</a>
+</li>
+      <li><a href="api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.dfdx">dfdx() (in module trusspy.solvers.tpsolver)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.DOF0">DOF0 (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.DOF1">DOF1 (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.Arrow3D.draw">draw() (trusspy.tools.helper_functions2.Arrow3D method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.duplicate_first_increment">duplicate_first_increment() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+      <li><a href="api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.dxmax_control">dxmax_control() (in module trusspy.solvers.tpsolver)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.elem_type">elem_type (trusspy.core.element.Element attribute)</a>
+</li>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element">Element (class in trusspy.core.element)</a>
+</li>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryT.element">element (trusspy.core.boundary.BoundaryT attribute)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.element_force">element_force (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.element_force">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.element_stress">element_stress (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.element_stress0">element_stress0 (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler">ElementHandler (class in trusspy.handlers.handler_element)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.Elements">Elements (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.equilibrium">equilibrium() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.core.external_force.html#trusspy.core.external_force.ExternalForce">ExternalForce (class in trusspy.core.external_force)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler">ExternalForceHandler (class in trusspy.handlers.handler_extforce)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.ExtForces">ExtForces (trusspy.model.Model attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.f">f() (in module trusspy.solvers.tpsolver)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.file">file (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler.fix_bounds_U">fix_bounds_U() (trusspy.handlers.handler_boundary.BoundaryHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler.fix_forces">fix_forces() (trusspy.handlers.handler_extforce.ExternalForceHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler.fix_nodes">fix_nodes() (trusspy.handlers.handler_node.NodeHandler method)</a>
+</li>
+      <li><a href="api/trusspy.core.external_force.html#trusspy.core.external_force.ExternalForce.force">force (trusspy.core.external_force.ExternalForce attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.g">g (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.g">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.geometric_proerties">geometric_proerties (trusspy.core.element.Element attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.get_element_type">get_element_type() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.get_geometric_properties">get_geometric_properties() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.get_material_properties">get_material_properties() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.get_material_type">get_material_type() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.get_nodes">get_nodes() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.get_r">get_r() (trusspy.core.analysis.Analysis method)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.get_r">(trusspy.core.result.Result method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.get_result">get_result() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.get_U">get_U() (trusspy.core.analysis.Analysis method)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.get_U">(trusspy.core.result.Result method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.K">K (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.K">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.label">label (trusspy.core.element.Element attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.node.html#trusspy.core.node.Node.label">(trusspy.core.node.Node attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.misc.license_info.html#trusspy.misc.license_info.licen">licen() (in module trusspy.misc.license_info)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.log">log (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.logfile">logfile (trusspy.model.Model attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.mat_type">mat_type (trusspy.core.element.Element attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.element.html#trusspy.core.element.Element.material_properties">material_properties (trusspy.core.element.Element attribute)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model">Model (class in trusspy.model)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.NA">NA() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler.NE">NE() (trusspy.handlers.handler_element.ElementHandler method)</a>
+</li>
+      <li><a href="api/trusspy.solvers.zerosearch.html#trusspy.solvers.zerosearch.newton">newton() (in module trusspy.solvers.zerosearch)</a>
+</li>
+      <li><a href="api/trusspy.core.node.html#trusspy.core.node.Node">Node (class in trusspy.core.node)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryU.node">node (trusspy.core.boundary.BoundaryU attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.external_force.html#trusspy.core.external_force.ExternalForce.node">(trusspy.core.external_force.ExternalForce attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler">NodeHandler (class in trusspy.handlers.handler_node)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.Nodes">Nodes (trusspy.model.Model attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_elements">p_elements() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_extforces">p_extforces() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_history">p_history() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_model">p_model() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_movie">p_movie() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_nodes">p_nodes() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_path">p_path() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#trusspy.tools.plot_utilities.p_show">p_show() (in module trusspy.tools.plot_utilities)</a>
+</li>
+      <li><a href="api/trusspy.solvers.tpsolver.html#trusspy.solvers.tpsolver.pathfollow">pathfollow() (in module trusspy.solvers.tpsolver)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_coord">plot_coord() (in module trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_elems">plot_elems() (in module trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_force">plot_force() (in module trusspy.tools.helper_functions2)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_hist">plot_hist() (in module trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plot_history">plot_history() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plot_model">plot_model() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plot_movie">plot_movie() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_nodes">plot_nodes() (in module trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plot_path">plot_path() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#trusspy.tools.helper_functions2.plot_pth">plot_pth() (in module trusspy.tools.helper_functions2)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plot_show">plot_show() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plt_elements">plt_elements() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plt_extforces">plt_extforces() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.plt_nodes">plt_nodes() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.tools.movie_generator.html#trusspy.tools.movie_generator.png_to_gif">png_to_gif() (in module trusspy.tools.movie_generator)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.r">r (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.r">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler.remove_last_increment">remove_last_increment() (trusspy.handlers.handler_result.ResultHandler method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result">Result (class in trusspy.core.result)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler">ResultHandler (class in trusspy.handlers.handler_result)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.Results">Results (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.run">run() (trusspy.model.Model method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.Settings">Settings (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_settings.html#trusspy.handlers.handler_settings.SettingsHandler">SettingsHandler (class in trusspy.handlers.handler_settings)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.state_v">state_v (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.state_v">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.stdout">stdout (trusspy.model.Model attribute)</a>
+</li>
+      <li><a href="api/trusspy.model.html#trusspy.model.Model.stiffness">stiffness() (trusspy.model.Model method)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.stretch">stretch (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.stretch">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.elements.element_definition.html#trusspy.elements.element_definition.truss">truss() (in module trusspy.elements.element_definition)</a>
+</li>
+      <li><a href="api/trusspy.html#module-trusspy">trusspy (module)</a>
+</li>
+      <li><a href="api/trusspy.core.html#module-trusspy.core">trusspy.core (module)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#module-trusspy.core.analysis">trusspy.core.analysis (module)</a>
+</li>
+      <li><a href="api/trusspy.core.boundary.html#module-trusspy.core.boundary">trusspy.core.boundary (module)</a>
+</li>
+      <li><a href="api/trusspy.core.element.html#module-trusspy.core.element">trusspy.core.element (module)</a>
+</li>
+      <li><a href="api/trusspy.core.external_force.html#module-trusspy.core.external_force">trusspy.core.external_force (module)</a>
+</li>
+      <li><a href="api/trusspy.core.node.html#module-trusspy.core.node">trusspy.core.node (module)</a>
+</li>
+      <li><a href="api/trusspy.core.result.html#module-trusspy.core.result">trusspy.core.result (module)</a>
+</li>
+      <li><a href="api/trusspy.elements.html#module-trusspy.elements">trusspy.elements (module)</a>
+</li>
+      <li><a href="api/trusspy.elements.element_definition.html#module-trusspy.elements.element_definition">trusspy.elements.element_definition (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.html#module-trusspy.handlers">trusspy.handlers (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_boundary.html#module-trusspy.handlers.handler_boundary">trusspy.handlers.handler_boundary (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_element.html#module-trusspy.handlers.handler_element">trusspy.handlers.handler_element (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_extforce.html#module-trusspy.handlers.handler_extforce">trusspy.handlers.handler_extforce (module)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.handlers.handler_node.html#module-trusspy.handlers.handler_node">trusspy.handlers.handler_node (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_result.html#module-trusspy.handlers.handler_result">trusspy.handlers.handler_result (module)</a>
+</li>
+      <li><a href="api/trusspy.handlers.handler_settings.html#module-trusspy.handlers.handler_settings">trusspy.handlers.handler_settings (module)</a>
+</li>
+      <li><a href="api/trusspy.materials.html#module-trusspy.materials">trusspy.materials (module)</a>
+</li>
+      <li><a href="api/trusspy.materials.material_definition.html#module-trusspy.materials.material_definition">trusspy.materials.material_definition (module)</a>
+</li>
+      <li><a href="api/trusspy.misc.html#module-trusspy.misc">trusspy.misc (module)</a>
+</li>
+      <li><a href="api/trusspy.misc.license_info.html#module-trusspy.misc.license_info">trusspy.misc.license_info (module)</a>
+</li>
+      <li><a href="api/trusspy.model.html#module-trusspy.model">trusspy.model (module)</a>
+</li>
+      <li><a href="api/trusspy.solvers.html#module-trusspy.solvers">trusspy.solvers (module)</a>
+</li>
+      <li><a href="api/trusspy.solvers.tpsolver.html#module-trusspy.solvers.tpsolver">trusspy.solvers.tpsolver (module)</a>
+</li>
+      <li><a href="api/trusspy.solvers.zerosearch.html#module-trusspy.solvers.zerosearch">trusspy.solvers.zerosearch (module)</a>
+</li>
+      <li><a href="api/trusspy.tools.html#module-trusspy.tools">trusspy.tools (module)</a>
+</li>
+      <li><a href="api/trusspy.tools.helper_functions2.html#module-trusspy.tools.helper_functions2">trusspy.tools.helper_functions2 (module)</a>
+</li>
+      <li><a href="api/trusspy.tools.movie_generator.html#module-trusspy.tools.movie_generator">trusspy.tools.movie_generator (module)</a>
+</li>
+      <li><a href="api/trusspy.tools.plot_utilities.html#module-trusspy.tools.plot_utilities">trusspy.tools.plot_utilities (module)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.U">U (trusspy.core.analysis.Analysis attribute)</a>
+
+      <ul>
+        <li><a href="api/trusspy.core.result.html#trusspy.core.result.Result.U">(trusspy.core.result.Result attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.U0">U0 (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.materials.material_definition.html#trusspy.materials.material_definition.umat_el">umat_el() (in module trusspy.materials.material_definition)</a>
+</li>
+      <li><a href="api/trusspy.materials.material_definition.html#trusspy.materials.material_definition.umat_elplast_iso">umat_elplast_iso() (in module trusspy.materials.material_definition)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.Ured">Ured (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryT.value">value (trusspy.core.boundary.BoundaryT attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.core.boundary.html#trusspy.core.boundary.BoundaryU.values">values (trusspy.core.boundary.BoundaryU attribute)</a>
+</li>
+      <li><a href="api/trusspy.core.analysis.html#trusspy.core.analysis.Analysis.Vred">Vred (trusspy.core.analysis.Analysis attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/trusspy.misc.license_info.html#trusspy.misc.license_info.warran">warran() (in module trusspy.misc.license_info)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="#" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Home</a>&#160;|</li>
+        <li><a href="usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

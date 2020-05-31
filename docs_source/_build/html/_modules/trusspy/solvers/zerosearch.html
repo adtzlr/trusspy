@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>trusspy.solvers.zerosearch &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../../../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/_modules/trusspy/solvers/zerosearch.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../../../index.html">Home</a></li>
+    <li><a href="../../../usage/install.html">Get it</a></li>
+    <li><a href="../../../usage/getting_started.html">Quickstart</a></li>
+    <li><a href="../../../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../../../index.html">
+      <img src="../../../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Home</a>&#160;|</li>
+        <li><a href="../../../usage/getting_started.html">Quickstart</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for trusspy.solvers.zerosearch</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Jul 30 17:36:41 2018</span>
+
+<span class="sd">@author: adutz</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">solve</span><span class="p">,</span><span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">spsolve</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span><span class="n">csc_matrix</span>
+<span class="c1">#from numba import jit</span>
+
+<div class="viewcode-block" id="newton"><a class="viewcode-back" href="../../../api/trusspy.solvers.zerosearch.html#trusspy.solvers.zerosearch.newton">[docs]</a><span class="k">def</span> <span class="nf">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">dfdx</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">nfev</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="n">ftol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the roots of a function using the Newton-Rhapson algorithm.</span>
+<span class="sd">    </span>
+<span class="sd">    Find the roots of the (non-linear) equations `f` given a starting</span>
+<span class="sd">    estimate x. The derivative `dfdx`of `f` w.r.t. `x` has to be provided by the</span>
+<span class="sd">    user. Iteration loop stops after maximum number of function</span>
+<span class="sd">    evaluations is reached (default: `nfev=8`). Default tolerance is</span>
+<span class="sd">    8 digits for vector norm of function residual and 8 digits for</span>
+<span class="sd">    vector norm of incremental dx. If both tolerances are reached then</span>
+<span class="sd">    the loop ends and the `success` flag becomes `True`. Return the roots of the</span>
+<span class="sd">    (non-linear) equations defined by ``f(x) = 0`` given a starting estimate.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    f : ndarray</span>
+<span class="sd">        1D Vectorized function to minimize which depends on vector `x`</span>
+<span class="sd">    dfdx : ndarray</span>
+<span class="sd">        2D Derivative of function w.r.t. `x`</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        1D Initial solution vector</span>
+<span class="sd">    nfev : int, optional</span>
+<span class="sd">        Maximum number of newton iterations (default is 8)</span>
+<span class="sd">    ftol : float, optional</span>
+<span class="sd">        Tolerance for residual of function: `norm(f)` (default is 1e-8)</span>
+<span class="sd">    xtol : float, optional</span>
+<span class="sd">        Tolerance for residual of `x`: `norm(x)` (default is 1e-8)</span>
+<span class="sd">    verbose : int, optional</span>
+<span class="sd">        Level of information during iterations (default is 0): </span>
+<span class="sd">        `verbose=0` ... no information, </span>
+<span class="sd">        `verbose=1` ... print `iteration number`, `norm(f)`, `norm(x)`</span>
+<span class="sd">    arg s: tuple, optional</span>
+<span class="sd">        pass arbitrary number of additional variables </span>
+<span class="sd">        to function and derivative</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x : ndarray</span>
+<span class="sd">        final solution</span>
+<span class="sd">    success : bool</span>
+<span class="sd">        &#39;True&#39; if valid solution found, &#39;False&#39; if not converged</span>
+<span class="sd">    n : int</span>
+<span class="sd">        number of function iterations</span>
+<span class="sd">    f_norm : float</span>
+<span class="sd">        norm(f)</span>
+<span class="sd">    x_norm : float</span>
+<span class="sd">        norm(x)</span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; def f(x, a):</span>
+<span class="sd">    ...     return np.array([a*x[0]**3-1])</span>
+<span class="sd">    &gt;&gt;&gt; def dfdx(x, a):</span>
+<span class="sd">    ...     return np.array([a*3*x[0]**2])</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; x0 = np.array([1.5])</span>
+<span class="sd">    &gt;&gt;&gt; a = 2</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; from trusspy.solvers import newton</span>
+<span class="sd">    &gt;&gt;&gt; x,success,ntot,f_norm,x_norm = newton(f, dfdx, x0, 8, 1e-8, 1e-8, 0, a)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; x</span>
+<span class="sd">    array([0.79370053])</span>
+<span class="sd">    &gt;&gt;&gt; success</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; ntot</span>
+<span class="sd">    6</span>
+<span class="sd">    &gt;&gt;&gt; f_norm &lt;= 1e-8</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; x_norm &lt;= 1e-8</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+    
+    <span class="c1"># NEWTON-RHAPSON ITERATIONS</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nfev</span><span class="p">):</span>
+        <span class="c1">#dx = -np.linalg.inv(dfdx(x,j,xmax))@f(x,j,xmax)</span>
+        
+        <span class="c1"># DIRECT SPARSE SOLVER with cs&quot;r&quot; &quot;R&quot;ow optimized sparse matrix</span>
+        <span class="c1">#print(&#39;x&#39;, x)</span>
+        <span class="c1">#print(&#39;xmax&#39;, args[2])</span>
+        <span class="c1">#print(&#39;f&#39;, f(x,*args))</span>
+        <span class="c1">#print(&#39;dfdx&#39;, dfdx(x,*args))</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">spsolve</span><span class="p">(</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">dfdx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)),</span><span class="o">-</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+        <span class="c1">#print(&#39;dx&#39;, dx[:3])</span>
+        
+        <span class="c1"># DENSE SOLVER</span>
+        <span class="c1">#dx = solve(dfdx(x,*args),-f(x,*args))</span>
+        
+        <span class="c1"># UPDATE SOLUTION</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">dx</span>
+        
+        <span class="c1"># CHECK IF EQUILIBRUM FOUND</span>
+        <span class="n">f_norm</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">x_norm</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+            <span class="c1">#print(&#39;        {0:2d}          |{1:1.3e} {2:1.3e}|           |           |           |&#39;.format(</span>
+            <span class="c1">#      n,f_norm,x_norm))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|     |  </span><span class="si">{0:2d}</span><span class="s1">  |       |</span><span class="si">{1:1.3e}</span><span class="s1">|    |        |    |        |    |        |&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">f_norm</span><span class="p">))</span>
+            <span class="c1">#print(&#39;+---+------+-------+---------+-----------+-----------+-----------+-----------+&#39;)</span>
+            
+        <span class="k">if</span> <span class="p">(</span><span class="n">f_norm</span> <span class="o">&lt;</span> <span class="n">ftol</span> <span class="ow">and</span> <span class="n">x_norm</span> <span class="o">&lt;</span> <span class="n">xtol</span><span class="p">):</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
+            
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">success</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">f_norm</span><span class="p">,</span><span class="n">x_norm</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Home</a>&#160;|</li>
+        <li><a href="../../../usage/getting_started.html">Quickstart</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

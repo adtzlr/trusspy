@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>trusspy.model module &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/api/trusspy.model.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../usage/install.html">Get it</a></li>
+    <li><a href="../usage/getting_started.html">Quickstart</a></li>
+    <li><a href="../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../index.html">
+      <img src="../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-trusspy.model">
+<span id="trusspy-model-module"></span><h1>trusspy.model module<a class="headerlink" href="#module-trusspy.model" title="Permalink to this headline">¶</a></h1>
+<p>Created on Wed Jun 27 21:08:10 2018</p>
+<p>&#64;author: adutz</p>
+<blockquote>
+<div><p>TrussPy - Object Oriented Truss Solver for Python
+Copyright (C) 2018  Andreas Dutzler</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+</div></blockquote>
+<dl class="class">
+<dt id="trusspy.model.Model">
+<em class="property">class </em><code class="sig-prename descclassname">trusspy.model.</code><code class="sig-name descname">Model</code><span class="sig-paren">(</span><em class="sig-param">file=None</em>, <em class="sig-param">log=2</em>, <em class="sig-param">logfile=False</em>, <em class="sig-param">logfile_name='analysis'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Model Class with Nodes, Elements, Boundaries, etc.</p>
+<dl class="attribute">
+<dt id="trusspy.model.Model.stdout">
+<code class="sig-name descname">stdout</code><a class="headerlink" href="#trusspy.model.Model.stdout" title="Permalink to this definition">¶</a></dt>
+<dd><p>get current stdout</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>sys.stdout</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.file">
+<code class="sig-name descname">file</code><a class="headerlink" href="#trusspy.model.Model.file" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of input file (default is None)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>None or str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.log">
+<code class="sig-name descname">log</code><a class="headerlink" href="#trusspy.model.Model.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Level of collecting logging informations during analysis.
+Higher numbers will collect more informations (default is 2).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.logfile">
+<code class="sig-name descname">logfile</code><a class="headerlink" href="#trusspy.model.Model.logfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>flag for logfile creation (default is True)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Nodes">
+<code class="sig-name descname">Nodes</code><a class="headerlink" href="#trusspy.model.Model.Nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all nodes inside the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_node.html#trusspy.handlers.handler_node.NodeHandler" title="trusspy.handlers.handler_node.NodeHandler">NodeHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Elements">
+<code class="sig-name descname">Elements</code><a class="headerlink" href="#trusspy.model.Model.Elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all elements inside the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_element.html#trusspy.handlers.handler_element.ElementHandler" title="trusspy.handlers.handler_element.ElementHandler">ElementHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Boundaries">
+<code class="sig-name descname">Boundaries</code><a class="headerlink" href="#trusspy.model.Model.Boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all boundaries inside the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_boundary.html#trusspy.handlers.handler_boundary.BoundaryHandler" title="trusspy.handlers.handler_boundary.BoundaryHandler">BoundaryHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.ExtForces">
+<code class="sig-name descname">ExtForces</code><a class="headerlink" href="#trusspy.model.Model.ExtForces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all external forces inside the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_extforce.html#trusspy.handlers.handler_extforce.ExternalForceHandler" title="trusspy.handlers.handler_extforce.ExternalForceHandler">ExternalForceHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Analysis">
+<code class="sig-name descname">Analysis</code><a class="headerlink" href="#trusspy.model.Model.Analysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all data for one increment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>AnalysisHandler</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Results">
+<code class="sig-name descname">Results</code><a class="headerlink" href="#trusspy.model.Model.Results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all result data inside the model.
+A collection of all converged analysis solutions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_result.html#trusspy.handlers.handler_result.ResultHandler" title="trusspy.handlers.handler_result.ResultHandler">ResultHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="trusspy.model.Model.Settings">
+<code class="sig-name descname">Settings</code><a class="headerlink" href="#trusspy.model.Model.Settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles all model parameters inside the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="trusspy.handlers.handler_settings.html#trusspy.handlers.handler_settings.SettingsHandler" title="trusspy.handlers.handler_settings.SettingsHandler">SettingsHandler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.build" title="Permalink to this definition">¶</a></dt>
+<dd><p>build Model (r,U,K,…) with Model data and dimensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.equilibrium">
+<code class="sig-name descname">equilibrium</code><span class="sig-paren">(</span><em class="sig-param">Ured</em>, <em class="sig-param">U0red</em>, <em class="sig-param">stage='G'</em>, <em class="sig-param">analysis=None</em>, <em class="sig-param">statev_write=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.equilibrium"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.equilibrium" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to generate equilibrium for given displacements and external forces.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plot_history">
+<code class="sig-name descname">plot_history</code><span class="sig-paren">(</span><em class="sig-param">nodes=[1, 1], increments=None, X='Displacement X', Y='LPF', fig=None, ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plot_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plot_history" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plot_model">
+<code class="sig-name descname">plot_model</code><span class="sig-paren">(</span><em class="sig-param">config='both'</em>, <em class="sig-param">view='xz'</em>, <em class="sig-param">contour=None</em>, <em class="sig-param">lim_scale=1.2</em>, <em class="sig-param">force_scale=0.5</em>, <em class="sig-param">nodesize=10</em>, <em class="sig-param">cbar_limits='auto'</em>, <em class="sig-param">inc=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plot_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plot_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plot_movie">
+<code class="sig-name descname">plot_movie</code><span class="sig-paren">(</span><em class="sig-param">config='both'</em>, <em class="sig-param">view='xz'</em>, <em class="sig-param">contour=None</em>, <em class="sig-param">lim_scale=1.2</em>, <em class="sig-param">force_scale=0.5</em>, <em class="sig-param">nodesize=10</em>, <em class="sig-param">cbar_limits='auto'</em>, <em class="sig-param">incs='all'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plot_movie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plot_movie" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plot_path">
+<code class="sig-name descname">plot_path</code><span class="sig-paren">(</span><em class="sig-param">nodepath=[1], increment=-1, Y='Displacement X', fig=None, ax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plot_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plot_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plot_show">
+<code class="sig-name descname">plot_show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plot_show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plot_show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plt_elements">
+<code class="sig-name descname">plt_elements</code><span class="sig-paren">(</span><em class="sig-param">config='undeformed'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plt_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plt_elements" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plt_extforces">
+<code class="sig-name descname">plt_extforces</code><span class="sig-paren">(</span><em class="sig-param">config='undeformed'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plt_extforces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plt_extforces" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.plt_nodes">
+<code class="sig-name descname">plt_nodes</code><span class="sig-paren">(</span><em class="sig-param">config='undeformed'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.plt_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.plt_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run job.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="trusspy.model.Model.stiffness">
+<code class="sig-name descname">stiffness</code><span class="sig-paren">(</span><em class="sig-param">Ured</em>, <em class="sig-param">analysis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/model.html#Model.stiffness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.model.Model.stiffness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method for Stiffness Matrix.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

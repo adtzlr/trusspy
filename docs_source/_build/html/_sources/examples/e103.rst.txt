@@ -1,0 +1,168 @@
+Example 103 "Zweibock" (with imperfection)
+==========================================
+
+This model contains two trusses and three nodes. The left and right end nodes are fixed, whereas on the top middle node a reference force is applied in negative z-direction. A second version contains 2 DOF (x,z at node 2) with a geometric imperfection at node 2.
+
+No imperfection
+---------------
+
+..  figure:: data_e103/model1_undeformed.*
+    :scale: 100%
+    :align: center
+    :alt: The undeformed configuration of the Model
+    
+    The undeformed configuration of the Model
+    
+The model may be generated with the following code and is shown in the undeformed state.
+
+..  code:: python
+    
+    import trusspy as tp
+
+    M1 = tp.Model(logfile=False)
+
+    with M1.Nodes as MN:
+        MN.add_node( 1, coord=( 0, 0, 0))
+        MN.add_node( 2, coord=( 1, 0, 3))
+        MN.add_node( 3, coord=( 2, 0, 0))
+
+    with M1.Elements as ME:
+        ME.add_element( 1, conn=(1,2), gprop=[1] )
+        ME.add_element( 2 ,conn=(2,3), gprop=[1] )
+        
+        E = 1     # elastic modulus
+        ME.assign_material( 'all', [E])
+        
+    with M1.Boundaries as MB:
+        MB.add_bound_U( 1, (0,0,0) )
+        MB.add_bound_U( 2, (0,0,1) )
+        MB.add_bound_U( 3, (0,0,0) )
+        
+    with M1.ExtForces as MF:
+        MF.add_force( 2, ( 0, 0,-1) )
+        
+    M1.Settings.incs = 150
+    M1.Settings.du = 0.01
+    M1.Settings.dlpf = 0.01
+    M1.Settings.xlimit = (1,10)
+    M1.Settings.dlpf
+    M1.Settings.stepcontrol = True
+    M1.Settings.maxfac = 10
+        
+The calculation of the deformation process is started by calling the `build()` and `run()` methods.
+
+..  code:: python
+
+    M1.build()
+    M1.run()
+
+    fig, ax = M1.plot_model(config=['undeformed'],inc=0)
+    fig, ax = M1.plot_model(config=['undeformed','deformed'],
+                           view='xz',
+                           contour='force',
+                           force_scale=2,
+                           inc=20
+                          )
+
+    fig1, ax1 = M1.plot_history(nodes=[2,2],X='Displacement X',Y='Displacement Z')
+    fig2, ax2 = M1.plot_history(nodes=[2,2],X='Displacement Z',Y='LPF')
+        
+..  figure:: data_e103/model1_deformed.*
+    :scale: 100%
+    :align: center
+    :alt: The deformed configuration of the Model
+    
+    The deformed configuration of the Model
+    
+Geometric imperfection
+----------------------
+    
+Let's re-run the model with a geometric imperfection at node 2 (misalignment `dx=0.1`). Results are plotted for Node 2 as a History Plot of z-displacement vs. LPF and x-displacement vs. z-displacement.
+
+..  figure:: data_e103/model2_undeformed.*
+    :scale: 100%
+    :align: center
+    :alt: The undeformed configuration of the Model with geometric imperfection
+    
+    The deformed configuration of the Model with geometric imperfection
+
+..  code:: python
+
+    M2 = tp.Model(logfile=False)
+
+    with M2.Nodes as MN:
+        MN.add_node( 1, coord=( 0, 0, 0))
+        MN.add_node( 2, coord=( 1.1, 0, 3))
+        MN.add_node( 3, coord=( 2, 0, 0))
+
+    with M2.Elements as ME:
+        ME.add_element( 1, conn=(1,2), gprop=[1] )
+        ME.add_element( 2 ,conn=(2,3), gprop=[1] )
+        
+        E = 1     # elastic modulus
+        ME.assign_material( 'all', [E])
+        
+    with M2.Boundaries as MB:
+        MB.add_bound_U( 1, (0,0,0) )
+        MB.add_bound_U( 2, (1,0,1) )
+        MB.add_bound_U( 3, (0,0,0) )
+        
+    with M2.ExtForces as MF:
+        MF.add_force( 2, ( 0, 0,-1) )
+
+    M2.Settings.incs = 150
+    M2.Settings.du = 0.01
+    M2.Settings.dlpf = 0.01
+    M2.Settings.xlimit = (2,10)
+    M2.Settings.dlpf
+    M2.Settings.stepcontrol = True
+    M2.Settings.maxfac = 10
+
+    M2.build()
+    M2.run()
+
+    fig, ax = M2.plot_model(config=['undeformed'],lim_scale=(-1,4,-1,4),inc=0)
+    fig, ax = M2.plot_model(config=['undeformed','deformed'],
+                           view='xz',
+                           contour='force',
+                           lim_scale=(-1,4,-1,4),
+                           force_scale=10,
+                           inc=40
+                          )
+        
+    fig2, ax2 = M2.plot_history(nodes=[2,2],X='Displacement Z',Y='LPF',fig=fig2,ax=ax2)
+    ax2.legend(['Node 2: basic model (nDOF=1)','Node 2: imperfection (nDOF=2)'])
+
+    fig1, ax1 = M2.plot_history(nodes=[2,2],X='Displacement X',Y='Displacement Z',fig=fig1,ax=ax1)
+    ax1.legend(['Node 2: basic model (nDOF=1)','Node 2: imperfection (nDOF=2)'])
+    
+..  figure:: data_e103/model2_deformed.*
+    :scale: 100%
+    :align: center
+    :alt: The deformed configuration of the Model with geometric imperfection
+    
+    The deformed configuration of the Model with geometric imperfection
+    
+
+..  figure:: data_e103/history_node2_DispZ-LPF.*
+    :scale: 100%
+    :align: center
+    :alt: Displacement Z vs. LPF for Node 2
+    
+    Displacement Z vs. LPF for Node 2
+
+..  figure:: data_e103/history_node2_DispX-DispZ.*
+    :scale: 100%
+    :align: center
+    :alt: Displacement Z vs. LPF for Node 2
+    
+    Displacement X vs. Displacement Z for Node 2
+    
+..  figure:: data_e103/model2_movie.gif
+    :width: 75%
+    :align: center
+    :alt: Animation of the deformation process for the Model with geometric imperfection
+    
+    Animation of the deformation process for the Model with geometric imperfection
+     
+     

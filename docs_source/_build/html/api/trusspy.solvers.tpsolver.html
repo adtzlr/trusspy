@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>trusspy.solvers.tpsolver module &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/api/trusspy.solvers.tpsolver.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../usage/install.html">Get it</a></li>
+    <li><a href="../usage/getting_started.html">Quickstart</a></li>
+    <li><a href="../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../index.html">
+      <img src="../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-trusspy.solvers.tpsolver">
+<span id="trusspy-solvers-tpsolver-module"></span><h1>trusspy.solvers.tpsolver module<a class="headerlink" href="#module-trusspy.solvers.tpsolver" title="Permalink to this headline">¶</a></h1>
+<p>Created on Mon Jul 30 17:36:41 2018</p>
+<p>&#64;author: adutz</p>
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.dfdx">
+<code class="sig-prename descclassname">trusspy.solvers.tpsolver.</code><code class="sig-name descname">dfdx</code><span class="sig-paren">(</span><em class="sig-param">Vred</em>, <em class="sig-param">V0red</em>, <em class="sig-param">j</em>, <em class="sig-param">Vmax</em>, <em class="sig-param">equilibrium</em>, <em class="sig-param">stiffness</em>, <em class="sig-param">analysis=None</em>, <em class="sig-param">statev_write=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#dfdx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.dfdx" title="Permalink to this definition">¶</a></dt>
+<dd><p>stiffness matrix, extended to (nDOF+1,nDOF+1)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.dxmax_control">
+<code class="sig-prename descclassname">trusspy.solvers.tpsolver.</code><code class="sig-name descname">dxmax_control</code><span class="sig-paren">(</span><em class="sig-param">dxmax</em>, <em class="sig-param">dxmax0</em>, <em class="sig-param">j</em>, <em class="sig-param">j0</em>, <em class="sig-param">z</em>, <em class="sig-param">cycl</em>, <em class="sig-param">nr_success</em>, <em class="sig-param">b</em>, <em class="sig-param">n</em>, <em class="sig-param">nfev</em>, <em class="sig-param">minfac=1e-06</em>, <em class="sig-param">maxfac=10</em>, <em class="sig-param">reduce=8.0</em>, <em class="sig-param">increase=0.5</em>, <em class="sig-param">verbose=2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#dxmax_control"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.dxmax_control" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatic control for incremental limit of system vector x. Based on the
+success of the nonlinear solution process the incremental limit will be
+either increased or decreased. If the newton iterations in the current inc.
+converged and the last 3 increments were successful (without any recycle)
+an increase of <cite>dxmax</cite> is performed. The amount of successful increments
+before the current one is read by the parameter <cite>b</cite>. The increase factor is
+based on a constant value <cite>increase</cite> and on the convergence rate of the
+current increment. The total increase factor is calculated as
+<cite>increase_total = 1 + (nfev-n)/nfev * increase</cite>. On the other hand,
+if the current increment did not converge, <cite>dxmax</cite> will be reduced by a
+given value <cite>decrease</cite>. Both an increase and decrease is only performed
+inside the interval <cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>.</p>
+<dl class="simple">
+<dt>dxmax<span class="classifier">ndarray</span></dt><dd><p>current incremental limit of system vector x</p>
+</dd>
+<dt>dxmax0<span class="classifier">ndarray</span></dt><dd><p>initial incremental limit of system vector x</p>
+</dd>
+<dt>j<span class="classifier">int</span></dt><dd><p>current control component of x</p>
+</dd>
+<dt>j0<span class="classifier">int</span></dt><dd><p>initial control component of x (at the beginning of the inc.)</p>
+</dd>
+<dt>z<span class="classifier">int</span></dt><dd><p>number of recycles in current increment</p>
+</dd>
+<dt>cycl: int</dt><dd><p>max. number of recycles</p>
+</dd>
+<dt>nr_success<span class="classifier">bool</span></dt><dd><p>flag to check if nonlinear solution process converged</p>
+</dd>
+<dt>b<span class="classifier">int</span></dt><dd><p>number of converged increments before this increment</p>
+</dd>
+<dt>n<span class="classifier">int</span></dt><dd><p>number of newton iterations until convergence was reached</p>
+</dd>
+<dt>nfev<span class="classifier">int</span></dt><dd><p>allowed number of newton iterations</p>
+</dd>
+<dt>minfac<span class="classifier">float, optional</span></dt><dd><p>minimum factor of dxmax0 where a decrease of dxmax is performed
+(<cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>)</p>
+</dd>
+<dt>maxfac<span class="classifier">float, optional</span></dt><dd><p>minimum factor of dxmax0 where a decrease of dxmax is performed
+(<cite>minfac*dxmax0 &lt;= dxmax &lt;= maxfac*dxmax0</cite>)</p>
+</dd>
+<dt>reduce<span class="classifier">flaot, optional</span></dt><dd><p>factor do decrease dxmax if current increment did not converge.
+(<cite>dxmax= dxmax/reduce</cite>)</p>
+</dd>
+<dt>increase<span class="classifier">float, optional</span></dt><dd><p>factor do increase dxmax if current increment and the 3 increments
+before did converge.
+(<cite>dxmax = dxmax * (1 + (nfev-n)/nfev * increase)</cite>)</p>
+</dd>
+<dt>verbose<span class="classifier">int, optional</span></dt><dd><p>Level of information during iterations (default is 0):
+<cite>verbose=0,1</cite> … no information,
+<cite>verbose=2</cite>   … print dxmax changes</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>dxmax</strong> (<em>ndarray</em>) – updated incremental limit of system vector x</p></li>
+<li><p><strong>z</strong> (<em>int</em>) – updated number of recycles in current increment</p></li>
+<li><p><strong>b</strong> (<em>int</em>) – updated number of converged increments before this increment</p></li>
+<li><p><strong>dx_changed</strong> (<em>bool</em>) – flag to indicate if a change in dxmax was performed</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.f">
+<code class="sig-prename descclassname">trusspy.solvers.tpsolver.</code><code class="sig-name descname">f</code><span class="sig-paren">(</span><em class="sig-param">Vred</em>, <em class="sig-param">V0red</em>, <em class="sig-param">j</em>, <em class="sig-param">Vmax</em>, <em class="sig-param">equilibrium</em>, <em class="sig-param">stiffness</em>, <em class="sig-param">analysis=None</em>, <em class="sig-param">statev_write=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.f" title="Permalink to this definition">¶</a></dt>
+<dd><p>equilibrium function, extended to (nDOF+1)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="trusspy.solvers.tpsolver.pathfollow">
+<code class="sig-prename descclassname">trusspy.solvers.tpsolver.</code><code class="sig-name descname">pathfollow</code><span class="sig-paren">(</span><em class="sig-param">g, dgdx, x, analysis, dxmax=[0.02, 0.02], j=None, j_fixed=False, j_pre=True, xlimit=None, incs=20, nfev=8, cycl=4, ftol=1e-08, xtol=1e-08, stepcontrol=True, maxfac=10, minfac=1e-06, reduce=8, increase=1, dxtol=1.25, verbose=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/trusspy/solvers/tpsolver.html#pathfollow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trusspy.solvers.tpsolver.pathfollow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path following algorithm of a curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<em>ndarray</em>) – 1D Vectorized function to minimize which depends on vector <cite>x</cite></p></li>
+<li><p><strong>dfdx</strong> (<em>array</em>) – 2D Derivative of function w.r.t. <cite>x</cite></p></li>
+<li><p><strong>x</strong> (<em>ndarray</em>) – 1D Initial solution vector</p></li>
+<li><p><strong>analysis</strong> (<em>trusspy.core.analysis</em>) – Analysis object</p></li>
+<li><p><strong>dxmax</strong> (<em>array_like</em><em>, </em><em>optional</em>) – Maximum incremental step in Dx. Several input methods are possible.
+A single float value will assign dxmax to all components of Dx.
+A list of length 2 will control all values with dxmax[0] except
+for the last one, which is controlled by dxmax[1]. A list of length x
+assigns each component of dxmax to the corresponding component of x.
+(default is [0.02, 0.02])</p></li>
+<li><p><strong>j</strong> (<em>int</em><em>, </em><em>optional</em>) – initial control component. Limit j-th component of Dx
+during an increment (default is None which will use last
+component of Dx –&gt; LPF load component)</p></li>
+<li><p><strong>j_fixed</strong> (<em>bool</em><em>, </em><em>optional</em>) – Lock control component to initial j (default is False). If True, a
+dedicated control component j has to be specified.</p></li>
+<li><p><strong>j_pre</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use linearized solution at the beginning of each increment to determine
+the control component j. The determinant of K control the sign of j.
+(default is True)</p></li>
+<li><p><strong>x_limit</strong> (<em>list</em><em>, </em><em>optional</em>) – List of length 2 containing [j,max_value] to limit the
+loadcase execution. (default is None)</p></li>
+<li><p><strong>incs</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of increments. (default is 20)</p></li>
+<li><p><strong>nfev</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of newton iterations (default is 8)</p></li>
+<li><p><strong>cycl</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of recycles, either due to a switch in control component
+or non-converged newton step if stepsize-control is active.
+(default is 4)</p></li>
+<li><p><strong>ftol</strong> (<em>float</em><em>, </em><em>optional</em>) – Tolerance for residual of function: <cite>norm(f)</cite> (default is 1e-8)</p></li>
+<li><p><strong>xtol</strong> (<em>float</em><em>, </em><em>optional</em>) – Tolerance for residual of <cite>x</cite>: <cite>norm(x)</cite> (default is 1e-8)</p></li>
+<li><p><strong>stepcontrol</strong> (<em>bool</em><em>, </em><em>optional</em>) – Automatic adjustment of incremental stepwidth Dx. Parameters <cite>macfac</cite>,
+<cite>minfac</cite>, <cite>reduce</cite> and <cite>increase</cite> will control the adjustment. All
+components of <cite>dxmax</cite> will be increased or reduced by the same factor.
+(default is True)</p></li>
+<li><p><strong>maxfac</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum factor compared to initial dxmax. (default is 10)</p></li>
+<li><p><strong>minfac</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum factor compared to initial dxmax. (default is 1e-6)</p></li>
+<li><p><strong>reduce</strong> (<em>float</em><em>, </em><em>optional</em>) – Factor to reduce dxmax. Updating dxmax follows <cite>dxmax = dxmax/reduce</cite>.
+(default is 8)</p></li>
+<li><p><strong>increase</strong> (<em>float</em><em>, </em><em>optional</em>) – Factor to increase dxmax. To increase dxmax the total number of
+newton iterations to achieve convergence will be used. Updating dxmax
+follows <cite>dxmax = dxmax*(1+(nfev-n)/nfev * increase)</cite>.
+(default is 1)</p></li>
+<li><p><strong>dxtol</strong> (<em>float</em><em>, </em><em>optional</em>) – Allowed vvershoot factor of control component if solution has
+converged. Will help to speed-up solution and avoid unneccessary re-
+cycles. (default is 1.25)</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em>) – Level of information during iterations (default is 0):
+<cite>verbose=0</cite> … no information,
+<cite>verbose=1</cite> … print <cite>iteration number</cite>, <cite>norm(f)</cite>, <cite>norm(x)</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>res_x</strong> (<em>ndarray</em>) – 2D-array containing all valid solutions for all increments. Shape is
+<cite>res_x.shape = (incs, len(x)+1)</cite>. Result array <cite>res_x[1]</cite> contains the
+converged solution vector for the first increment. Result component
+res_x[0] contains start solution which is typically zeros.</p></li>
+<li><p><strong>res_a</strong> (<em>Analysis</em>) – Analysis Class (trusspy.core.analysis.Analysis) with converged solution.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="../usage/getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

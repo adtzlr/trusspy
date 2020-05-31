@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installation &#8212; TrussPy 2018.08 documentation</title>
+    <link rel="stylesheet" href="../_static/sphinx13.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" />
+    <link rel="prev" title="Documentation" href="../index.html" />
+    <link rel="canonical" href="http://www.sphinx-doc.org/en/master/usage/install.html" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700'
+          rel='stylesheet' type='text/css' />
+ 
+    <style type="text/css">
+      table.right { float: right; margin-left: 20px; }
+      table.right td { border: 1px solid #ccc; }
+      
+    </style>
+    <script type="text/javascript">
+      // intelligent scrolling of the sidebar content
+      $(window).scroll(function() {
+        var sb = $('.sphinxsidebarwrapper');
+        var win = $(window);
+        var sbh = sb.height();
+        var offset = $('.sphinxsidebar').position()['top'];
+        var wintop = win.scrollTop();
+        var winbot = wintop + win.innerHeight();
+        var curtop = sb.position()['top'];
+        var curbot = curtop + sbh;
+        // does sidebar fit in window?
+        if (sbh < win.innerHeight()) {
+          // yes: easy case -- always keep at the top
+          sb.css('top', $u.min([$u.max([0, wintop - offset - 10]),
+                                $(document).height() - sbh - 200]));
+        } else {
+          // no: only scroll if top/bottom edge of sidebar is at
+          // top/bottom edge of window
+          if (curtop > wintop && curbot > winbot) {
+            sb.css('top', $u.max([wintop - offset - 10, 0]));
+          } else if (curtop < wintop && curbot < winbot) {
+            sb.css('top', $u.min([winbot - sbh - offset - 20,
+                                  $(document).height() - sbh - 200]));
+          }
+        }
+      });
+    </script>
+
+  </head><body>
+<div class="pageheader">
+    <div >
+        <a href="https://github.com/adtzlr/trusspy"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png" alt="Fork me on GitHub"></a>
+    </div>
+  <ul>
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">Get it</a></li>
+    <li><a href="getting_started.html">Quickstart</a></li>
+    <li><a href="../theory/theory.html">Theory Guide</a></li>
+  </ul>
+  <div>
+    <a href="../index.html">
+      <img src="../_static/sphinxheader.png" alt="TRUSSPY" />
+    </a>
+  </div>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="next chapter">Getting Started</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-distribution">
+<h2>Python Distribution<a class="headerlink" href="#python-distribution" title="Permalink to this headline">¶</a></h2>
+<p>It is recommended to start with installing a full-featured Python-Distribution like <a class="reference external" href="https://www.anaconda.com/distribution/#download-section">Anaconda</a> (available for Windows, macOS and Linux). This will install a bunch of useful additional tools beside the basic Python installer: <a class="reference external" href="https://jupyter.org/">JupyterLab</a>, <a class="reference external" href="https://jupyter.org/">Notebook</a>, <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>, <cite>conda</cite> Environment Manager, Anaconda Navigator and all the scientific Python Packages (NumPy, SciPy, MatPlotLib, Pandas, …).</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/anaconda-download.png"><img alt="Download Anaconda" src="../_images/anaconda-download.png" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-text">Download Anaconda</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>Download and install <a class="reference external" href="https://www.anaconda.com/distribution/#download-section">Anaconda</a> (Version 3.x) for your operation system. (Help on <a class="reference external" href="https://docs.anaconda.com/anaconda/install/">Installation</a>).</p>
+</div>
+<div class="section" id="download-and-install-trusspy">
+<h2>Download and Install TrussPy<a class="headerlink" href="#download-and-install-trusspy" title="Permalink to this headline">¶</a></h2>
+<p>TrussPy is available as a package on <a class="reference external" href="https://pypi.org/project/trusspy/">PyPi</a> (the Python Package Index). The source code of the development version is published on <a class="reference external" href="https://github.com/adtzlr/trusspy">GitHub</a>. For installing TrussPy with <cite>pip</cite> open a terminal window:</p>
+<ol class="loweralpha simple">
+<li><p>Windows: From the Start menu, search for and open “Anaconda Prompt”.</p></li>
+<li><p>macOS: Open Launchpad, then click the terminal icon.</p></li>
+<li><p>Linux: Open a terminal window.</p></li>
+</ol>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/anaconda-cmd.png"><img alt="Install TrussPy" src="../_images/anaconda-cmd.png" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-text">Install TrussPy</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Inside the terminal window type</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install trusspy
+</pre></div>
+</div>
+<p>to download and install TrussPy.</p>
+</div>
+<div class="section" id="run-a-notebook">
+<h2>Run a Notebook<a class="headerlink" href="#run-a-notebook" title="Permalink to this headline">¶</a></h2>
+<p>Start Anaconda <a class="reference external" href="https://docs.anaconda.com/anaconda/navigator/getting-started/#navigator-starting-navigator">Navigator</a>, Launch <strong>Notebook</strong> from the Home Tab and wait for the Browser Window to open.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/anaconda-navigator.png"><img alt="Anaconda Navigator" src="../_images/anaconda-navigator.png" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-text">Anaconda Navigator</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<p>Navigate to a path where you would like to store the TrussPy notebooks. Create a new Notebook by clicking the <strong>New</strong> button located top right. Select <strong>Python 3</strong> from the dropdown list. The new Notebook will open in a new browser window. Each cell is executed with SHIFT-ENTER or the <strong>Run</strong> Button.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/jupyter-notebook.png"><img alt="Jupyter Notebook" src="../_images/jupyter-notebook.png" style="width: 50%;" /></a>
+<p class="caption"><span class="caption-text">Jupyter Notebook</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<p>Continue with <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a> or one of the <a class="reference internal" href="../examples/examples.html"><span class="doc">Examples</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="getting_started.html" title="Getting Started"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Documentation"
+             >previous</a> |</li>
+        <li><a href="../index.html">Home</a>&#160;|</li>
+        <li><a href="getting_started.html">Quickstart</a> &#187;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Trusspy.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>
