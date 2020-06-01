@@ -12,7 +12,7 @@ with open('README.rst') as f:
 
 setup(
     name='trusspy',
-    version='20180816-10',
+    version='20180816-11',
     description='Truss Solver for Python',
     long_description=readme,
     long_description_content_type='text/x-rst',
