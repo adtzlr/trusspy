@@ -45,7 +45,14 @@ class ElementHandler:
             labels = self.labels
         for label in labels:
             self.geometric_properties[np.where(self.labels == label)] = [gprop]
-            
+       
+    def assign_geometries(self,labels,gprops):
+        if labels =='all':
+            labels = self.labels
+        for label,gprop in zip(labels,gprops):
+            self.geometric_properties[np.where(self.labels == label)] = [gprop]
+       
+        
     def assign_etype(self,labels,elem_type):
         if labels =='all':
             labels = self.labels

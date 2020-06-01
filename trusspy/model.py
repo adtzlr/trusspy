@@ -130,8 +130,8 @@ class Model:
             sys.stdout = open(self.logfile_name+'.md', 'w')
             print(r"<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>")
             
-            
-        print("""
+        if log > 1: 
+            print("""
          _____                  ______      
         |_   _|                 | ___ \     
           | |_ __ _   _ ___ ___ | |_/ /   _ 
@@ -165,6 +165,8 @@ class Model:
         self.Settings = SettingsHandler()
         #self.Results = ResultHandler()
         #self.Analysis = Analysis()
+        
+        self.Settings.log = log
         
         if log > 1: print('    - finished.\n')
         #if log > 1: print('-'*88+'\n')
@@ -368,11 +370,14 @@ class Model:
                                      dxtol=self.Settings.dxtol,
                                      verbose=self.Settings.log)
             
-            print(r'\pagebreak')
-            print(' ')
-            print('\n### Create result object from analysis results for step {0:3d}\n'.format(1+step))
+            if self.Settings.log > 1:
+                print(r'\pagebreak')
+                print(' ')
+                print('\n### Create result object from analysis results for step {0:3d}\n'.format(1+step))
+            
             for i,(r_V,r_a) in enumerate(zip(res_V[1:],res_a[1:])):
-                print('    write result {0:3d}/{1:3d} (LPF: {2:10.4g})'.format(1+i,len(res_V[1:]),r_a.lpf))
+                if self.Settings.log > 1:
+                    print('    write result {0:3d}/{1:3d} (LPF: {2:10.4g})'.format(1+i,len(res_V[1:]),r_a.lpf))
                 self.Results.R[-1] = r_a
                 self.Results.copy_increment()
                 
@@ -398,15 +403,16 @@ class Model:
         time_dtime_run    = time.process_time()  - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
         time_dtime_build  = self.time1_build  - self.time0_build
-        print(r'\pagebreak')
-        print(' ')
-        print('\n## Job duration')
-        print('Time measurement for execution times of "Model.build()" and "Model.run()".\n')
-        print('    total  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
-        print('    total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
-        print('    total  cpu time "run":   {:10.3f} seconds'.format(time_dclock_run))
-        print('    total wall time "run":   {:10.3f} seconds\n'.format(time_dtime_run))
-        
+        if self.Settings.log > 1:
+            print(r'\pagebreak')
+            print(' ')
+            print('\n## Job duration')
+            print('Time measurement for execution times of "Model.build()" and "Model.run()".\n')
+            print('    total  cpu time "build": {:10.3f} seconds'.format(time_dclock_build))
+            print('    total wall time "build": {:10.3f} seconds\n'.format(time_dtime_build))
+            print('    total  cpu time "run":   {:10.3f} seconds'.format(time_dclock_run))
+            print('    total wall time "run":   {:10.3f} seconds\n'.format(time_dtime_run))
+            
         if self.logfile:
             sys.stdout = self.stdout
             sp_run(['pandoc', self.logfile_name+'.md', '-t', 'latex', '-o', self.logfile_name+'.pdf'])
