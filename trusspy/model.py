@@ -338,7 +338,7 @@ class Model:
             f0_const = np.zeros_like(self.ExtForces.forces[:,3*(step):3*(step+1)])
             for s in range(step):
                 f0_const += self.Results.step_lpf_end[s]*self.ExtForces.forces[:,3*(s):3*(s+1)]
-            if len(range(step)) is not 0:
+            if len(range(step)) != 0:
                 print('\nconstant part of external forces due to previous step(s)')
                 print('    ',f0_const,'\n')
                 print('\ninitial values of active DOF due to previous step(s)')
