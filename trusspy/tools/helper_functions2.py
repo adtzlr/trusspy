@@ -225,7 +225,7 @@ def plot_elems(E,X,fig=None,ax=None,view='xz',color='C0',contour=None,lim_scale=
                              [X[NA-1][j],X[NE-1][j]],color=color,zorder=2,linewidth=6.0)
         
     if contour is not None:
-        plt.colorbar(s_m, extend='both', ticks=np.linspace(contour_lim[0],contour_lim[1],11))
+        plt.colorbar(s_m, extend='both', ticks=np.linspace(contour_lim[0],contour_lim[1],11), ax=plt.gca())
         plt.ylabel('CONTOUR = '+clabel)
         #plt.gca().yaxis.set_label_position("right")
         
