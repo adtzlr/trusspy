@@ -7,14 +7,16 @@ Created on Mon Jul 30 17:36:41 2018
 
 import copy
 import numpy as np
-from numpy.linalg import solve,norm
+from numpy.linalg import solve, norm
 from scipy.sparse.linalg import spsolve
-from scipy.sparse import csr_matrix,csc_matrix
-#from numba import jit
+from scipy.sparse import csr_matrix, csc_matrix
 
-def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
+# from numba import jit
+
+
+def newton(f, dfdx, x, nfev=8, ftol=1e-8, xtol=1e-8, verbose=0, *args):
     """Find the roots of a function using the Newton-Rhapson algorithm.
-    
+
     Find the roots of the (non-linear) equations `f` given a starting
     estimate x. The derivative `dfdx`of `f` w.r.t. `x` has to be provided by the
     user. Iteration loop stops after maximum number of function
@@ -23,7 +25,7 @@ def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
     vector norm of incremental dx. If both tolerances are reached then
     the loop ends and the `success` flag becomes `True`. Return the roots of the
     (non-linear) equations defined by ``f(x) = 0`` given a starting estimate.
-    
+
     Parameters
     ----------
     f : ndarray
@@ -39,13 +41,13 @@ def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
     xtol : float, optional
         Tolerance for residual of `x`: `norm(x)` (default is 1e-8)
     verbose : int, optional
-        Level of information during iterations (default is 0): 
-        `verbose=0` ... no information, 
+        Level of information during iterations (default is 0):
+        `verbose=0` ... no information,
         `verbose=1` ... print `iteration number`, `norm(f)`, `norm(x)`
     arg s: tuple, optional
-        pass arbitrary number of additional variables 
+        pass arbitrary number of additional variables
         to function and derivative
-    
+
     Returns
     -------
     x : ndarray
@@ -58,23 +60,23 @@ def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
         norm(f)
     x_norm : float
         norm(x)
-        
-        
+
+
     Examples
     --------
-    
+
     >>> import numpy as np
     >>> def f(x, a):
     ...     return np.array([a*x[0]**3-1])
     >>> def dfdx(x, a):
     ...     return np.array([a*3*x[0]**2])
-    
+
     >>> x0 = np.array([1.5])
     >>> a = 2
-    
+
     >>> from trusspy.solvers import newton
     >>> x,success,ntot,f_norm,x_norm = newton(f, dfdx, x0, 8, 1e-8, 1e-8, 0, a)
-    
+
     >>> x
     array([0.79370053])
     >>> success
@@ -86,39 +88,43 @@ def newton(f,dfdx,x,nfev=8,ftol=1e-8,xtol=1e-8,verbose=0,*args):
     >>> x_norm <= 1e-8
     True
     """
-    
+
     success = False
-    
+
     # NEWTON-RHAPSON ITERATIONS
     for n in range(nfev):
-        #dx = -np.linalg.inv(dfdx(x,j,xmax))@f(x,j,xmax)
-        
+        # dx = -np.linalg.inv(dfdx(x,j,xmax))@f(x,j,xmax)
+
         # DIRECT SPARSE SOLVER with cs"r" "R"ow optimized sparse matrix
-        #print('x', x)
-        #print('xmax', args[2])
-        #print('f', f(x,*args))
-        #print('dfdx', dfdx(x,*args))
-        dx = spsolve(csr_matrix(dfdx(x,*args)),-f(x,*args))
-        #print('dx', dx[:3])
-        
+        # print('x', x)
+        # print('xmax', args[2])
+        # print('f', f(x,*args))
+        # print('dfdx', dfdx(x,*args))
+        dx = spsolve(csr_matrix(dfdx(x, *args)), -f(x, *args))
+        # print('dx', dx[:3])
+
         # DENSE SOLVER
-        #dx = solve(dfdx(x,*args),-f(x,*args))
-        
+        # dx = solve(dfdx(x,*args),-f(x,*args))
+
         # UPDATE SOLUTION
         x = x + dx
-        
+
         # CHECK IF EQUILIBRUM FOUND
-        f_norm = norm(f(x,*args))
+        f_norm = norm(f(x, *args))
         x_norm = norm(dx)
-        
-        if verbose > 0: 
-            #print('        {0:2d}          |{1:1.3e} {2:1.3e}|           |           |           |'.format(
+
+        if verbose > 0:
+            # print('        {0:2d}          |{1:1.3e} {2:1.3e}|           |           |           |'.format(
             #      n,f_norm,x_norm))
-            print('|     |  {0:2d}  |       |{1:1.3e}|    |        |    |        |    |        |'.format(n+1,f_norm))
-            #print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
-            
-        if (f_norm < ftol and x_norm < xtol):
+            print(
+                "|     |  {0:2d}  |       |{1:1.3e}|    |        |    |        |    |        |".format(
+                    n + 1, f_norm
+                )
+            )
+            # print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
+
+        if f_norm < ftol and x_norm < xtol:
             success = True
             break
-            
-    return x,success,n+1,f_norm,x_norm
+
+    return x, success, n + 1, f_norm, x_norm

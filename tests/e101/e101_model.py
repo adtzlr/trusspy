@@ -15,27 +15,30 @@ try:
     import trusspy as tp
 except ImportError:
     import sys
-    sys.path.append(r'../../')
+
+    sys.path.append(r"../../")
     import trusspy as tp
 
-M = tp.Model('e101_input.xlsx',logfile=False)
+M = tp.Model("e101_input.xlsx", logfile=False)
 
 # Create Model, Run, show Results
 M.build()
 M.run()
 
 # model plot: undeformed and deformed configuration for last increment
-fig, ax = M.plot_model(config=['undeformed','deformed'],
-             view='xz',
-             contour='force',
-             lim_scale=2,
-             force_scale=0.2,
-             inc=-1)
-fig.savefig('model_contour-force_inc-last.pdf')
+fig, ax = M.plot_model(
+    config=["undeformed", "deformed"],
+    view="xz",
+    contour="force",
+    lim_scale=2,
+    force_scale=0.2,
+    inc=-1,
+)
+fig.savefig("model_contour-force_inc-last.pdf")
 
 # history plot
-fig, ax = M.plot_history(nodes=[2,2],X='Displacement X',Y='Force X')
-fig.savefig('history_node2_DispX-ForceX.pdf')
+fig, ax = M.plot_history(nodes=[2, 2], X="Displacement X", Y="Force X")
+fig.savefig("history_node2_DispX-ForceX.pdf")
 
 # show plots
 # M.plot_show()

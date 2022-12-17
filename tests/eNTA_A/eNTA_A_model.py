@@ -15,10 +15,11 @@ try:
     import trusspy as tp
 except ImportError:
     import sys
-    sys.path.append(r'../../')
+
+    sys.path.append(r"../../")
     import trusspy as tp
 
-M = tp.Model('eNTA_A_input.xlsx', logfile=True)
+M = tp.Model("eNTA_A_input.xlsx", logfile=True)
 
 M.Settings.dlpf = 0.005
 M.Settings.du = 0.05
@@ -44,23 +45,27 @@ M.build()
 M.run()
 
 # model plot: undeformed and deformed configuration for last increment
-fig, ax = M.plot_model(config=['undeformed'],
-             view='3d',
-             contour='force',
-             lim_scale=(-4,4,-2,6,-1,5),
-             force_scale=5.0,
-             inc=0)
+fig, ax = M.plot_model(
+    config=["undeformed"],
+    view="3d",
+    contour="force",
+    lim_scale=(-4, 4, -2, 6, -1, 5),
+    force_scale=5.0,
+    inc=0,
+)
 
-fig, ax = M.plot_model(config=['deformed'],
-             view='xz',
-             contour='force',
-             #lim_scale=(-4,4,-2,6,-1,5),
-             lim_scale=1.2,
-             force_scale=200.0,
-             inc=-1)
-fig.savefig('model_contour-force_inc-last.pdf')
+fig, ax = M.plot_model(
+    config=["deformed"],
+    view="xz",
+    contour="force",
+    # lim_scale=(-4,4,-2,6,-1,5),
+    lim_scale=1.2,
+    force_scale=200.0,
+    inc=-1,
+)
+fig.savefig("model_contour-force_inc-last.pdf")
 
-#M.plot_movie(config=['undeformed','deformed'],
+# M.plot_movie(config=['undeformed','deformed'],
 #             view='xz',
 #             contour='stretch',
 #             lim_scale=-1.5,
@@ -68,20 +73,20 @@ fig.savefig('model_contour-force_inc-last.pdf')
 #             incs='all')
 
 # history plot
-Disp = 'Displacement X'
-fig,ax = M.plot_history(nodes=[4,4],X=Disp,Y='LPF')
-fig,ax = M.plot_history(nodes=[5,5],X=Disp,Y='LPF',fig=fig,ax=ax)
-fig.savefig('history_node45_Disp'+Disp[-1]+'-LPF.pdf')
+Disp = "Displacement X"
+fig, ax = M.plot_history(nodes=[4, 4], X=Disp, Y="LPF")
+fig, ax = M.plot_history(nodes=[5, 5], X=Disp, Y="LPF", fig=fig, ax=ax)
+fig.savefig("history_node45_Disp" + Disp[-1] + "-LPF.pdf")
 
-Disp = 'Displacement Y'
-fig,ax = M.plot_history(nodes=[4,4],X=Disp,Y='LPF')
-#fig,ax = M.plot_history(nodes=[5,5],X=Disp,Y='LPF',fig=fig,ax=ax)
-fig.savefig('history_node45_Disp'+Disp[-1]+'-LPF.pdf')
+Disp = "Displacement Y"
+fig, ax = M.plot_history(nodes=[4, 4], X=Disp, Y="LPF")
+# fig,ax = M.plot_history(nodes=[5,5],X=Disp,Y='LPF',fig=fig,ax=ax)
+fig.savefig("history_node45_Disp" + Disp[-1] + "-LPF.pdf")
 
-Disp = 'Displacement Z'
-fig,ax = M.plot_history(nodes=[4,4],X=Disp,Y='LPF')
-fig,ax = M.plot_history(nodes=[5,5],X=Disp,Y='LPF',fig=fig,ax=ax)
-fig.savefig('history_node45_Disp'+Disp[-1]+'-LPF.pdf')
+Disp = "Displacement Z"
+fig, ax = M.plot_history(nodes=[4, 4], X=Disp, Y="LPF")
+fig, ax = M.plot_history(nodes=[5, 5], X=Disp, Y="LPF", fig=fig, ax=ax)
+fig.savefig("history_node45_Disp" + Disp[-1] + "-LPF.pdf")
 
 # show plots
-#M.plot_show()
+# M.plot_show()
