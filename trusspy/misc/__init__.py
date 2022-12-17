@@ -1,1 +1,1 @@
-from .license_info import licen,warran
+from .license_info import licen, warran
