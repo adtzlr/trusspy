@@ -18,7 +18,7 @@ def png_to_gif(workdir=r'figures/',png_subdir=r'png/',gif_subdir=r'gif/'):
         rmtree(gif_dir)
     os.mkdir(gif_dir)
         
-    for file_name in os.listdir(png_dir):
+    for file_name in sorted(os.listdir(png_dir)):
         if file_name.endswith('.png'):
             file_path = os.path.join(png_dir, file_name)
             images.append(imageio.imread(file_path))
