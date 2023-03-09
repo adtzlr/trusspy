@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Example 101
-# -----------
-# - 1 Truss with 1 DOF
-# - material: linear elastic
-
 import trusspy as tp
 
 def test_e101():
