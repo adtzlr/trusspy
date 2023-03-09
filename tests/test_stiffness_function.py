@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun  1 09:49:11 2020
-
-@author: adtzlr
-"""
-
 import trusspy as tp
 
 
@@ -50,5 +43,10 @@ def stiffness(list_of_areas):
     return R0.Kred
 
 
-list_of_areas = [2, 3]
-K = stiffness(list_of_areas)
+def test_stiffness_function():
+    
+    list_of_areas = [2, 3]
+    K = stiffness(list_of_areas)
+
+if __name__ == "__main__":
+    test_stiffness_function()
