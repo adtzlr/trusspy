@@ -1,20 +1,21 @@
 import trusspy as tp
 
+
 def test_nta_a_python2():
     """Ex.NTA(A)
     * 3D truss system
     * linear elastic
     """
-    
+
     M = tp.Model(logfile=False)
-    
+
     with M.Nodes as MN:
         MN.add_node(1, coord=(2.5, 0, 0))
         MN.add_node(2, coord=(-1.25, 1.25, 0))
         MN.add_node(3, coord=(1, 2, 0))
         MN.add_node(4, coord=(-0.5, 1.5, 1.5))
         MN.add_node(5, coord=(-2.5, 4.5, 2.5))
-    
+
     with M.Elements as ME:
         ME.add_element(1, conn=(1, 4), gprop=[0.75])
         ME.add_element(2, conn=(2, 4), gprop=[1])
@@ -22,42 +23,42 @@ def test_nta_a_python2():
         ME.add_element(4, conn=(3, 5), gprop=[0.75])
         ME.add_element(5, conn=(2, 5), gprop=[1])
         ME.add_element(6, conn=(4, 5), gprop=[1])
-    
+
         ME.assign_etype("all", 1)
         ME.assign_mtype("all", 1)
         ME.assign_material("all", [1.0, 0.1, 0.1])
-    
+
     with M.Boundaries as MB:
         MB.add_bound_U(1, (0, 0, 0))
         MB.add_bound_U(2, (0, 0, 0))
         MB.add_bound_U(3, (0, 0, 0))
         MB.add_bound_U(5, (1, 0, 1))
-    
+
     with M.ExtForces as MF:
         MF.add_force(4, (1, 1, -1))
         MF.add_force(5, (-2, 0, -2))
-    
+
     M.Settings.dlpf = 0.005
     M.Settings.du = 0.05
-    
+
     M.Settings.incs = 16
     M.Settings.stepcontrol = True
     M.Settings.maxfac = 4
-    
+
     M.Settings.ftol = 8
     M.Settings.xtol = 8
     M.Settings.nfev = 8
-    
+
     M.Settings.dxtol = 1.25
-    
+
     ## lim_scale < 1: fixed value for all axis (good for videos)
     ## lim_scale > 1: scale factor for min/max values
     ## forces:        1 N = "force_scale" L
-    
+
     ## Create Model, Run, show Results
     M.build()
     M.run()
-    
+
     ## model plot: undeformed and deformed configuration for last increment
     fig, ax = M.plot_model(
         config=["undeformed"],
@@ -69,7 +70,7 @@ def test_nta_a_python2():
     )
     # fig.savefig('model_undeformed_inc0_3d.pdf')
     # fig.savefig('model_undeformed_inc0_3d.png')
-    
+
     # fig, ax = M.plot_model(config=['undeformed'],
     #             view='xz',
     #             contour='force',
@@ -172,6 +173,7 @@ def test_nta_a_python2():
     ##
     ### show plots
     ##M.plot_show()
+
 
 if __name__ == "__main__":
     test_nta_a_python2()
