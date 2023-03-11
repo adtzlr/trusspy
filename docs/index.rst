@@ -40,7 +40,7 @@ License
 =======
 
 TrussPy - Object oriented Truss Solver for Python
-Copyright (C) 2018  Andreas Dutzler
+Copyright (C) 2023  Andreas Dutzler
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
