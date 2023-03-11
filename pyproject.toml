@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+
+[project]
+name = "trusspy"
+authors = [
+  {email = "a.dutzler@gmail.com"},
+  {name = "Andreas Dutzler"}
+]
+description = "Truss Solver for Python"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = [
+  "python", 
+  "truss",
+  "truss-solver",
+  "mechanics",
+  "nonlinear",
+  "structural-analysis",
+  "fem",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Programming Language :: Python",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Utilities"
+]
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = [
+  "numpy",
+  "scipy",
+  "matplotlib",
+  "pandas",
+  "openpyxl",
+  "imageio",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "trusspy.__about__.__version__"}
+
+[project.urls]
+Homepage = "https://trusspy.readthedocs.io/en/latest"
+Code = "https://github.com/adtzlr/trusspy"
+Issues = "https://github.com/adtzlr/trusspy/issues"
