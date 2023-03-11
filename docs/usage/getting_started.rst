@@ -125,4 +125,4 @@ It could also be helpful to show the animated deformation process within a simpl
     
 *Important Note:* A **LOT** of assumptions are made to run this model without specifying barely any parameter. Most important ones are incremental displacement values, incremental LPF value and the amount of increments to be solved. These critical parameters are responsible if the model solution will converge or not!
 
-.. _`Interactive Online Notebook`: https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=tests%2Fe101%2Fe101_nb_interactive.ipynb
+.. _`Interactive Online Notebook`: https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=docs%2Fexamples%2Fe101%2Fe101_nb_interactive.ipynb
