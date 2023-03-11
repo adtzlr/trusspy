@@ -1,14 +1,14 @@
 import trusspy as tp
 
 
-def test_e302():
+def test_e302(filepath="tests/"):
     """Ex.302
     * 2 Trusses with 1 DOF
     * linear elastic-plastic (isotropic hardening)
     * 2 steps with restart after fixed amount of increments
     """
 
-    M = tp.Model("e302_input.xlsx")
+    M = tp.Model(filepath + "e302_input.xlsx")
 
     M.Settings.dlpf = 0.05
     M.Settings.du = 0.05
@@ -49,4 +49,4 @@ def test_e302():
 
 
 if __name__ == "__main__":
-    test_e302()
+    test_e302(filepath="./")

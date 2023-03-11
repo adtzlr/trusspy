@@ -1,13 +1,13 @@
 import trusspy as tp
 
 
-def test_nta_x():
+def test_nta_x(filepath="tests/"):
     """Ex.NTA(X)
     * 3D truss system
     * linear elastic
     """
 
-    M = tp.Model("eNTA_X_input.xlsx", logfile=True)
+    M = tp.Model(filepath + "eNTA_X_input.xlsx", logfile=True)
 
     M.Settings.dlpf = 0.005
     M.Settings.du = 0.05
@@ -67,4 +67,4 @@ def test_nta_x():
 
 
 if __name__ == "__main__":
-    test_nta_x()
+    test_nta_x(filepath="./")

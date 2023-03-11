@@ -1,10 +1,10 @@
 import trusspy as tp
 
 
-def test_e201():
+def test_e201(filepath="tests/"):
     "Ex.201: 1 Truss with 1 DOF, linear elastic-plastic (isotropic hardening)"
 
-    M = tp.Model("e201_input.xlsx")
+    M = tp.Model(filepath + "e201_input.xlsx")
     M.Settings.nstatev = 2
 
     # Create Model, Run, show Results
@@ -28,4 +28,4 @@ def test_e201():
 
 
 if __name__ == "__main__":
-    test_e201()
+    test_e201(filepath="./")
