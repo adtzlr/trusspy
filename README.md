@@ -5,7 +5,6 @@
 Official Documentation: http://trusspy.readthedocs.io/
 
 # Installation
-
 Use `pip` to install TrussPy
 
 ```
@@ -13,7 +12,6 @@ pip install trusspy
 ```
 
 # Example
-
 ```python
 import trusspy as tp
 
