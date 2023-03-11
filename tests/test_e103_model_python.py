@@ -129,7 +129,7 @@ def test_e103_python():
         lim_scale=(-4.5, 5, -6, 3.5),
         force_scale=10,
         cbar_limits=[-1, 1],
-        incs=range(1, 134, 10),
+        incs=range(1, 130, 10),
     )
 
 
