@@ -9,7 +9,7 @@ build:
     python: "3.11"
   jobs:
     pre_build:
-      - sphinx-apidoc -f -e -o ./api/ ../src/trusspy/
+      - sphinx-apidoc -f -e -o docs/api/ src/trusspy/
 
 python:
   install:
