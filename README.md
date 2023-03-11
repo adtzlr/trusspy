@@ -50,4 +50,4 @@ M.plot_show()
 	
 # Online Notebook
 
-Try TrussPy without installation in an [Interactive Online Notebook](https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=tests%2Fe101_nb_interactive.ipynb).
+Try TrussPy without installation in an [Interactive Online Notebook](https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=docs%2Fexamples%2Fe101_nb_interactive.ipynb).
