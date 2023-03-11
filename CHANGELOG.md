@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [1.0.1] - 2023-03-11
+
+### Fixed
+- Added missing PyPI API token to deploy the wheel to PyPI.
+
 ## [1.0.0] - 2023-03-11
 
 ### Added
