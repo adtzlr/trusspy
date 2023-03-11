@@ -5,9 +5,10 @@ Created on Tue Jun 26 18:48:42 2018
 @author: adutz
 """
 
+import copy
+
 # import numpy as np
 from ..core.analysis import Analysis
-import copy
 
 
 class ResultHandler:

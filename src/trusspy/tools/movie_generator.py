@@ -6,8 +6,9 @@ Created on Tue Jul 24 10:42:48 2018
 """
 
 import os
-import imageio
 from shutil import rmtree
+
+import imageio
 
 
 def png_to_gif(workdir=r"figures/", png_subdir=r"png/", gif_subdir=r"gif/"):

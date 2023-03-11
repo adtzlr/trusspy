@@ -5,9 +5,9 @@ Created on Thu Jun 21 20:11:23 2018
 @author: adutz
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 

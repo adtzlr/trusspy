@@ -6,6 +6,7 @@ Created on Tue Jun 26 18:47:45 2018
 """
 
 import numpy as np
+
 from ..core.element import Element
 
 

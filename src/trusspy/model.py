@@ -20,9 +20,9 @@ Created on Wed Jun 27 21:08:10 2018
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-import sys
-import os
 import copy
+import os
+import sys
 import time
 from subprocess import run as sp_run
 
@@ -30,37 +30,42 @@ from subprocess import run as sp_run
 import numpy as np
 import pandas as pd
 
-# Handler Classes
-from .handlers import SettingsHandler
-from .handlers import NodeHandler
-from .handlers import ElementHandler
-from .handlers import BoundaryHandler
-from .handlers import ExternalForceHandler
-from .handlers import ResultHandler
-
 # Analysis Class
 from .core import Analysis
-
-# from scipy.optimize import fsolve
-
-# Material Definition
-from .materials import umat_el, umat_elplast_iso
 
 # Element Definition
 from .elements import truss
 
+# Handler Classes
+from .handlers import (
+    BoundaryHandler,
+    ElementHandler,
+    ExternalForceHandler,
+    NodeHandler,
+    ResultHandler,
+    SettingsHandler,
+)
+
+# Material Definition
+from .materials import umat_el, umat_elplast_iso
+
 # Solver and Tools
 from .solvers import pathfollow
 from .tools import (
-    p_nodes,
     p_elements,
     p_extforces,
+    p_history,
     p_model,
     p_movie,
-    p_history,
+    p_nodes,
     p_path,
     p_show,
 )
+
+# from scipy.optimize import fsolve
+
+
+
 
 
 class Model:

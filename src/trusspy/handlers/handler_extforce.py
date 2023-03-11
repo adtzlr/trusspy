@@ -6,6 +6,7 @@ Created on Tue Jun 26 18:49:34 2018
 """
 
 import numpy as np
+
 from ..core.external_force import ExternalForce
 
 

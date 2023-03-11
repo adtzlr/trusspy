@@ -7,11 +7,11 @@ Created on Wed Aug  1 12:12:56 2018
 
 import os
 import shutil
-import numpy as np
 
 import matplotlib.pyplot as plt
+import numpy as np
 
-from .helper_functions2 import plot_nodes, plot_elems, plot_force, plot_hist, plot_pth
+from .helper_functions2 import plot_elems, plot_force, plot_hist, plot_nodes, plot_pth
 from .movie_generator import png_to_gif
 
 

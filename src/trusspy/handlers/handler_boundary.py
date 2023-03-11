@@ -6,6 +6,7 @@ Created on Tue Jun 26 18:48:42 2018
 """
 
 import numpy as np
+
 from ..core.boundary import BoundaryU
 
 

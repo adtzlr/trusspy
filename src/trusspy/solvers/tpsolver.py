@@ -6,6 +6,7 @@ Created on Mon Jul 30 17:36:41 2018
 """
 
 import copy
+
 import numpy as np
 
 from .zerosearch import newton

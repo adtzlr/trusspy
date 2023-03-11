@@ -6,10 +6,11 @@ Created on Mon Jul 30 17:36:41 2018
 """
 
 import copy
+
 import numpy as np
-from numpy.linalg import solve, norm
+from numpy.linalg import norm, solve
+from scipy.sparse import csc_matrix, csr_matrix
 from scipy.sparse.linalg import spsolve
-from scipy.sparse import csr_matrix, csc_matrix
 
 # from numba import jit
 

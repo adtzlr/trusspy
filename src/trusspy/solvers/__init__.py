@@ -1,2 +1,2 @@
-from .zerosearch import newton
 from .tpsolver import pathfollow
+from .zerosearch import newton
