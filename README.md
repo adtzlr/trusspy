@@ -49,5 +49,16 @@ M.plot_show()
 ```
 	
 # Online Notebook
-
 Try TrussPy without installation in an [Interactive Online Notebook](https://mybinder.org/v2/gh/adtzlr/trusspy/master?filepath=docs%2Fexamples%2Fe101_nb_interactive.ipynb).
+
+# Changelog
+All notable changes to this project will be documented in [this file](CHANGELOG.md). The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+# License
+TrussPy - Truss Solver for Python (C) 2023 Andreas Dutzler, Graz (Austria).
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
