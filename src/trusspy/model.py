@@ -5,7 +5,7 @@ Created on Wed Jun 27 21:08:10 2018
 @author: adutz
 
     TrussPy - Object Oriented Truss Solver for Python
-    Copyright (C) 2018  Andreas Dutzler
+    Copyright (C) 2023  Andreas Dutzler
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,18 +25,11 @@ import os
 import sys
 import time
 from subprocess import run as sp_run
-
-# Numpy and Pandas
 import numpy as np
 import pandas as pd
-
-# Analysis Class
+from .__about__ import __version__
 from .core import Analysis
-
-# Element Definition
 from .elements import truss
-
-# Handler Classes
 from .handlers import (
     BoundaryHandler,
     ElementHandler,
@@ -45,11 +38,7 @@ from .handlers import (
     ResultHandler,
     SettingsHandler,
 )
-
-# Material Definition
 from .materials import umat_el, umat_elplast_iso
-
-# Solver and Tools
 from .solvers import pathfollow
 from .tools import (
     p_elements,
@@ -61,11 +50,6 @@ from .tools import (
     p_path,
     p_show,
 )
-
-# from scipy.optimize import fsolve
-
-
-
 
 
 class Model:
@@ -160,12 +144,12 @@ class Model:
                                       |___/ 
         
         TrussPy - Object Oriented Truss Solver for Python
-                  Version 2018.08 (Build 20180829)
+                  Version {__version__}
 
         Author: Dutzler A.
                 Graz University of Technology, 2018
                 
-        TrussPy  Copyright (C) 2018  Andreas Dutzler
+        TrussPy Copyright (C) 2023  Andreas Dutzler
         This program comes with ABSOLUTELY NO WARRANTY; 
         for details type `trusspy.show_w()'.
         This is free software, and you are welcome to redistribute it
