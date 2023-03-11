@@ -1,6 +1,0 @@
-﻿Überschrift
-===========
-
-Text...
-
-:math:`||g||`

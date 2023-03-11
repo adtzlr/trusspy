@@ -1,1 +1,1 @@
-sphinx-apidoc -f -e -o ./api/ ../trusspy/
+sphinx-apidoc -f -e -o ./api/ ../src/trusspy/
