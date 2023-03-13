@@ -6,6 +6,6 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using these metadata."
 title: "trusspy: Truss Solver for Python"
 type: software
-doi: 10.xyz/zenodo.xyz
+doi: 10.5281/zenodo.7723338
 url: https://github.com/adtzlr/trusspy
 license: GPL-3.0
