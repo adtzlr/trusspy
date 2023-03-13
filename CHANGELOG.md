@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [1.0.2] - 2023-03-13
+
+### Added
+- Added MyBinder badge and config file `environment.yml`.
+
+### Fixed
+- Fixed format string in `Model`.
+
 ## [1.0.1] - 2023-03-11
 
 ### Fixed
