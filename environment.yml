@@ -9,6 +9,7 @@ dependencies:
   - openpyxl
   - imageio
   - matplotlib
+  - pandoc
   - pip
   - pip:
     - trusspy
