@@ -1,0 +1,14 @@
+name: mybinder-environment
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - numpy
+  - scipy
+  - pandas
+  - openpyxl
+  - imageio
+  - matplotlib
+  - pip
+  - pip:
+    - trusspy
