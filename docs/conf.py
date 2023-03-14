@@ -53,7 +53,18 @@ math_number_all = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "furo"
-html_title = "TrussPy"
-html_logo = "logo.png"
+html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+html_logo = "_static/logo.png"
+html_show_sourcelink = False
+
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/adtzlr/trusspy",
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        }
+   ]
+}
