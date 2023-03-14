@@ -66,5 +66,5 @@ html_theme_options = {
             "icon": "fa-brands fa-square-github",
             "type": "fontawesome",
         }
-   ]
+    ]
 }
