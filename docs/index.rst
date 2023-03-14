@@ -20,10 +20,10 @@ Documentation
 =============
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   usage/install
    usage/getting_started
+   usage/install
    
    theory/theory
    code_structure/structure
@@ -54,13 +54,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-   
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
 .. _`Nonlinear Structural Analysis (202.482)`: https://online.tugraz.at/tug_online/wbLv.wbShowLVDetail?pStpSpNr=213741&pSpracheNr=2&pMUISuche=FALSE
