@@ -32,6 +32,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
     "sphinx.ext.viewcode",
+    "sphinx_copybutton",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,17 +53,18 @@ math_number_all = True
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx13"
-html_theme_path = ["."]
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
+html_theme = "pydata_sphinx_theme"
 html_static_path = ["_static"]
+html_logo = "_static/logo.png"
+html_show_sourcelink = False
 
-html_sidebars = {
-    "**": [
-        "relations.html",  # needs 'show_related': True theme option to display
-        "searchbox.html",
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/adtzlr/trusspy",
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        }
     ]
 }
