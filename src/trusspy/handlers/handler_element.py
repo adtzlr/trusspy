@@ -121,19 +121,6 @@ class ElementHandler:
             self.conns = np.array(EM[:, 2:4])
             self.material_properties = np.vstack((MM[:, 2:12].T, TM[:, 1])).T
             self.geometric_properties = GM[:, 1].reshape(len(GM), 1)
-        else:
-            pass
-            # self.labels = np.append(self.labels,EM[:,0])
-            # self.elem_type = np.append(self.elem_type, np.array(EM[:,1]))
-            # self.mat_type  = np.append( self.mat_type, np.array(EM[:,2]))
-            # self.conns = np.vstack((self.conns,EM[:,3:5]))
-            # self.material = np.append(self.material,EM[:,3])
-            # self.area = np.append(self.area,EM[:,4])
-            # self.alpha = np.append(self.alpha,TM[:,1])
-            # self.material_properties = np.vstack((self.material_properties,
-            #                                      np.vstack((EM[:,5], TM[:,1])).T))
-            # self.geometric_properties = np.append(self.geometric_properties,
-            #                                      EM[:,6].reshape(len(EM),1))
 
     def get_nodes(self, label):
         "choose element label and return connected end node"
