@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 21 20:11:23 2018
-
-@author: adutz
+title: TrussPy - Truss Solver for Python
+author: Andreas Dutzler
+year: 2023
 """
 
 import matplotlib as mpl
