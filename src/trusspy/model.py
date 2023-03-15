@@ -103,6 +103,10 @@ class Model:
             sys.stdout = open(self.logfile_name + ".md", "w")
 
         if log > 1:
+
+            if self.logfile:
+                print("```")
+
             print(
                 f"""
  _____                  ______      
@@ -120,6 +124,8 @@ TrussPy - Truss Solver for Python
 Dutzler Andreas, Graz University of Technology, 2023
         """
             )
+        if self.logfile:
+            print("```")
 
         if log > 1:
             print("")
@@ -504,17 +510,17 @@ Dutzler Andreas, Graz University of Technology, 2023
 
         if self.logfile:
             sys.stdout = self.stdout
-            sp_run(
-                [
-                    "pandoc",
-                    self.logfile_name + ".md",
-                    "-t",
-                    "latex",
-                    "-o",
-                    self.logfile_name + ".pdf",
-                ]
-            )
             if self.Settings.logpdf:
+                sp_run(
+                    [
+                        "pandoc",
+                        self.logfile_name + ".md",
+                        "-t",
+                        "latex",
+                        "-o",
+                        self.logfile_name + ".pdf",
+                    ]
+                )
                 sp_run(
                     [
                         "pandoc",
