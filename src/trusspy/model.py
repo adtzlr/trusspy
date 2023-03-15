@@ -117,10 +117,7 @@ class Model:
 TrussPy - Truss Solver for Python
           Version {__version__}
 
-Author: Dutzler A.
-        Graz University of Technology, 2018
-        
-TrussPy Copyright (C) 2023 Andreas Dutzler
+Dutzler Andreas, Graz University of Technology, 2023
         """
             )
 
