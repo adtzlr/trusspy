@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jul 30 17:36:41 2018
-
-@author: adutz
+title: TrussPy - Truss Solver for Python
+author: Andreas Dutzler
+year: 2023
 """
 
 import copy
@@ -79,8 +79,8 @@ def dxmax_control(
     given value `decrease`. Both an increase and decrease is only performed
     inside the interval `minfac*dxmax0 <= dxmax <= maxfac*dxmax0`.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     dxmax : ndarray
         current incremental limit of system vector x
     dxmax0 : ndarray
@@ -165,7 +165,6 @@ def dxmax_control(
             if j0 == j:
                 if z > 0:
                     pass
-                    # if verbose > 1: print('* increase NR-step size by factor: (inactive due to recycling).'.format(b,3))
                 elif b <= 3:
                     if verbose > 1:
                         print(
@@ -230,10 +229,8 @@ def pathfollow(
         2D Derivative of function w.r.t. `x`
     x : ndarray
         1D Initial solution vector
-
     analysis : trusspy.core.analysis
         Analysis object
-
     dxmax: array_like, optional
         Maximum incremental step in Dx. Several input methods are possible.
         A single float value will assign dxmax to all components of Dx.
@@ -267,7 +264,6 @@ def pathfollow(
         Tolerance for residual of function: `norm(f)` (default is 1e-8)
     xtol : float, optional
         Tolerance for residual of `x`: `norm(x)` (default is 1e-8)
-
     stepcontrol : bool, optional
         Automatic adjustment of incremental stepwidth Dx. Parameters `macfac`,
         `minfac`, `reduce` and `increase` will control the adjustment. All
@@ -285,12 +281,10 @@ def pathfollow(
         newton iterations to achieve convergence will be used. Updating dxmax
         follows `dxmax = dxmax*(1+(nfev-n)/nfev * increase)`.
         (default is 1)
-
     dxtol : float, optional
         Allowed vvershoot factor of control component if solution has
         converged. Will help to speed-up solution and avoid unneccessary re-
         cycles. (default is 1.25)
-
     verbose : int, optional
         Level of information during iterations (default is 0):
         `verbose=0` ... no information,
@@ -303,7 +297,6 @@ def pathfollow(
         `res_x.shape = (incs, len(x)+1)`. Result array `res_x[1]` contains the
         converged solution vector for the first increment. Result component
         res_x[0] contains start solution which is typically zeros.
-
     res_a: Analysis
         Analysis Class (trusspy.core.analysis.Analysis) with converged solution.
     """

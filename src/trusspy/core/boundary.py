@@ -27,9 +27,6 @@ class BoundaryU:
         Array of boundary components: `array([U1, U2, U3])`.
         Set 1 for active (free) DOF and 0 for inactive (locked) DOF.
 
-    Todo
-    ----
-    - rename to DOFState or something similar
     """
 
     def __init__(self, node, values):

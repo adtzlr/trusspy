@@ -11,11 +11,6 @@ import numpy as np
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 
-# from mpl_toolkits.mplot3d import Axes3D
-# from numpy.linalg import norm
-
-# projection : [‘aitoff’ | ‘hammer’ | ‘lambert’ | ‘mollweide’ | ‘polar’ | ‘rectilinear’], optional
-
 
 class Arrow3D(FancyArrowPatch):
     def __init__(self, xs, ys, zs, *args, **kwargs):
@@ -54,7 +49,6 @@ def plot_hist(x, y, nl, xl, yl="LPF", fig=None, ax=None):
     ax.set_ylabel(yl)
     ax.legend()
     plt.gcf().set_size_inches(8, 6)
-    # plt.gca().set_aspect('equal')
     return fig, ax
 
 
@@ -79,7 +73,6 @@ def plot_pth(x, y, inc, yl="LPF", fig=None, ax=None):
     ax.set_xticklabels(xtckl)
     ax.legend()
     plt.gcf().set_size_inches(8, 6)
-    # plt.gca().set_aspect('equal')
     return fig, ax
 
 
@@ -92,19 +85,17 @@ def plot_nodes(X, fig=None, ax=None, view="xz", color="k", size=10):
         i, j = 1, 2
 
     if view == "3d":
-        from mpl_toolkits.mplot3d import Axes3D
 
         if fig is None:
             fig = plt.figure()
         if ax is None:
             ax = fig.add_subplot(111, projection="3d")
-        # ax.scatter(X[:,0],X[:,1],X[:,2],marker='o',s=150,color=color,zorder=30)
+
         ax.plot(X[:, 0], X[:, 1], X[:, 2], color + "o", ms=size, zorder=30)
     else:
         plt.scatter(X[:, i], X[:, j], marker="o", s=15 * size, color=color, zorder=30)
         fig = plt.gcf()
         ax = plt.gca()
-    # plt.axes().set_aspect('equal');
 
     return fig, ax
 
@@ -119,26 +110,23 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
     if view == "3d":
         i, j, k = 0, 1, 2
     for f0i, Xi in zip(f0, X):
-        # print((f0i==np.zeros(3)).all())
         if ~(f0i == np.zeros(3)).all():
             xx = Xi[i]
             yy = Xi[j]
             if view == "3d":
                 zz = Xi[k]
             if f0i[i] < 0:
-                # xx += -a*f0i[i]
                 pass
             if f0i[j] < 0:
-                # yy += -a*f0i[j]
                 pass
-            # plt.arrow(xx,yy,a*f0i[i],a*f0i[j],color=color,linewidth=4,zorder=3)
+
             if view == "3d":
-                from mpl_toolkits.mplot3d import Axes3D
 
                 if fig is None:
                     fig = plt.figure()
                 if ax is None:
                     ax = fig.add_subplot(111, projection="3d")
+
                 arrow_properties = dict(
                     mutation_scale=20,
                     lw=3,
@@ -153,7 +141,6 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx],
                         [yy, yy],
                         [zz, zz + scale * f0i[k]],
-                        #        color=color,linewidth=3,zorder=20)
                         alpha=0,
                     )
                     a = Arrow3D(
@@ -169,7 +156,6 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx],
                         [yy, yy + scale * f0i[j]],
                         [zz, zz],
-                        #        color=color,linewidth=3,zorder=20)
                         alpha=0,
                     )
                     a = Arrow3D(
@@ -185,7 +171,6 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx + scale * f0i[i]],
                         [yy, yy],
                         [zz, zz],
-                        # color=color,linewidth=3,zorder=20)
                         alpha=0,
                     )
                     a = Arrow3D(
@@ -224,7 +209,7 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         length_includes_head=True,
                     )
                     plt.plot([xx, xx + 0], [yy, yy + scale * f0i[j]], alpha=0)
-    # plt.axes().set_aspect('equal');
+
     return fig, ax
 
 
@@ -259,14 +244,12 @@ def plot_elems(
             else:
                 norm = mpl.colors.Normalize(vmin=contour_lim[0], vmax=contour_lim[1])
             color = colormap(norm(contour[k]))
-            # print(norm(contour[k]),contour[k])
 
             # create a ScalarMappable and initialize a data structure
             s_m = mpl.cm.ScalarMappable(cmap=colormap, norm=norm)
             s_m.set_array([])
 
         if view == "3d":
-            from mpl_toolkits.mplot3d import Axes3D
 
             if fig is None:
                 fig = plt.figure()
@@ -314,7 +297,6 @@ def plot_elems(
             ax=plt.gca(),
         )
         plt.ylabel("CONTOUR = " + clabel)
-        # plt.gca().yaxis.set_label_position("right")
 
     try:
         if len(lim_scale) == 2:
@@ -336,7 +318,6 @@ def plot_elems(
             ax = plot_coord(ax, m)
             zz = np.zeros_like(xx)
             ax.plot_surface(xx, yy, zz, alpha=0.2)
-            # print(ax.elev,ax.azim)
             ax.view_init(20, -40)
 
     except:
@@ -355,8 +336,6 @@ def plot_elems(
             mlimx = (plt.xlim()[1] + plt.xlim()[0]) / 2
             mlimy = (plt.ylim()[1] + plt.ylim()[0]) / 2
             alim = lim_scale * max(alimx, alimy)
-            # lmin, lmax = (lim_scale*min(plt.xlim()[0],plt.ylim()[0]),
-            #              lim_scale*max(plt.xlim()[1],plt.ylim()[1]))
             minx, maxx = (mlimx - alim, mlimx + alim)
             miny, maxy = (mlimy - alim, mlimy + alim)
             if abs(lim_scale) < 100:
@@ -375,7 +354,6 @@ def plot_elems(
                 ax = plot_coord(ax, 1)
             zz = np.zeros_like(xx)
             ax.plot_surface(xx, yy, zz, alpha=0.2)
-            # print(ax.elev,ax.azim)
             ax.view_init(20, -40)
         else:
             plt.gca().set_aspect("equal")

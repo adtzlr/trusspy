@@ -94,8 +94,3 @@ class BoundaryHandler:
         # add list of thermal boundaries
         for B in BB:
             self.add_bound_T(B)
-
-    # def DOFactive(self,ndof):
-    #    # 0 = gesperrt
-    #    O = np.ones(ndof)
-    #    np.where(self.Uvalues, 0 or False)

@@ -6,7 +6,6 @@ year: 2023
 """
 
 import copy
-import os
 import sys
 import time
 from subprocess import run as sp_run
@@ -104,6 +103,10 @@ class Model:
             sys.stdout = open(self.logfile_name + ".md", "w")
 
         if log > 1:
+
+            if self.logfile:
+                print("```")
+
             print(
                 f"""
  _____                  ______      
@@ -118,12 +121,11 @@ class Model:
 TrussPy - Truss Solver for Python
           Version {__version__}
 
-Author: Dutzler A.
-        Graz University of Technology, 2018
-        
-TrussPy Copyright (C) 2023 Andreas Dutzler
+Dutzler Andreas, Graz University of Technology, 2023
         """
             )
+        if self.logfile:
+            print("```")
 
         if log > 1:
             print("")
@@ -137,14 +139,11 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
         self.Boundaries = BoundaryHandler()
         self.ExtForces = ExternalForceHandler()
         self.Settings = SettingsHandler()
-        # self.Results = ResultHandler()
-        # self.Analysis = Analysis()
 
         self.Settings.log = log
 
         if log > 1:
             print("    - finished.\n")
-        # if log > 1: print('-'*88+'\n')
 
         if file is not None:
             if log > 1:
@@ -196,10 +195,9 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
 
             if log > 1:
                 print("    - Import finished.\n")
-            # if log > 1: print('-'*88)
 
     def build(self):
-        """build Model (r,U,K,...) with Model data and dimensions."""
+        "Build Model (r,U,K,...) with Model data and dimensions."
 
         self.Results = ResultHandler()
         self.Analysis = Analysis()
@@ -228,8 +226,7 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
         if 2 in self.Elements.mat_type:
             self.Settings.nstatev = 2
 
-        # node properties
-        # n----pro-------
+        # (n)ode (pro)perties
         #
         #      active = free  = 1
         #    inactive = fixed = 0
@@ -374,10 +371,6 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
         self.Analysis.Vred = np.append(self.Analysis.Ured, 0)
         self.Analysis.lpf = 0
 
-        # init LPF
-        # self.Settings.lpf = self.Settings.dlpf
-        # self.Analysis.lpf = self.Settings.dlpf
-
         for step in range(self.Settings.nsteps):
 
             # maximum number of increment and maximum value per step
@@ -401,9 +394,6 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
 
                 print(r"$$\text{Value}_i = \left|\frac{D_x}{D_{x,max}}\right|_i$$")
 
-            # get reduced external force vector
-            # f0red = self.ExtForces.forces[:,3*(step):3*(step+1)].flatten()[self.Analysis.DOF1]
-            # self.Analysis.f0red = f0red.reshape(len(f0red),1)
             self.Analysis.ExtForces = copy.deepcopy(self.ExtForces)
 
             f0_const = np.zeros_like(
@@ -520,17 +510,17 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
 
         if self.logfile:
             sys.stdout = self.stdout
-            sp_run(
-                [
-                    "pandoc",
-                    self.logfile_name + ".md",
-                    "-t",
-                    "latex",
-                    "-o",
-                    self.logfile_name + ".pdf",
-                ]
-            )
             if self.Settings.logpdf:
+                sp_run(
+                    [
+                        "pandoc",
+                        self.logfile_name + ".md",
+                        "-t",
+                        "latex",
+                        "-o",
+                        self.logfile_name + ".pdf",
+                    ]
+                )
                 sp_run(
                     [
                         "pandoc",
@@ -544,15 +534,11 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
                 )
 
     def stiffness(self, Ured, analysis=None):
-        "Method for Stiffness Matrix."
-
-        # In a future version this function should be implemented in Stiffness class part of the Model or Results
-        # self.Stiffness(reduced=True)
-
-        # it re-shapes stiffness matrix to
-        # K(nnodes,nnodes,ndim,ndim) --> K(nnodes*ndim,nnodes*nim)
-        # and returns a view on the reduced (active part of the) matrix
-        # K(nnodes*ndim,nnodes*nim)[active DOF rows][:,active DOF columns]
+        """Method for evaluating the stiffness matrix. It re-shapes the stiffness matrix
+        to ``K(nnodes,nnodes,ndim,ndim) --> K(nnodes*ndim,nnodes*nim)`` and returns a
+        view on the reduced (active part of the) matrix
+        ``K(nnodes*ndim,nnodes*nim)[active DOF rows][:,active DOF columns]``.
+        """
 
         if analysis is not None:
             self.Analysis = analysis
@@ -577,7 +563,7 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
         return self.Analysis.Kred
 
     def equilibrium(self, Ured, U0red, stage="G", analysis=None, statev_write=False):
-        """Method to generate equilibrium for given displacements and external forces."""
+        "Method to generate equilibrium for given displacements and external forces."
 
         if analysis is not None:
             self.Analysis = analysis
@@ -585,7 +571,6 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
         # remove last entry in Vred to get only displacement DOFs
         if len(Ured) > self.ndof1:
             lpf = Ured[-1]
-            lpf0 = U0red[-1]
             Ured = Ured[: self.ndof1]
             U0red = U0red[: self.ndof1]
         else:
@@ -642,14 +627,11 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
                 rnodes[n] = self.Analysis.r[np.where(self.Nodes.labels == node)][0]
 
             mat_type = self.Elements.get_material_type(e)
-            # elem_type = self.Elements.get_element_type(e)
 
             if mat_type == 1:
                 umat = umat_el
             elif mat_type == 2:
                 umat = umat_elplast_iso
-            elif mat_type == 3:
-                umat = umat_elplast_kiniso
 
             self.Analysis, state_v = truss(
                 e,
@@ -668,7 +650,6 @@ TrussPy Copyright (C) 2023 Andreas Dutzler
                 self.Analysis,
             )
             if statev_write and self.Settings.nstatev > 0:
-                # print('write state-variable for element', int(e), state_v[0])
                 self.Analysis.state_v = state_v
                 self.Analysis.lpf = lpf
                 self.Analysis.Vred = np.append(Ured, lpf)

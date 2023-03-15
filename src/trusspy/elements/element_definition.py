@@ -39,7 +39,6 @@ def truss(
     dx0 = dX + dU0
 
     # elemental normal vector in deformed configuration
-    n0 = dx / np.linalg.norm(dx0)
     n = dx / np.linalg.norm(dx)
 
     # elemental length in undeformed and deformed configuration
