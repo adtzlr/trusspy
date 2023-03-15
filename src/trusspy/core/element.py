@@ -11,24 +11,6 @@ import numpy as np
 class Element:
     """Element class.
 
-    Parameter
-    ---------
-    label : int
-        Element ID number
-    conn : array_like
-        List of Element connectivity : `[Node 1, Node 2]`
-
-    elem_type : int, optional
-        Element Type. (default is 1 for truss)
-    mat_type : int, optional
-        Material Type. (default is 1 for linear-elastic)
-    material_properties : array_like, optional
-        List with material parameters,
-        e.g. [Young's modulus, Thermal expansion coefficient] (default is [])
-    geometric_properties : array_like, optional
-        List with geometric parameters,
-        e.g. [Section area] (default is [])
-
     Attributes
     ----------
     label : int
@@ -46,11 +28,6 @@ class Element:
         List with geometric parameters,
         e.g. [Section area] (default is [])
 
-    Todo
-    ----
-    + DONE rewrite material parameter storage
-    + DONE material properties: type, mechanical and thermal parameter
-    + DONE geometric porperties: section area
     """
 
     def __init__(
@@ -64,6 +41,27 @@ class Element:
         mprop=None,
         gprop=None,
     ):
+        """Initialize an instance of the Element class.
+
+        Parameters
+        ----------
+        label : int
+            Element ID number
+        conn : array_like
+            List of Element connectivity ``[Node 1, Node 2]``.
+        elem_type : int, optional
+            Element Type (default is 1 for "truss").
+        mat_type : int, optional
+            Material Type (default is 1 for "linear-elastic").
+        material_properties : array_like, optional
+            List with material parameters,
+            e.g. ``[Young's modulus, Thermal expansion coefficient]`` (default is
+            [np.nan]).
+        geometric_properties : array_like, optional
+            List with geometric parameters,
+            e.g. ``[Section area]`` (default is [np.nan]).
+
+        """
 
         self.label = label
         self.conn = np.array(conn)
@@ -89,11 +87,3 @@ class Element:
             self.geometric_properties = gprop
         else:
             self.geometric_properties = geometric_properties
-
-    # def get_NE(self):
-    #    """get end node of element"""
-    #    return self.conn[1]
-
-    # def get_NA(self):
-    #    """get begin node of element"""
-    #    return self.conn[0]
