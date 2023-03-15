@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Aug  4 14:24:42 2018
-
-@author: adutz
+title: TrussPy - Truss Solver for Python
+author: Andreas Dutzler
+year: 2023
 """
 
 import numpy as np
