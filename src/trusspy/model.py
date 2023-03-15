@@ -46,101 +46,82 @@ class Model:
     ----------
     stdout : sys.stdout
         get current stdout
-
     file : None or str
         name of input file (default is None)
-
     log : int
         Level of collecting logging informations during analysis.
         Higher numbers will collect more informations (default is 2).
-
     logfile : boolean
         flag for logfile creation (default is True)
-
     Nodes : NodeHandler
         Handles all nodes inside the model
-
     Elements : ElementHandler
         Handles all elements inside the model
-
     Boundaries : BoundaryHandler
         Handles all boundaries inside the model
-
     ExtForces : ExternalForceHandler
         Handles all external forces inside the model
-
     Analysis : AnalysisHandler
         Handles all data for one increment
-
     Results : ResultHandler
         Handles all result data inside the model.
         A collection of all converged analysis solutions.
-
     Settings : SettingsHandler
         Handles all model parameters inside the model
 
-    Todo
-    ----
-    * move g(V), dgdV(V) from Model class to path_tracing function
     """
 
     def __init__(self, file=None, log=2, logfile=False, logfile_name="analysis"):
-        """Init Model class with default values. If input file is specified,
-        collect all data and create model.
+        """Init Model class with Nodes, Elements, Boundaries, etc. with default values.
+        If an input file is specified, collect all data and create the model.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         file : None or str, optional
-            name of input file (default is None)
-
+            Name of input file (default is None).
         log : int
-            Level of collecting logging informations during analysis.
-            Higher numbers will collect more informations (default is 2).
-
+            Level of collecting logging informations during analysis. Higher numbers
+            will collect more informations (default is 2).
         logfile : boolean, optional
             flag for logfile creation (default is True)
+        logfile_name : str, optional
+            The name of the log file (default is "analysis").
+
         """
+
         self.stdout = sys.stdout
         self.file = file
         self.logfile = logfile
-        if file is None:
-            pass
-            # self.logfile = False
 
         if self.file is not None:
+            # extract base name of input file without file extension and use it as
+            # log file name
             self.logfile_name = ".".join(self.file.split(".")[:-1])
         else:
             self.logfile_name = logfile_name
-            # self.logfile = False
+
         if self.logfile:
             sys.stdout = open(self.logfile_name + ".md", "w")
-            print(
-                r"<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>"
-            )
 
         if log > 1:
             print(
                 f"""
-         _____                  ______      
-        |_   _|                 | ___ \     
-          | |_ __ _   _ ___ ___ | |_/ /   _ 
-          | | '__| | | / __/ __||  __/ | | |
-          | | |  | |_| \__ \__ \| |  | |_| |
-          \_/_|   \__,_|___/___/\_|   \__, |
-                                       __/ |
-                                      |___/ 
-        
-        TrussPy - Object Oriented Truss Solver for Python
-                  Version {__version__}
+ _____                  ______      
+|_   _|                 | ___ \     
+  | |_ __ _   _ ___ ___ | |_/ /   _ 
+  | | '__| | | / __/ __||  __/ | | |
+  | | |  | |_| \__ \__ \| |  | |_| |
+  \_/_|   \__,_|___/___/\_|   \__, |
+                               __/ |
+                              |___/ 
 
-        Author: Dutzler A.
-                Graz University of Technology, 2018
-                
-        TrussPy Copyright (C) 2023  Andreas Dutzler
-        This program comes with ABSOLUTELY NO WARRANTY; 
-        for details type `trusspy.show_w()'.
-        This is free software, and you are welcome to redistribute it
-        under certain conditions; type `trusspy.show_c()' for details.
+TrussPy - Truss Solver for Python
+          Version {__version__}
+
+Author: Dutzler A.
+        Graz University of Technology, 2018
+        
+TrussPy Copyright (C) 2023 Andreas Dutzler
         """
             )
 
