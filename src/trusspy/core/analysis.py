@@ -16,64 +16,48 @@ class Analysis:
     U : None
         placeholder for 2d-array with total displacement vector at the end of the inc.
         `U.shape = (nnodes, ndim)`. To get Ux,Uy,Uz of node i type: `U[i]`
-
     U0 : None
-        placeholder for 2d-array with total displacement vector at the beginning of the inc.
-        `U0.shape = (nnodes, ndim)`. To get U0x,U0y,U0z of node i type: `U0[i]`
-
+        placeholder for 2d-array with total displacement vector at the beginning of the
+        inc. `U0.shape = (nnodes, ndim)`. To get U0x,U0y,U0z of node i type: `U0[i]`
     r : None
         placeholder for 2d-array with internal force vector
         `r.shape = (nnodes, ndim)`. To get rx,ry,rz of node i type: `r[i]`
-
     g : None
         placeholder for 2d-array with equilibrium vector
         `g.shape = (nnodes, ndim)`. To get gx,gy,gz of node i type: `g[i]`
-
     K : None
         placeholder for 4d-array with stiffness matrix
         `K.shape = (nnodes,nnodes,ndim,ndim)`. To get K with shape (ndim,ndim)
         between force of node i w.r.t. displacement of node j type K[i,j].
-
     stretch : None
         placeholder for 2d-array with stretch vector
         `stretch.shape = (nelems, 1)`. To get stretch of element i
         type: `stretch[i]`
-
     element_force : None
         placeholder for 2d-array with element force vector
         `element_force.shape = (nelems, 1)`. To get element_force of element i
         type: `element_force[i]`
-
     element_stress : None
         placeholder for 2d-array with element stress vector
         `element_stress.shape = (nelems, 1)`. To get element_stress of element i
         type: `element_stress[i]`
-
     element_stress0 : None
-        placeholder for 2d-array with element stress vector at the beginning of the increment
-        `element_stress0.shape = (nelems, 1)`. To get element_stress0 of element i
-        type: `element_stress0[i]`
-
+        placeholder for 2d-array with element stress vector at the beginning of the
+        increment ``element_stress0.shape = (nelems, 1)``. To get element_stress0 of
+        element ``i`` type: ``element_stress0[i]``.
     DOF0 : None
         placeholder for indices of inactive (locked) degree of freedoms
-
     DOF1 : None
         placeholder for indices of active (free) degree of freedoms
-
     Ured : None
         placeholder for reduced dispaclement vector
         (only active components of U)
-
     Vred : None
         placeholder for reduced dispaclement vector
         (only active components of V)
-
     state_v : None
         placeholder for state variable vector
 
-    Todo
-    ----
-    * simplify reduced set with DOF1 read/write options
     """
 
     def __init__(self):
@@ -122,9 +106,6 @@ class Analysis:
         ValueError : Result is not empty and can't be built.
             Dimensions already set.
 
-        Todo
-        ----
-        * simplify reduced slice read/write operations
         """
         if self.U is None:
             self.step = 1
