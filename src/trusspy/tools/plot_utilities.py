@@ -160,16 +160,6 @@ def p_model(
                 view=view,
                 scale=force_scale,
             )
-    #    if 'both' in config:
-    #        fig,ax = plot_nodes(self.Nodes.coords,color='C7',view=view)
-    #        fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords,fig,ax,color='C7',view=view)
-    #        fig,ax = plot_nodes(self.Nodes.coords+self.Results.R[inc].U,fig,ax,color='C2',view=view)
-    #        fig,ax = plot_elems(self.Elements.conns,self.Nodes.coords+self.Results.R[inc].U,
-    #                   fig,ax,color='C0',view=view,contour=con,lim_scale=lim_scale)
-    #        fig,ax = plot_force(self.Results.R[inc].lpf*self.ExtForces.forces[:,3*(step-1):3*step],
-    #                   self.Nodes.coords+self.Results.R[inc].U,
-    #                   fig,ax,view=view,
-    #                   scale=force_scale)
 
     if force_scale is not None and ("deformed" in config or "undeformed" in config):
         # these are matplotlib.patch.Patch properties
@@ -213,8 +203,6 @@ def p_model(
         plt.xlabel(view[0])
         plt.ylabel(view[1])
 
-    # plot_force(self.ExtForces.forces,self.Nodes.coords)
-    # plt.show()
     return fig, ax
 
 
@@ -248,38 +236,12 @@ def p_movie(
 
     for i in incs:
 
-        #        if contour == 'stretch':
-        #            if cbar_limits == 'auto':
-        #                contour_lim = [1-max(abs(self.Results.R[i].stretch[:,0]-1)),1+max(abs(self.Results.R[i].stretch[:,0]-1))]
-        #            else:
-        #                contour_lim = cbar_limits
-        #            con = contour, self.Results.R[i].stretch[:,0], contour_lim
-        #        if contour == 'force':
-        #            if cbar_limits == 'auto':
-        #                contour_lim = [-max(abs(self.Results.R[i].element_force[:,0])),max(abs(self.Results.R[i].element_force[:,0]))]
-        #            else:
-        #                contour_lim = cbar_limits
-        #            con = contour, self.Results.R[i].element_force[:,0], contour_lim
-        #        if contour == 'stress':
-        #            if cbar_limits == 'auto':
-        #                contour_lim = [-max(abs(self.Results.R[i].element_stress[:,0])),max(abs(self.Results.R[i].element_stress[:,0]))]
-        #            else:
-        #                contour_lim = cbar_limits
-        #            con = contour, self.Results.R[i].element_stress[:,0], contour_lim
-        #        if type(contour)==tuple:
-        #            if contour[0] == 'stretch':
-        #                con_data = self.Results.R[i].stretch[:,0]
-        #            elif contour[0] == 'force':
-        #                con_data = self.Results.R[i].element_force[:,0]
-        #            elif contour[0] == 'stress':
-        #                con_data = self.Results.R[i].element_stress[:,0]
-        #            con = contour[0], con_data, contour[1]
-
         self.plot_model(
             config, view, contour, lim_scale, force_scale, nodesize, cbar_limits, i
         )
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close("all")
+
     png_to_gif()
 
 
@@ -309,8 +271,7 @@ def p_path(self, nodepath, increment=-1, Y="Displacement X", fig=None, ax=None):
     if fig is None:
         fig, ax = plt.subplots()
     plot_pth(nodepath, yy, increment, Y, fig, ax)
-    # print(np.array(xx),np.array(yy))
-    # plt.show()
+
     return fig, ax
 
 
@@ -354,8 +315,7 @@ def p_history(
     if fig is None:
         fig, ax = plt.subplots()
     plot_hist(xx, yy, nodes[0], X, Y, fig, ax)
-    # print(np.array(xx),np.array(yy))
-    # plt.show()
+
     return fig, ax
 
 

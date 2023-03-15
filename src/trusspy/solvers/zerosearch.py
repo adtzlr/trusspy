@@ -5,14 +5,9 @@ author: Andreas Dutzler
 year: 2023
 """
 
-import copy
-
-import numpy as np
-from numpy.linalg import norm, solve
-from scipy.sparse import csc_matrix, csr_matrix
+from numpy.linalg import norm
+from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import spsolve
-
-# from numba import jit
 
 
 def newton(f, dfdx, x, nfev=8, ftol=1e-8, xtol=1e-8, verbose=0, *args):
@@ -94,18 +89,7 @@ def newton(f, dfdx, x, nfev=8, ftol=1e-8, xtol=1e-8, verbose=0, *args):
 
     # NEWTON-RHAPSON ITERATIONS
     for n in range(nfev):
-        # dx = -np.linalg.inv(dfdx(x,j,xmax))@f(x,j,xmax)
-
-        # DIRECT SPARSE SOLVER with cs"r" "R"ow optimized sparse matrix
-        # print('x', x)
-        # print('xmax', args[2])
-        # print('f', f(x,*args))
-        # print('dfdx', dfdx(x,*args))
         dx = spsolve(csr_matrix(dfdx(x, *args)), -f(x, *args))
-        # print('dx', dx[:3])
-
-        # DENSE SOLVER
-        # dx = solve(dfdx(x,*args),-f(x,*args))
 
         # UPDATE SOLUTION
         x = x + dx
@@ -115,14 +99,11 @@ def newton(f, dfdx, x, nfev=8, ftol=1e-8, xtol=1e-8, verbose=0, *args):
         x_norm = norm(dx)
 
         if verbose > 0:
-            # print('        {0:2d}          |{1:1.3e} {2:1.3e}|           |           |           |'.format(
-            #      n,f_norm,x_norm))
             print(
                 "|     |  {0:2d}  |       |{1:1.3e}|    |        |    |        |    |        |".format(
                     n + 1, f_norm
                 )
             )
-            # print('+---+------+-------+---------+-----------+-----------+-----------+-----------+')
 
         if f_norm < ftol and x_norm < xtol:
             success = True
