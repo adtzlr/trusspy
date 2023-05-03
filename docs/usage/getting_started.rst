@@ -5,8 +5,7 @@ The following basic example is written in interactive mode to show how trusspy w
 
 
 It is also possible to run TrussPy online without any installation. This section is available as an Interactive Online Notebook.
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adtzlr/trusspy/main?labpath=docs%2Fexamples%2Fe101_nb_interactive.ipynb) <a target="_blank" href="https://colab.research.google.com/github/adtzlr/trusspy/blob/main/docs/examples/e101_nb_interactive.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
-
+|MyBinder|_ |Colab|_
 
 .. figure:: images/getting_started-1.png
    :width: 75%
@@ -128,4 +127,8 @@ It could also be helpful to show the animated deformation process within a simpl
     
 *Important Note:* A **LOT** of assumptions are made to run this model without specifying barely any parameter. Most important ones are incremental displacement values, incremental LPF value and the amount of increments to be solved. These critical parameters are responsible if the model solution will converge or not!
 
-.. _`Interactive Online Notebook`: https://mybinder.org/v2/gh/adtzlr/trusspy/main?labpath=docs%2Fexamples%2Fe101_nb_interactive.ipynb
+.. |MyBinder| image:: https://mybinder.org/badge_logo.svg
+.. _MyBinder: https://mybinder.org/v2/gh/adtzlr/trusspy/main?labpath=docs%2Fexamples%2Fe101_nb_interactive.ipynb
+
+.. |Colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. _Colab: https://colab.research.google.com/github/adtzlr/trusspy/blob/main/docs/examples/e101_nb_interactive.ipynb
