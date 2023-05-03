@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Changed
+- Change default `force_scale=1.0` (from `0.5`) in `Model.plot_model()` and `Model.plot_movie()`.
+
 ### Removed
 - Remove the `config`-argument in `Model.plot_model()` (always plot the deformed configuration).
 - Don't support `Model.plot_model(force_scale=None)`, must be `float`.

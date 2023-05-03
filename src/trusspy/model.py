@@ -677,7 +677,7 @@ Dutzler Andreas, Graz University of Technology, 2023
         view="xz",
         contour=None,
         lim_scale=1.2,
-        force_scale=0.5,
+        force_scale=1.0,
         nodesize=10,
         cbar_limits="auto",
         inc=-1,
