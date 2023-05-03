@@ -676,7 +676,7 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_model(
         self,
-        config="both",
+        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
@@ -700,7 +700,7 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_movie(
         self,
-        config="both",
+        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
@@ -708,6 +708,7 @@ Dutzler Andreas, Graz University of Technology, 2023
         nodesize=10,
         cbar_limits="auto",
         incs="all",
+        **kwargs,
     ):
         p_movie(
             self,
@@ -719,6 +720,7 @@ Dutzler Andreas, Graz University of Technology, 2023
             nodesize,
             cbar_limits,
             incs,
+            **kwargs,
         )
 
     def plot_history(

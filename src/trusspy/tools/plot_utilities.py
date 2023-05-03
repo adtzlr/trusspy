@@ -166,22 +166,24 @@ def p_model(
         props = dict(boxstyle="round", facecolor="C2", alpha=0.25)
         if view == "3d":
             ax.text2D(
-                0.3,
-                1.05,
-                textstr,
-                transform=ax.transAxes,
-                fontsize=11,
-                verticalalignment="top",
-                bbox=props,
-            )
-        else:
-            ax.text(
-                0.05,
+                0.5,
                 0.95,
                 textstr,
                 transform=ax.transAxes,
                 fontsize=11,
                 verticalalignment="top",
+                horizontalalignment="center",
+                bbox=props,
+            )
+        else:
+            ax.text(
+                0.5,
+                0.95,
+                textstr,
+                transform=ax.transAxes,
+                fontsize=11,
+                verticalalignment="top",
+                horizontalalignment="center",
                 bbox=props,
             )
 
@@ -216,6 +218,7 @@ def p_movie(
     nodesize=10,
     cbar_limits="auto",
     incs="all",
+    **kwargs,
 ):
     if incs == "all":
         if self.Settings.nsteps > 1:
@@ -242,7 +245,7 @@ def p_movie(
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close("all")
 
-    png_to_gif()
+    png_to_gif(**kwargs)
 
 
 def p_path(self, nodepath, increment=-1, Y="Displacement X", fig=None, ax=None):
