@@ -90,8 +90,7 @@ def p_model(
     step = self.Results.R[inc].step
     fig, ax = plot_force(
         f0_const
-        + self.Results.R[inc].lpf
-        * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
+        + self.Results.R[inc].lpf * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
         self.Nodes.coords + self.Results.R[inc].U,
         fig,
         ax,
