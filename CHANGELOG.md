@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [2.0.0] - 2023-05-03
+
 ### Changed
 - Change default `force_scale=1.0` (from `0.5`) in `Model.plot_model()` and `Model.plot_movie()`.
 - Set `title="UNDEFORMED"` if increment zero is passed to `Model.plot_model(inc=0)`.
