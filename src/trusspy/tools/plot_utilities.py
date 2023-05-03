@@ -33,7 +33,7 @@ def p_extforces(self, step=1):
 def p_model(
     self,
     view="xz",
-    contour="force",
+    contour=None,
     lim_scale=1.0,
     force_scale=1.0,
     nodesize=10,
@@ -89,10 +89,9 @@ def p_model(
     f0_const = self.Results.R[inc].ExtForces.forces_const
     step = self.Results.R[inc].step
     fig, ax = plot_force(
-        (f0_const + self.ExtForces.forces[:, 3 * (step - 1) : 3 * step])
-        / np.linalg.norm(
-            f0_const + self.ExtForces.forces[:, 3 * (step - 1) : 3 * step]
-        ),
+        f0_const
+        + self.Results.R[inc].lpf
+        * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
         self.Nodes.coords + self.Results.R[inc].U,
         fig,
         ax,
