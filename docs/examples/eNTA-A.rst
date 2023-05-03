@@ -47,9 +47,9 @@ Now we create Nodes with coordinate triples and Elements with a list of node con
        ME.add_element( 5, conn=(2,5), gprop=[1   ] )
        ME.add_element( 6, conn=(4,5), gprop=[1   ] )
        
-       ME.assign_etype(    'all',   element_type   )
-       ME.assign_mtype(    'all',  material_type   )
-       ME.assign_material( 'all', [youngs_modulus] )
+       ME.assign_etype("all", element_type)
+       ME.assign_mtype("all", material_type)
+       ME.assign_material("all", [youngs_modulus])
        
 
 Beside Nodes and Elements we have to define Mechanical (U) Boundaries and External Forces. If a node does not contain Boundaries or External Forces the corresponding entries are added automatically by TrussPy.
@@ -241,36 +241,35 @@ Model Plot and Node History
    
 To visualize the deformed state of the model for increment 40 some model plots are generated. First the undeformed configuration is generated for different views.
 
-.. code:: python
+..  code:: python
 
-   # undeformed views
-   fig, ax = M.plot_model(config=['undeformed'],
-                          view='3d', #'xy', 'yz', 'xz'
-                          contour='force',
-                          lim_scale=(-3,2,0,5,-1,4), #3d
-                          #lim_scale=1.4, #plane-view
-                          force_scale=5.0, #2
-                          inc=0)
-   fig.savefig('model_undeformed_inc0_3d.pdf')
-   fig.savefig('model_undeformed_inc0_3d.png')
-   
+    # undeformed views
+    fig, ax = M.plot_model(
+        view="3d",  # 'xy', 'yz', 'xz'
+        contour="force",
+        lim_scale=(-3, 2, 0, 5, -1, 4),  # 3d
+        # lim_scale=1.4, # plane-view
+        force_scale=5.0,  # 2
+        inc=0,
+    )
+    fig.savefig("model_undeformed_inc0_3d.pdf")
+    fig.savefig("model_undeformed_inc0_3d.png")
+
 For the deformed model the figures are generated with the following code:
 
 .. code:: python
 
-   fig, ax = M.plot_model(config=['deformed'],
-                          view='xz',
-                          contour='force',
-                          lim_scale=1.3,
-                          force_scale=500.0,
-                          inc=pinc)
-   
-   fig, ax = M.plot_model(config=['deformed'],
-                          view='3d',
-                          contour='force',
-                          lim_scale=(-3,2,0,5,-2,3),
-                          force_scale=500.0,
-                          inc=40)
+   fig, ax = M.plot_model(
+       view="xz", contour="force", lim_scale=1.3, force_scale=500.0, inc=40
+   )
+
+   fig, ax = M.plot_model(
+       view="3d",
+       contour="force",
+       lim_scale=(-3, 2, 0, 5, -2, 3),
+       force_scale=500.0,
+       inc=40,
+   )
                 
 .. figure:: data_eNTA-A/model_contour-force_inc40_3d.png
    :scale: 100%

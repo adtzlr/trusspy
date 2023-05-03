@@ -80,13 +80,14 @@ When the job has finished we may post-process the deformed model and plot the fo
 .. code:: python
 
     # show results
-    M.plot_model(config=['deformed'],
-                 view='xz',
-                 contour='force',
-                 lim_scale=(-0.5,3.5,-2,2),
-                 force_scale=1.0,
-                 inc=-1)
-    M.plot_history(nodes=[2,2], X='Displacement X', Y='Force X')
+    M.plot_model(
+        view="xz",
+        contour="force",
+        lim_scale=(-0.5,3.5,-2,2),
+        force_scale=1.0,
+        inc=-1,
+    )
+    M.plot_history(nodes=[2,2], X="Displacement X", Y="Force X")
     M.plot_show()
 
     
@@ -109,12 +110,13 @@ It could also be helpful to show the animated deformation process within a simpl
 .. code:: python
 
     # show results
-    M.plot_movie(config=['deformed'],
-                 view='xz',
-                 contour='force',
-                 lim_scale=(-0.5,3.5,-2,2),
-                 force_scale=1.0,
-                 cbar_limits=[-1,1])
+    M.plot_movie(
+        view="xz",
+        contour="force",
+        lim_scale=(-0.5,3.5,-2,2),
+        force_scale=1.0,
+        cbar_limits=[-1,1],
+    )
     
 .. figure:: images/getting_started-4.gif
    :width: 75%
