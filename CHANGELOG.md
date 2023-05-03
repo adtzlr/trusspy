@@ -3,16 +3,16 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [1.0.4] - 2023-05-03
+
 ### Changed
 - Change default config from `Model.plot_model(config="both")` to `Model.plot_model(config="deformed")`. 
 - Change default config from `Model.plot_movie(config="both")` to `Model.plot_movie(config="deformed")`. 
+- Pass optional keyword-arguments (like `fps` or `duration`) to the underlying `png_to_gif(**kwargs)`-call inside `Model.plot_movie(**kwargs)`.
 
 ### Fixed
 - Fix overlapping title and text in `Model.plot_model()` and `Model.plot_movie()`: Change relative position of the force-scale text box in `tools.plot_utilities.p_model()` from `ax.text2D(0.3, 1.05, verticalalignment="top")` to `ax.text2D(0.5, 0.95, verticalalignment="top", horizontalalignment="center")`. Now identical arguments for calling 2D (`ax.text()`) and 3D (`ax.text2D()`) are used.
 - Don't pass `fps` to `imagio.mimwrite()` (use the default settings instead).
-
-### Removed
-- Remove pre-defined 
 
 ## [1.0.3] - 2023-03-15
 
