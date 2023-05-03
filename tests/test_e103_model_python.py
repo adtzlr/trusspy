@@ -38,13 +38,12 @@ def test_e103_python():
     M1.build()
     M1.run()
 
-    fig, ax = M1.plot_model(config=["undeformed"], inc=0)
+    fig, ax = M1.plot_model(inc=0)
     fig.savefig("model1_undeformed.png")
     fig.savefig("model1_undeformed.pdf")
 
-    # model plot: undeformed and deformed configuration for last increment
+    # model plot: last increment
     fig, ax = M1.plot_model(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         force_scale=2,
@@ -92,13 +91,12 @@ def test_e103_python():
     M2.build()
     M2.run()
 
-    fig, ax = M2.plot_model(config=["undeformed"], lim_scale=(-1, 4, -1, 4), inc=0)
+    fig, ax = M2.plot_model(lim_scale=(-1, 4, -1, 4), inc=0)
     fig.savefig("model2_undeformed.png")
     fig.savefig("model2_undeformed.pdf")
 
-    # model plot: undeformed and deformed configuration for last increment
+    # model plot: last increment
     fig, ax = M2.plot_model(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         lim_scale=(-1, 4, -1, 4),
@@ -123,7 +121,6 @@ def test_e103_python():
     fig1.savefig("history_node2_DispX-DispZ.pdf")
 
     M2.plot_movie(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         lim_scale=(-4.5, 5, -6, 3.5),

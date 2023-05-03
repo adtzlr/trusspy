@@ -62,7 +62,6 @@ def test_nta_a_python():
 
     ## model plot: undeformed and deformed configuration for last increment
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="3d",
         contour="force",
         lim_scale=(-3, 2, 0, 5, -1, 4),
@@ -73,7 +72,6 @@ def test_nta_a_python():
     fig.savefig("model_undeformed_inc0_3d.png")
 
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="xz",
         contour="force",
         lim_scale=1.4,
@@ -84,7 +82,6 @@ def test_nta_a_python():
     fig.savefig("model_undeformed_inc0_xz.png")
 
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="yz",
         contour="force",
         lim_scale=1.4,
@@ -95,7 +92,6 @@ def test_nta_a_python():
     fig.savefig("model_undeformed_inc0_yz.png")
 
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="xy",
         contour="force",
         lim_scale=1.4,
@@ -107,7 +103,6 @@ def test_nta_a_python():
 
     pinc = 40  # 105
     fig, ax = M.plot_model(
-        config=["deformed"],
         view="xz",
         contour="force",
         # lim_scale=(-4,4,-2,6,-1,5),
@@ -119,7 +114,6 @@ def test_nta_a_python():
     fig.savefig("model_contour-force_inc40_xz.png")
 
     fig, ax = M.plot_model(
-        config=["deformed"],
         view="yz",
         contour="force",
         # lim_scale=(-4,4,-2,6,-1,5),
@@ -131,7 +125,6 @@ def test_nta_a_python():
     fig.savefig("model_contour-force_inc40_yz.png")
 
     fig, ax = M.plot_model(
-        config=["deformed"],
         view="xy",
         contour="force",
         # lim_scale=(-4,4,-2,6,-1,5),
@@ -143,7 +136,6 @@ def test_nta_a_python():
     fig.savefig("model_contour-force_inc40_xy.png")
 
     fig, ax = M.plot_model(
-        config=["deformed"],
         view="3d",
         contour="force",
         lim_scale=(-3, 2, 0, 5, -2, 3),
@@ -155,7 +147,6 @@ def test_nta_a_python():
     fig.savefig("model_contour-force_inc40_3d.png")
 
     M.plot_movie(
-        config=["deformed"],
         view="3d",
         contour="force",
         lim_scale=(-3, 2, 0, 5, -2, 3),  # 3D

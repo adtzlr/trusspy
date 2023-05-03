@@ -103,7 +103,6 @@ class Model:
             sys.stdout = open(self.logfile_name + ".md", "w")
 
         if log > 1:
-
             if self.logfile:
                 print("```")
 
@@ -372,7 +371,6 @@ Dutzler Andreas, Graz University of Technology, 2023
         self.Analysis.lpf = 0
 
         for step in range(self.Settings.nsteps):
-
             # maximum number of increment and maximum value per step
             if type(self.Settings.incs) == tuple:
                 incs = self.Settings.incs[step]
@@ -676,18 +674,16 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_model(
         self,
-        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
-        force_scale=0.5,
+        force_scale=1.0,
         nodesize=10,
         cbar_limits="auto",
         inc=-1,
     ):
         fig, ax = p_model(
             self,
-            config,
             view,
             contour,
             lim_scale,
@@ -700,7 +696,6 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_movie(
         self,
-        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
@@ -712,7 +707,6 @@ Dutzler Andreas, Graz University of Technology, 2023
     ):
         p_movie(
             self,
-            config,
             view,
             contour,
             lim_scale,

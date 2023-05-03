@@ -14,7 +14,6 @@ class BoundaryHandler:
     "Handler for Boundary Conditions"
 
     def __init__(self):
-
         # Node-based displacement boundary condition
         self.Unodes = None
 

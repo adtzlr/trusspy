@@ -9,7 +9,6 @@ import numpy as np
 
 
 def umat_el(e, de, mat_prop, state_v):
-
     E = mat_prop[0]
 
     s = E * e
@@ -20,7 +19,6 @@ def umat_el(e, de, mat_prop, state_v):
 
 
 def umat_elplast_iso(e, de, mat_prop, state_v):
-
     E = mat_prop[0]
     K = mat_prop[1]
     Sy = mat_prop[2]

@@ -137,7 +137,6 @@ def dxmax_control(
     # not converged
     if not nr_success:
         if dxmax[0] > dxmax0[0] * minfac:
-
             if z + 1 == cycl:
                 z = 0
                 final_step_reduction = True
@@ -336,7 +335,6 @@ def pathfollow(
 
     # loop over increments
     for i in range(incs):
-
         # print informations
         if verbose > 0:
             # print(r'\pagebreak')
@@ -366,7 +364,6 @@ def pathfollow(
         # -----------------------------------------------------------------
         n_pre = 0
         if j_pre and not j_fixed:
-
             # only one nr-iteration
             nfev_pre = 1
 

@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Changed
+- Change default `force_scale=1.0` (from `0.5`) in `Model.plot_model()` and `Model.plot_movie()`.
+- Set `title="UNDEFORMED"` if increment zero is passed to `Model.plot_model(inc=0)`.
+- If `inc < 0` in `Model.plot_model()`, evaluate the increment to `inc = len(Model.Results.R) - inc`.
+
+### Removed
+- Remove the `config`-argument in `Model.plot_model()` (plot the deformed configuration if `inc > 0`, show the undeformed configuration with `lpf=1` if `inc==0`).
+- Don't support `Model.plot_model(force_scale=None)`, must be `float`.
+
 ## [1.0.4] - 2023-05-03
 
 ### Changed

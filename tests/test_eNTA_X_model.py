@@ -31,9 +31,8 @@ def test_nta_x(filepath="tests/"):
     M.build()
     M.run()
 
-    # model plot: undeformed and deformed configuration for last increment
+    # model plot: last increment
     fig, ax = M.plot_model(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         lim_scale=2,
@@ -42,8 +41,7 @@ def test_nta_x(filepath="tests/"):
     )
     fig.savefig("model_contour-force_inc-last.pdf")
 
-    # M.plot_movie(config=['undeformed','deformed'],
-    #             view='xz',
+    # M.plot_movie(view='xz',
     #             contour='stretch',
     #             lim_scale=-1.5,
     #             force_scale=10.0,

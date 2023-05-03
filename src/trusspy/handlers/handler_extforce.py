@@ -24,7 +24,6 @@ class ExternalForceHandler:
         pass
 
     def add_force(self, F, *args, **kwargs):
-
         if "ExternalForce" not in str(type(F)):
             F = ExternalForce(F, *args, **kwargs)
 
@@ -41,7 +40,6 @@ class ExternalForceHandler:
         self.forces = np.delete(self.forces, idx, axis=0)
 
     def add_forces(self, FF):
-
         for F in FF:
             self.add_force(F)
 

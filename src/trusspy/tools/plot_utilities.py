@@ -15,37 +15,25 @@ from .helper_functions2 import plot_elems, plot_force, plot_hist, plot_nodes, pl
 from .movie_generator import png_to_gif
 
 
-def p_nodes(self, config="undeformed"):
-    if config == "undeformed":
-        plot_nodes(self.Nodes.coords, color="k")
-    else:
-        plot_nodes(self.Nodes.coords + self.Results.U, color="C1")
+def p_nodes(self):
+    plot_nodes(self.Nodes.coords + self.Results.U, color="C1")
 
 
-def p_elements(self, config="undeformed"):
-    if config == "undeformed":
-        plot_elems(self.Elements.conns, self.Nodes.coords, color="C7")
-    else:
-        plot_elems(self.Elements.conns, self.Nodes.coords + self.Results.U, color="C0")
+def p_elements(self):
+    plot_elems(self.Elements.conns, self.Nodes.coords + self.Results.U, color="C0")
 
 
-def p_extforces(self, config="undeformed", step=1):
-    if config == "undeformed":
-        plot_force(
-            self.ExtForces.forces[:, 3 * (step - 1) : 3 * step], self.Nodes.coords
-        )
-    else:
-        plot_force(
-            self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
-            self.Nodes.coords + self.Results.U,
-        )
+def p_extforces(self, step=1):
+    plot_force(
+        self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
+        self.Nodes.coords + self.Results.U,
+    )
 
 
 def p_model(
     self,
-    config="deformed",
     view="xz",
-    contour="force",
+    contour=None,
     lim_scale=1.0,
     force_scale=1.0,
     nodesize=10,
@@ -56,6 +44,15 @@ def p_model(
     con = None
     plt.figure()
     fig, ax = None, None
+
+    if inc == 0:
+        lpf = 1.0
+        title = "UNDEFORMED"
+    else:
+        if inc < 0:
+            inc = len(self.Results.R) + inc
+        lpf = self.Results.R[inc].lpf
+        title = f"INCREMENT: {inc}"
 
     if contour == "stretch":
         if cbar_limits == "auto":
@@ -93,115 +90,77 @@ def p_model(
             con_data = self.Results.R[inc].element_stress[:, 0]
         con = contour[0], con_data, contour[1]
 
-    if "undeformed" in config:
-        fig, ax = plot_nodes(self.Nodes.coords, color="k", view=view, size=nodesize)
-        fig, ax = plot_elems(
-            self.Elements.conns,
-            self.Nodes.coords,
-            fig,
-            ax,
-            color="C7",
-            view=view,
-            lim_scale=lim_scale,
-        )
-        if "deformed" not in config and force_scale is not None:
-            textstr = (
-                r"$\mathbf{Plot}$ $\mathbf{Scale}$ $[F_0] =$ "
-                + "{:2.1g} ".format(force_scale)
-                + r"$\cdot [L]$"
-            )
-            f0_const = self.Results.R[inc].ExtForces.forces_const
-            step = self.Results.R[inc].step
-            fig, ax = plot_force(
-                (f0_const + self.ExtForces.forces[:, 3 * (step - 1) : 3 * step])
-                / np.linalg.norm(
-                    f0_const + self.ExtForces.forces[:, 3 * (step - 1) : 3 * step]
-                ),
-                self.Nodes.coords,
-                fig,
-                ax,
-                view=view,
-                scale=force_scale,
-            )
-    if "deformed" in config:
-        fig, ax = plot_nodes(
-            self.Nodes.coords + self.Results.R[inc].U,
-            fig,
-            ax,
-            color="k",
-            view=view,
-            size=nodesize,
-        )
-        fig, ax = plot_elems(
-            self.Elements.conns,
-            self.Nodes.coords + self.Results.R[inc].U,
-            fig,
-            ax,
-            color="C0",
-            view=view,
-            contour=con,
-            lim_scale=lim_scale,
-        )
-        if force_scale is not None:
-            textstr = (
-                r"$\mathbf{Plot}$ $\mathbf{Scale}$ $\lambda \cdot [F_0] =$ "
-                + "{:2.1g} ".format(force_scale)
-                + r"$\cdot [L]$"
-            )
-            f0_const = self.Results.R[inc].ExtForces.forces_const
-            step = self.Results.R[inc].step
-            fig, ax = plot_force(
-                f0_const
-                + self.Results.R[inc].lpf
-                * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
-                self.Nodes.coords + self.Results.R[inc].U,
-                fig,
-                ax,
-                view=view,
-                scale=force_scale,
-            )
+    textstr = (
+        r"$\mathbf{Plot}$ $\mathbf{Scale}$ $[F_0] =$ "
+        + "{:2.1g} ".format(force_scale)
+        + r"$\cdot [L]$"
+    )
+    f0_const = self.Results.R[inc].ExtForces.forces_const
+    step = self.Results.R[inc].step
+    fig, ax = plot_force(
+        f0_const + lpf * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
+        self.Nodes.coords + self.Results.R[inc].U,
+        fig,
+        ax,
+        view=view,
+        scale=force_scale,
+    )
 
-    if force_scale is not None and ("deformed" in config or "undeformed" in config):
-        # these are matplotlib.patch.Patch properties
-        props = dict(boxstyle="round", facecolor="C2", alpha=0.25)
-        if view == "3d":
-            ax.text2D(
-                0.5,
-                0.95,
-                textstr,
-                transform=ax.transAxes,
-                fontsize=11,
-                verticalalignment="top",
-                horizontalalignment="center",
-                bbox=props,
-            )
-        else:
-            ax.text(
-                0.5,
-                0.95,
-                textstr,
-                transform=ax.transAxes,
-                fontsize=11,
-                verticalalignment="top",
-                horizontalalignment="center",
-                bbox=props,
-            )
+    fig, ax = plot_nodes(
+        self.Nodes.coords + self.Results.R[inc].U,
+        fig,
+        ax,
+        color="k",
+        view=view,
+        size=nodesize,
+    )
+    fig, ax = plot_elems(
+        self.Elements.conns,
+        self.Nodes.coords + self.Results.R[inc].U,
+        fig,
+        ax,
+        color="C0",
+        view=view,
+        contour=con,
+        lim_scale=lim_scale,
+    )
+
+    # these are matplotlib.patch.Patch properties
+    props = dict(boxstyle="round", facecolor="C2", alpha=0.25)
+    if view == "3d":
+        ax.text2D(
+            0.5,
+            0.95,
+            textstr,
+            transform=ax.transAxes,
+            fontsize=11,
+            verticalalignment="top",
+            horizontalalignment="center",
+            bbox=props,
+        )
+    else:
+        ax.text(
+            0.5,
+            0.95,
+            textstr,
+            transform=ax.transAxes,
+            fontsize=11,
+            verticalalignment="top",
+            horizontalalignment="center",
+            bbox=props,
+        )
 
     if len(plt.gca().yaxis.get_label().get_text()) == 0:
         str_ins = ""
     else:
         str_ins = ", "
     if view == "3d":
-        ax.set_title(
-            "INCREMENT: " + str(inc) + str_ins + plt.gca().yaxis.get_label().get_text()
-        )
+        ax.set_title(title + str_ins + plt.gca().yaxis.get_label().get_text())
         ax.set_xlabel("x")
         ax.set_ylabel("y")
         ax.set_zlabel("z")
     else:
-        plt.title(
-            "INCREMENT: " + str(inc) + str_ins + plt.gca().yaxis.get_label().get_text()
-        )
+        plt.title(title + str_ins + plt.gca().yaxis.get_label().get_text())
         plt.xlabel(view[0])
         plt.ylabel(view[1])
 
@@ -210,7 +169,6 @@ def p_model(
 
 def p_movie(
     self,
-    config="both",
     view="xz",
     contour=None,
     lim_scale=1.5,
@@ -238,10 +196,7 @@ def p_movie(
     os.mkdir("figures/png/")
 
     for i in incs:
-
-        self.plot_model(
-            config, view, contour, lim_scale, force_scale, nodesize, cbar_limits, i
-        )
+        self.plot_model(view, contour, lim_scale, force_scale, nodesize, cbar_limits, i)
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close("all")
 

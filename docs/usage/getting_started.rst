@@ -4,7 +4,8 @@ Getting Started
 The following basic example is written in interactive mode to show how trusspy works. *For mid-sized models it may be more convenient to use a Spreadsheet (Excel) - input file*. All model parameters except allowed incremental quantities are assumed with default values to enable a clean tutorial for the model creation process. We will consider a model with two nodes and one truss. Although this configuration does not include any geometric nonlinear effects it is the most basic example to start with. The left end of the truss (Node 1) is fixed whereas the right end displacement is free in direction x (Node 2). An external force acts on the right end of the truss in direction x. To sum up, this model contains two nodes, one element and one degree of freedom (DOF).
 
 
-**News**: It is now possible to run TrussPy online without any installation. This section is now available as an `Interactive Online Notebook`_.
+It is also possible to run TrussPy online without any installation. This section is available as an Interactive Online Notebook.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adtzlr/trusspy/main?labpath=docs%2Fexamples%2Fe101_nb_interactive.ipynb) <a target="_blank" href="https://colab.research.google.com/github/adtzlr/trusspy/blob/main/docs/examples/e101_nb_interactive.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
 .. figure:: images/getting_started-1.png
@@ -80,13 +81,14 @@ When the job has finished we may post-process the deformed model and plot the fo
 .. code:: python
 
     # show results
-    M.plot_model(config=['deformed'],
-                 view='xz',
-                 contour='force',
-                 lim_scale=(-0.5,3.5,-2,2),
-                 force_scale=1.0,
-                 inc=-1)
-    M.plot_history(nodes=[2,2], X='Displacement X', Y='Force X')
+    M.plot_model(
+        view="xz",
+        contour="force",
+        lim_scale=(-0.5,3.5,-2,2),
+        force_scale=1.0,
+        inc=-1,
+    )
+    M.plot_history(nodes=[2,2], X="Displacement X", Y="Force X")
     M.plot_show()
 
     
@@ -109,12 +111,13 @@ It could also be helpful to show the animated deformation process within a simpl
 .. code:: python
 
     # show results
-    M.plot_movie(config=['deformed'],
-                 view='xz',
-                 contour='force',
-                 lim_scale=(-0.5,3.5,-2,2),
-                 force_scale=1.0,
-                 cbar_limits=[-1,1])
+    M.plot_movie(
+        view="xz",
+        contour="force",
+        lim_scale=(-0.5,3.5,-2,2),
+        force_scale=1.0,
+        cbar_limits=[-1,1],
+    )
     
 .. figure:: images/getting_started-4.gif
    :width: 75%

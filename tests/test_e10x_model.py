@@ -81,7 +81,6 @@ def test_e10x():
 
     # model plot: undeformed and deformed configuration for last increment
     fig0, ax0 = M.plot_model(
-        config=["undeformed"],
         view="xz",
         lim_scale=(-5, 5, -8, 1),
         force_scale=1.0,
@@ -90,7 +89,6 @@ def test_e10x():
     fig0.savefig("model_contour-force_inc-begin.pdf")
 
     fig1, ax1 = M.plot_model(
-        config=["deformed"],
         view="xz",
         contour="stress",
         lim_scale=(-5, 5, -8, 1),
@@ -101,7 +99,6 @@ def test_e10x():
     fig1.savefig("model_contour-force_inc-last.pdf")
 
     M.plot_movie(
-        config=["deformed"],
         view="xz",
         contour="stress",
         lim_scale=(-5, 5, -8, 1),

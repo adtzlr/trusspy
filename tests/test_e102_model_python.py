@@ -36,13 +36,12 @@ def test_e102_python():
     M.build()
     M.run()
 
-    fig, ax = M.plot_model(config=["undeformed"], inc=0)
+    fig, ax = M.plot_model(inc=0)
     fig.savefig("model_undeformed.png")
     fig.savefig("model_undeformed.pdf")
 
-    # model plot: undeformed and deformed configuration for last increment
+    # model plot: last increment
     fig, ax = M.plot_model(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         lim_scale=(-1, 3, -2.5, 1.5),

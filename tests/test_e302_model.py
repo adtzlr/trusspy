@@ -32,9 +32,8 @@ def test_e302(filepath="tests/"):
     M.build()
     M.run()
 
-    # model plot: undeformed and deformed configuration for last increment
+    # model plot: last increment
     fig, ax = M.plot_model(
-        config=["undeformed", "deformed"],
         view="xz",
         contour="force",
         lim_scale=2,
