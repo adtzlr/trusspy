@@ -218,6 +218,7 @@ def p_movie(
     nodesize=10,
     cbar_limits="auto",
     incs="all",
+    **kwargs,
 ):
     if incs == "all":
         if self.Settings.nsteps > 1:
@@ -244,7 +245,7 @@ def p_movie(
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close("all")
 
-    png_to_gif()
+    png_to_gif(**kwargs)
 
 
 def p_path(self, nodepath, increment=-1, Y="Displacement X", fig=None, ax=None):
