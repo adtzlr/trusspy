@@ -676,7 +676,6 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_model(
         self,
-        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
@@ -687,7 +686,6 @@ Dutzler Andreas, Graz University of Technology, 2023
     ):
         fig, ax = p_model(
             self,
-            config,
             view,
             contour,
             lim_scale,
@@ -700,7 +698,6 @@ Dutzler Andreas, Graz University of Technology, 2023
 
     def plot_movie(
         self,
-        config=["deformed"],
         view="xz",
         contour=None,
         lim_scale=1.2,
@@ -712,7 +709,6 @@ Dutzler Andreas, Graz University of Technology, 2023
     ):
         p_movie(
             self,
-            config,
             view,
             contour,
             lim_scale,

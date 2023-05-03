@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Removed
+- Remove the `config`-argument in `Model.plot_model()` (always plot the deformed configuration).
+- Don't support `Model.plot_model(force_scale=None)`, must be `float`.
+
 ## [1.0.4] - 2023-05-03
 
 ### Changed
