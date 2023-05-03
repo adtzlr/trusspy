@@ -59,9 +59,8 @@ def test_nta_a_python2():
     M.build()
     M.run()
 
-    ## model plot: undeformed and deformed configuration for last increment
+    ## model plot: last increment
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="3d",
         contour="force",
         lim_scale=(-3, 2, 0, 5, -1, 4),
@@ -71,8 +70,7 @@ def test_nta_a_python2():
     # fig.savefig('model_undeformed_inc0_3d.pdf')
     # fig.savefig('model_undeformed_inc0_3d.png')
 
-    # fig, ax = M.plot_model(config=['undeformed'],
-    #             view='xz',
+    # fig, ax = M.plot_model(view='xz',
     #             contour='force',
     #             lim_scale=1.4,
     #             force_scale=2.0,
@@ -80,8 +78,7 @@ def test_nta_a_python2():
     # fig.savefig('model_undeformed_inc0_xz.pdf')
     # fig.savefig('model_undeformed_inc0_xz.png')
     #
-    # fig, ax = M.plot_model(config=['undeformed'],
-    #             view='yz',
+    # fig, ax = M.plot_model(view='yz',
     #             contour='force',
     #             lim_scale=1.4,
     #             force_scale=2.0,
@@ -89,8 +86,7 @@ def test_nta_a_python2():
     # fig.savefig('model_undeformed_inc0_yz.pdf')
     # fig.savefig('model_undeformed_inc0_yz.png')
     #
-    # fig, ax = M.plot_model(config=['undeformed'],
-    #             view='xy',
+    # fig, ax = M.plot_model(view='xy',
     #             contour='force',
     #             lim_scale=1.4,
     #             force_scale=2.0,
@@ -100,7 +96,6 @@ def test_nta_a_python2():
     #
     pinc = 12  # 105
     fig, ax = M.plot_model(
-        config=["deformed"],
         view="xz",
         contour="force",
         # lim_scale=(-4,4,-2,6,-1,5),
@@ -111,8 +106,7 @@ def test_nta_a_python2():
     # fig.savefig('model_contour-force_inc40_xz.pdf')
     # fig.savefig('model_contour-force_inc40_xz.png')
     #
-    # fig, ax = M.plot_model(config=['deformed'],
-    #             view='yz',
+    # fig, ax = M.plot_model(view='yz',
     #             contour='force',
     #             #lim_scale=(-4,4,-2,6,-1,5),
     #             lim_scale=1.3,
@@ -121,8 +115,7 @@ def test_nta_a_python2():
     # fig.savefig('model_contour-force_inc40_yz.pdf')
     # fig.savefig('model_contour-force_inc40_yz.png')
     #
-    # fig, ax = M.plot_model(config=['deformed'],
-    #             view='xy',
+    # fig, ax = M.plot_model(view='xy',
     #             contour='force',
     #             #lim_scale=(-4,4,-2,6,-1,5),
     #             lim_scale=1.3,
@@ -131,8 +124,7 @@ def test_nta_a_python2():
     # fig.savefig('model_contour-force_inc40_xy.pdf')
     # fig.savefig('model_contour-force_inc40_xy.png')
     #
-    # fig, ax = M.plot_model(config=['deformed'],
-    #             view='3d',
+    # fig, ax = M.plot_model(view='3d',
     #             contour='force',
     #             lim_scale=(-3,2,0,5,-2,1),
     #             #lim_scale=1.2,
@@ -141,8 +133,7 @@ def test_nta_a_python2():
     # fig.savefig('model_contour-force_inc40_3d.pdf')
     # fig.savefig('model_contour-force_inc40_3d.png')
     #
-    # M.plot_movie(config=['deformed'],
-    #             view='3d',
+    # M.plot_movie(view='3d',
     #             contour='force',
     #             lim_scale=(-3,2,0,5,-1,4), #3D
     #             #lim_scale=-5, #XZ

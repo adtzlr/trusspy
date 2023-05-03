@@ -70,9 +70,8 @@ def test_adv_a_python():
     M.build()
     M.run()
 
-    ## model plot: undeformed configuration with external loads
+    ## model plot: with external loads
     fig, ax = M.plot_model(
-        config=["undeformed"],
         view="3d",
         contour="force",
         lim_scale=(-3, 3, -3, 3, -2, 3),
