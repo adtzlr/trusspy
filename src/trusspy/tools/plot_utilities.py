@@ -166,22 +166,24 @@ def p_model(
         props = dict(boxstyle="round", facecolor="C2", alpha=0.25)
         if view == "3d":
             ax.text2D(
-                0.3,
-                1.05,
-                textstr,
-                transform=ax.transAxes,
-                fontsize=11,
-                verticalalignment="top",
-                bbox=props,
-            )
-        else:
-            ax.text(
-                0.05,
+                0.5,
                 0.95,
                 textstr,
                 transform=ax.transAxes,
                 fontsize=11,
                 verticalalignment="top",
+                horizontalalignment="center",
+                bbox=props,
+            )
+        else:
+            ax.text(
+                0.5,
+                0.95,
+                textstr,
+                transform=ax.transAxes,
+                fontsize=11,
+                verticalalignment="top",
+                horizontalalignment="center",
                 bbox=props,
             )
 
