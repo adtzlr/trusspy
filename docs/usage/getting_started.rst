@@ -4,7 +4,8 @@ Getting Started
 The following basic example is written in interactive mode to show how trusspy works. *For mid-sized models it may be more convenient to use a Spreadsheet (Excel) - input file*. All model parameters except allowed incremental quantities are assumed with default values to enable a clean tutorial for the model creation process. We will consider a model with two nodes and one truss. Although this configuration does not include any geometric nonlinear effects it is the most basic example to start with. The left end of the truss (Node 1) is fixed whereas the right end displacement is free in direction x (Node 2). An external force acts on the right end of the truss in direction x. To sum up, this model contains two nodes, one element and one degree of freedom (DOF).
 
 
-**News**: It is now possible to run TrussPy online without any installation. This section is now available as an `Interactive Online Notebook`_.
+It is also possible to run TrussPy online without any installation. This section is available as an Interactive Online Notebook.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adtzlr/trusspy/main?labpath=docs%2Fexamples%2Fe101_nb_interactive.ipynb) <a target="_blank" href="https://colab.research.google.com/github/adtzlr/trusspy/blob/main/docs/examples/e101_nb_interactive.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 
 .. figure:: images/getting_started-1.png
