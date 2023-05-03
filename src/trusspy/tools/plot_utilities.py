@@ -45,6 +45,15 @@ def p_model(
     plt.figure()
     fig, ax = None, None
 
+    if inc == 0:
+        lpf = 1.0
+        title = "UNDEFORMED"
+    else:
+        if inc < 0:
+            inc = len(self.Results.R) + inc
+        lpf = self.Results.R[inc].lpf
+        title = f"INCREMENT: {inc}"
+
     if contour == "stretch":
         if cbar_limits == "auto":
             contour_lim = [
@@ -89,8 +98,7 @@ def p_model(
     f0_const = self.Results.R[inc].ExtForces.forces_const
     step = self.Results.R[inc].step
     fig, ax = plot_force(
-        f0_const
-        + self.Results.R[inc].lpf * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
+        f0_const + lpf * self.ExtForces.forces[:, 3 * (step - 1) : 3 * step],
         self.Nodes.coords + self.Results.R[inc].U,
         fig,
         ax,
@@ -147,16 +155,12 @@ def p_model(
     else:
         str_ins = ", "
     if view == "3d":
-        ax.set_title(
-            "INCREMENT: " + str(inc) + str_ins + plt.gca().yaxis.get_label().get_text()
-        )
+        ax.set_title(title + str_ins + plt.gca().yaxis.get_label().get_text())
         ax.set_xlabel("x")
         ax.set_ylabel("y")
         ax.set_zlabel("z")
     else:
-        plt.title(
-            "INCREMENT: " + str(inc) + str_ins + plt.gca().yaxis.get_label().get_text()
-        )
+        plt.title(title + str_ins + plt.gca().yaxis.get_label().get_text())
         plt.xlabel(view[0])
         plt.ylabel(view[1])
 
