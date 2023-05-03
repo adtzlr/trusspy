@@ -85,7 +85,6 @@ def plot_nodes(X, fig=None, ax=None, view="xz", color="k", size=10):
         i, j = 1, 2
 
     if view == "3d":
-
         if fig is None:
             fig = plt.figure()
         if ax is None:
@@ -121,7 +120,6 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                 pass
 
             if view == "3d":
-
                 if fig is None:
                     fig = plt.figure()
                 if ax is None:
@@ -147,7 +145,7 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx],
                         [yy, yy],
                         [zz, zz + scale * f0i[k]],
-                        **arrow_properties
+                        **arrow_properties,
                     )
                     ax.add_artist(a)
 
@@ -162,7 +160,7 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx],
                         [yy, yy + scale * f0i[j]],
                         [zz, zz],
-                        **arrow_properties
+                        **arrow_properties,
                     )
                     ax.add_artist(a)
 
@@ -177,7 +175,7 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
                         [xx, xx + scale * f0i[i]],
                         [yy, yy],
                         [zz, zz],
-                        **arrow_properties
+                        **arrow_properties,
                     )
                     ax.add_artist(a)
             else:  # 2d
@@ -216,7 +214,6 @@ def plot_force(f0, X, fig=None, ax=None, view="xz", color="C2", scale=0.5):
 def plot_elems(
     E, X, fig=None, ax=None, view="xz", color="C0", contour=None, lim_scale=1.2
 ):
-
     if view == "xz":
         i, j = 0, 2
     if view == "xy":
@@ -250,7 +247,6 @@ def plot_elems(
             s_m.set_array([])
 
         if view == "3d":
-
             if fig is None:
                 fig = plt.figure()
             if ax is None:

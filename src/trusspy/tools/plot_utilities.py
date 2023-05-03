@@ -99,7 +99,7 @@ def p_model(
         view=view,
         scale=force_scale,
     )
-        
+
     fig, ax = plot_nodes(
         self.Nodes.coords + self.Results.R[inc].U,
         fig,
@@ -194,10 +194,7 @@ def p_movie(
     os.mkdir("figures/png/")
 
     for i in incs:
-
-        self.plot_model(
-            view, contour, lim_scale, force_scale, nodesize, cbar_limits, i
-        )
+        self.plot_model(view, contour, lim_scale, force_scale, nodesize, cbar_limits, i)
         plt.savefig("figures/png/fig_{:03d}.png".format(i), dpi=200)
         plt.close("all")
 

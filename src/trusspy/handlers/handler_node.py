@@ -24,7 +24,6 @@ class NodeHandler:
         pass
 
     def add_node(self, N, *args, **kwargs):
-
         # raw node
         if "Node" not in str(type(N)):
             N = Node(N, *args, **kwargs)

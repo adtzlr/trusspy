@@ -24,7 +24,6 @@ def truss(
     umat,
     analysis,
 ):
-
     NA, NE = nodes
     XA, XE = Xnodes
     UA, UE = Unodes

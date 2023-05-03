@@ -103,7 +103,6 @@ class Model:
             sys.stdout = open(self.logfile_name + ".md", "w")
 
         if log > 1:
-
             if self.logfile:
                 print("```")
 
@@ -372,7 +371,6 @@ Dutzler Andreas, Graz University of Technology, 2023
         self.Analysis.lpf = 0
 
         for step in range(self.Settings.nsteps):
-
             # maximum number of increment and maximum value per step
             if type(self.Settings.incs) == tuple:
                 incs = self.Settings.incs[step]

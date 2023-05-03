@@ -24,6 +24,4 @@ def png_to_gif(workdir=r"figures/", png_subdir=r"png/", gif_subdir=r"gif/", **kw
         if file_name.endswith(".png"):
             file_path = os.path.join(png_dir, file_name)
             images.append(imageio.imread(file_path))
-    imageio.mimwrite(
-        gif_dir + r"movie.gif", images, subrectangles=True, **kwargs
-    )
+    imageio.mimwrite(gif_dir + r"movie.gif", images, subrectangles=True, **kwargs)

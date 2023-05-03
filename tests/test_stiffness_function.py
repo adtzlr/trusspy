@@ -44,7 +44,6 @@ def stiffness(list_of_areas):
 
 
 def test_stiffness_function():
-
     list_of_areas = [2, 3]
     K = stiffness(list_of_areas)
 
