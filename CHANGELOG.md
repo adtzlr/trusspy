@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Removed
 - Remove Excel-based input files. This removes the `file`-argument of `Model`, all `add_..._matrix()`-related methods of handlers as well as all Excel-based tests.
+- Remove PDF- and HTML-output conversions of Markdown-logfiles. This is considered as an external `pandoc`-task and is no more a part of TrussPy.
 
 ### Fixed
 - The result of the first increment contains the displacements of the first solution. However, the very first item of the results should contain the undeformed model. Hence, the initial displacements are now copied to `Model.Results.R[0].U = Model.Results.R[0].U0`.
