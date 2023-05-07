@@ -45,5 +45,3 @@ class SettingsHandler:
         self.nstatev = 0
 
         self.nsteps = 1
-
-        self.logpdf = False
