@@ -191,7 +191,8 @@ Dutzler Andreas, Graz University of Technology, 2023
             print('    active DOF          "nproDOF1":', self.nproDOF1)
             print('    fixed  DOF          "nproDOF0":', self.nproDOF0)
 
-        # init results
+        # init results, add empty increment
+        self.Results.add_increment()
         self.Analysis.build(
             self.nnodes,
             self.nelems,
@@ -201,12 +202,6 @@ Dutzler Andreas, Graz University of Technology, 2023
             self.Settings.nstatev,
         )
 
-        # add first initially undeformed (empty) increment
-        self.Results.add_increment()
-        self.Results.R[-1] = copy.deepcopy(self.Analysis)
-
-        # add (empty) increment
-        self.Results.add_increment()
         self.Results.R[-1] = copy.deepcopy(self.Analysis)
 
         self.clock1_build = time.perf_counter()
@@ -420,10 +415,9 @@ Dutzler Andreas, Graz University of Technology, 2023
             if self.Settings.log > 0:
                 print("\nEnd of Step", step + 1)
 
-        self.Results.R[0].ExtForces = self.Results.R[1].ExtForces
-        self.Results.R[0].ExtForces.forces[:] = 0
-        self.Results.R[0].lpf = 0
-
+        # duplicate first increment to get right indices
+        self.Results.duplicate_first_increment()
+        
         time_dclock_run = time.perf_counter() - self.clock0_run
         time_dtime_run = time.process_time() - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
