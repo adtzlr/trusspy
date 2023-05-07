@@ -7,7 +7,6 @@ dependencies:
   - scipy
   - imageio
   - matplotlib
-  - pandoc
   - pip
   - pip:
     - trusspy
