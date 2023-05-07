@@ -11,7 +11,6 @@ import time
 from subprocess import run as sp_run
 
 import numpy as np
-import pandas as pd
 
 from .__about__ import __version__
 from .core import Analysis
