@@ -30,10 +30,6 @@ class ResultHandler:
         "remove last Result from ResultManager"
         self.R.pop()
 
-    def duplicate_first_increment(self):
-        "duplicate first Result in ResultManager"
-        self.R = [self.R[0]] + self.R
-
     def build_result(self, nnodes, nelems, ndim, DOF0, DOF1, nstatev):
         self.R[-1].build(nnodes, nelems, ndim, DOF0, DOF1, nstatev)
 
