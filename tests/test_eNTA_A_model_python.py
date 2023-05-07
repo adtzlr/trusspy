@@ -157,7 +157,7 @@ def test_nta_a_python():
         force_scale=50.0,
         incs=range(0, M.Settings.incs, 1),
     )
-    
+
     ## history plot
     Disp = "Displacement X"
     fig, ax = M.plot_history(nodes=[4, 4], X=Disp, Y="LPF")

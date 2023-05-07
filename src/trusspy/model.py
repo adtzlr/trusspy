@@ -200,11 +200,11 @@ Dutzler Andreas, Graz University of Technology, 2023
             self.nproDOF1,
             self.Settings.nstatev,
         )
-        
+
         # add first initially undeformed (empty) increment
         self.Results.add_increment()
         self.Results.R[-1] = copy.deepcopy(self.Analysis)
-        
+
         # add (empty) increment
         self.Results.add_increment()
         self.Results.R[-1] = copy.deepcopy(self.Analysis)
@@ -419,8 +419,7 @@ Dutzler Andreas, Graz University of Technology, 2023
 
             if self.Settings.log > 0:
                 print("\nEnd of Step", step + 1)
-        
-        
+
         self.Results.R[0].ExtForces = self.Results.R[1].ExtForces
         self.Results.R[0].ExtForces.forces[:] = 0
         self.Results.R[0].lpf = 0
