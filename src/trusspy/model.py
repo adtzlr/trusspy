@@ -406,6 +406,8 @@ Dutzler Andreas, Graz University of Technology, 2023
         # duplicate first increment to get right indices
         self.Results.duplicate_first_increment()
         self.Results.R[0].U = self.Results.R[0].U0.copy()
+        self.Results.R[0].r[:] = 0
+        self.Results.R[0].ExtForces.forces [:] = 0
         self.Results.R[0].lpf = 0
 
         time_dclock_run = time.perf_counter() - self.clock0_run
