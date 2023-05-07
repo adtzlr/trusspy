@@ -229,13 +229,13 @@ def p_path(self, nodepath, increment=-1, Y="Displacement X", fig=None, ax=None):
 
     if fig is None:
         fig, ax = plt.subplots()
-    plot_pth(nodepath, yy, increment, Y, fig, ax)
+    fig, ax = plot_pth(nodepath, yy, increment, Y, fig, ax)
 
     return fig, ax
 
 
 def p_history(
-    self, nodes=[1, 1], increments=None, X="Displacement X", Y="LPF", fig=None, ax=None
+    self, nodes=[1, 1], X="Displacement X", Y="LPF", fig=None, ax=None
 ):
     # loop over increments
     xx = [0]
@@ -273,7 +273,7 @@ def p_history(
 
     if fig is None:
         fig, ax = plt.subplots()
-    plot_hist(xx, yy, nodes[0], X, Y, fig, ax)
+    fig, ax = plot_hist(xx, yy, nodes[0], X, Y, fig, ax)
 
     return fig, ax
 
