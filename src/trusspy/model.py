@@ -116,23 +116,12 @@ Dutzler Andreas, Graz University of Technology, 2023
         if self.logfile:
             print("```")
 
-        if log > 1:
-            print("")
-        if log > 1:
-            print("# Initialize Model")
-        if log > 1:
-            print("* loading Managers\n")
-
         self.Nodes = NodeHandler()
         self.Elements = ElementHandler()
         self.Boundaries = BoundaryHandler()
         self.ExtForces = ExternalForceHandler()
         self.Settings = SettingsHandler()
-
         self.Settings.log = log
-
-        if log > 1:
-            print("    - finished.\n")
 
     def build(self):
         "Build Model (r,U,K,...) with Model data and dimensions."
@@ -179,17 +168,16 @@ Dutzler Andreas, Graz University of Technology, 2023
         if self.Settings.log > 1:
             print("")
             print("# Model Summary")
-
-            print('    Analysis Dimension      "ndim":', self.Settings.ndim)
-            print('    Number of Nodes       "nnodes":', self.nnodes)
-            print('    Number of Elements    "nelems":', self.nelems)
+            print('Analysis Dimension      "ndim":', self.Settings.ndim)
+            print('Number of Nodes       "nnodes":', self.nnodes)
+            print('Number of Elements    "nelems":', self.nelems)
             print(" ")
-            print('    System DOF              "ndof":', self.ndof)
-            print('    active DOF             "ndof1":', self.ndof1)
-            print('    locked DOF             "ndof2":', self.ndof0)
+            print('System DOF              "ndof":', self.ndof)
+            print('active DOF             "ndof1":', self.ndof1)
+            print('locked DOF             "ndof2":', self.ndof0)
             print(" ")
-            print('    active DOF          "nproDOF1":', self.nproDOF1)
-            print('    fixed  DOF          "nproDOF0":', self.nproDOF0)
+            print('active DOF          "nproDOF1":', self.nproDOF1)
+            print('fixed  DOF          "nproDOF0":', self.nproDOF0)
 
         # init results, add empty increment
         self.Results.add_increment()
@@ -419,7 +407,7 @@ Dutzler Andreas, Graz University of Technology, 2023
         self.Results.duplicate_first_increment()
         self.Results.R[0].U = self.Results.R[0].U0.copy()
         self.Results.R[0].lpf = 0
-        
+
         time_dclock_run = time.perf_counter() - self.clock0_run
         time_dtime_run = time.process_time() - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build
@@ -450,28 +438,6 @@ Dutzler Andreas, Graz University of Technology, 2023
 
         if self.logfile:
             sys.stdout = self.stdout
-            if self.Settings.logpdf:
-                sp_run(
-                    [
-                        "pandoc",
-                        self.logfile_name + ".md",
-                        "-t",
-                        "latex",
-                        "-o",
-                        self.logfile_name + ".pdf",
-                    ]
-                )
-                sp_run(
-                    [
-                        "pandoc",
-                        self.logfile_name + ".md",
-                        "-t",
-                        "html",
-                        "-s",
-                        "-o",
-                        self.logfile_name + ".html",
-                    ]
-                )
 
     def stiffness(self, Ured, analysis=None):
         """Method for evaluating the stiffness matrix. It re-shapes the stiffness matrix
