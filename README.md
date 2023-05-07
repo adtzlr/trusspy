@@ -46,9 +46,8 @@ with M.ExtForces as MF:
 M.build()
 M.run()
 
-# plot results
-M.plot_model()
-M.plot_show()
+# plot results of last increment
+M.plot_model(inc=-1, contour="force")
 ```
 	
 # Online Notebook
