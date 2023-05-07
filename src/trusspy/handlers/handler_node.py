@@ -44,14 +44,6 @@ class NodeHandler:
         for N in NN:
             self.add_node(N)
 
-    def add_node_matrix(self, NM):
-        if self.labels is None:
-            self.labels = np.array(NM[:, 0])
-            self.coords = np.array(NM[:, 1:4])
-        else:
-            self.labels = np.append(self.labels, NM[:, 0])
-            self.coords = np.vstack((self.coords, NM[:, 1:4]))
-
     def fix_nodes(self):
         indices = np.argsort(self.labels)
         self.labels = self.labels.take(indices)

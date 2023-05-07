@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Removed
+- Remove Excel-based input files. This removes the `file`-argument of `Model`, all `add_..._matrix()`-related methods of handlers as well as all Excel-based tests.
+
 ## [2.0.0] - 2023-05-03
 
 ### Changed

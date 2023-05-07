@@ -47,6 +47,7 @@ def p_model(
 
     if inc == 0:
         lpf = 1.0
+        contour = None
         title = "UNDEFORMED"
     else:
         if inc < 0:
@@ -119,7 +120,7 @@ def p_model(
         self.Nodes.coords + self.Results.R[inc].U,
         fig,
         ax,
-        color="C0",
+        color="C7",
         view=view,
         contour=con,
         lim_scale=lim_scale,
@@ -188,7 +189,7 @@ def p_movie(
                 b = self.Settings.incs[0]
             else:
                 b = self.Settings.incs
-        incs = range(0, b)
+        incs = range(1, b)
 
     if os.path.isdir("figures/"):
         shutil.rmtree("figures/")

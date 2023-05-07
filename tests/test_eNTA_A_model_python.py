@@ -65,7 +65,7 @@ def test_nta_a_python():
         view="3d",
         contour="force",
         lim_scale=(-3, 2, 0, 5, -1, 4),
-        force_scale=5.0,
+        force_scale=2.0,
         inc=0,
     )
     fig.savefig("model_undeformed_inc0_3d.pdf")
@@ -146,18 +146,18 @@ def test_nta_a_python():
     fig.savefig("model_contour-force_inc40_3d.pdf")
     fig.savefig("model_contour-force_inc40_3d.png")
 
-    M.plot_movie(
-        view="3d",
-        contour="force",
-        lim_scale=(-3, 2, 0, 5, -2, 3),  # 3D
-        # lim_scale=-5, #XZ
-        # lim_scale=(-4,4,-2,6), #XY
-        # lim_scale=(-2,6,-2,6), #YZ
-        cbar_limits=[-0.3, 0.3],
-        force_scale=50.0,
-        incs=range(0, M.Settings.incs, 1),
-    )
-    #
+    # M.plot_movie(
+    #     view="3d",
+    #     contour="force",
+    #     lim_scale=(-3, 2, 0, 5, -2, 3),  # 3D
+    #     # lim_scale=-5, #XZ
+    #     # lim_scale=(-4,4,-2,6), #XY
+    #     # lim_scale=(-2,6,-2,6), #YZ
+    #     cbar_limits=[-0.3, 0.3],
+    #     force_scale=50.0,
+    #     incs=range(0, M.Settings.incs, 1),
+    # )
+
     ## history plot
     Disp = "Displacement X"
     fig, ax = M.plot_history(nodes=[4, 4], X=Disp, Y="LPF")

@@ -11,7 +11,6 @@ import time
 from subprocess import run as sp_run
 
 import numpy as np
-import pandas as pd
 
 from .__about__ import __version__
 from .core import Analysis
@@ -45,8 +44,6 @@ class Model:
     ----------
     stdout : sys.stdout
         get current stdout
-    file : None or str
-        name of input file (default is None)
     log : int
         Level of collecting logging informations during analysis.
         Higher numbers will collect more informations (default is 2).
@@ -70,7 +67,7 @@ class Model:
 
     """
 
-    def __init__(self, file=None, log=2, logfile=False, logfile_name="analysis"):
+    def __init__(self, log=2, logfile=False, logfile_name="analysis"):
         """Init Model class with Nodes, Elements, Boundaries, etc. with default values.
         If an input file is specified, collect all data and create the model.
 
@@ -89,15 +86,8 @@ class Model:
         """
 
         self.stdout = sys.stdout
-        self.file = file
         self.logfile = logfile
-
-        if self.file is not None:
-            # extract base name of input file without file extension and use it as
-            # log file name
-            self.logfile_name = ".".join(self.file.split(".")[:-1])
-        else:
-            self.logfile_name = logfile_name
+        self.logfile_name = logfile_name
 
         if self.logfile:
             sys.stdout = open(self.logfile_name + ".md", "w")
@@ -143,57 +133,6 @@ Dutzler Andreas, Graz University of Technology, 2023
 
         if log > 1:
             print("    - finished.\n")
-
-        if file is not None:
-            if log > 1:
-                print('* loading INPUT-File: "' + file + '"\n')
-            Nodes = (
-                pd.read_excel(file, sheet_name="Nodes", skiprows=2)
-                .values[:, :4]
-                .astype(float)
-            )
-            Elements = (
-                pd.read_excel(file, sheet_name="Elements", skiprows=2)
-                .values[:, :10]
-                .astype(float)
-            )
-            Material = (
-                pd.read_excel(file, sheet_name="Material", skiprows=2)
-                .values[:, :10]
-                .astype(float)
-            )
-            Geometry = (
-                pd.read_excel(file, sheet_name="Geometry", skiprows=2)
-                .values[:, :10]
-                .astype(float)
-            )
-            ExtForces = (
-                pd.read_excel(file, sheet_name="ExternalForces", skiprows=2)
-                .values[:, : 1 + 5 * 3]
-                .astype(float)
-            )
-            Boundary_U = (
-                pd.read_excel(file, sheet_name="BoundaryU", skiprows=2)
-                .values[:, :4]
-                .astype(float)
-            )
-            Boundary_T = (
-                pd.read_excel(file, sheet_name="BoundaryT", skiprows=2)
-                .values[:, :2]
-                .astype(float)
-            )
-            if log > 1:
-                print("    - successful.\n")
-
-            if log > 1:
-                print("* Converting Data...\n")
-            self.Nodes.add_node_matrix(Nodes)
-            self.Elements.add_element_matrix(Elements, Material, Geometry, Boundary_T)
-            self.ExtForces.add_force_matrix(ExtForces)
-            self.Boundaries.add_bound_U_matrix(Boundary_U)
-
-            if log > 1:
-                print("    - Import finished.\n")
 
     def build(self):
         "Build Model (r,U,K,...) with Model data and dimensions."
@@ -262,6 +201,7 @@ Dutzler Andreas, Graz University of Technology, 2023
             self.nproDOF1,
             self.Settings.nstatev,
         )
+
         self.Results.R[-1] = copy.deepcopy(self.Analysis)
 
         self.clock1_build = time.perf_counter()
@@ -477,7 +417,9 @@ Dutzler Andreas, Graz University of Technology, 2023
 
         # duplicate first increment to get right indices
         self.Results.duplicate_first_increment()
-
+        self.Results.R[0].U = self.Results.R[0].U0.copy()
+        self.Results.R[0].lpf = 0
+        
         time_dclock_run = time.perf_counter() - self.clock0_run
         time_dtime_run = time.process_time() - self.time0_run
         time_dclock_build = self.clock1_build - self.clock0_build

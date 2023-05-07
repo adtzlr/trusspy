@@ -46,8 +46,6 @@ dependencies = [
   "numpy",
   "scipy",
   "matplotlib",
-  "pandas",
-  "openpyxl",
   "imageio",
 ]
 

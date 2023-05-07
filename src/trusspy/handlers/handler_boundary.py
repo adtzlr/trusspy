@@ -70,16 +70,6 @@ class BoundaryHandler:
         self.Unodes = self.Unodes.take(indices)
         self.Uvalues = self.Uvalues.take(indices, axis=0)
 
-    def add_bound_U_matrix(self, UM):
-        # add matrix of displacement boundaries from input file
-        if self.Unodes is None:
-            self.Unodes = np.array(UM[:, 0])
-            self.Uvalues = np.array(UM[:, 1:4])
-        else:
-            self.Unodes = np.append(self.Unodes, UM[:, 0])
-            self.Uvalues = np.vstack((self.Uvalues, UM[:, 1:4]))
-        self.Uvalues[np.isnan(self.Uvalues)] = 0
-
     def add_bound_T(self, B):
         # add thermal boundary
         if self.Tnodes is None:
