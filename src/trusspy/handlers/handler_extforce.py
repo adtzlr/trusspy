@@ -43,15 +43,6 @@ class ExternalForceHandler:
         for F in FF:
             self.add_force(F)
 
-    def add_force_matrix(self, FM):
-        if self.nodes is None:
-            self.nodes = np.array(FM[:, 0])
-            self.forces = np.array(FM[:, 1 : 1 + 5 * 3])
-        else:
-            self.nodes = np.append(self.nodes, FM[:, 0])
-            self.forces = np.vstack((self.forces, FM[:, 1 : 1 + 5 * 3]))
-        self.forces[np.isnan(self.forces)] = 0
-
     def fix_forces(self, nodelist):
         # check for missing external forces --> set them all to zero
 

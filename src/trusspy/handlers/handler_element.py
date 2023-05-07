@@ -111,17 +111,6 @@ class ElementHandler:
         for E in EE:
             self.add_element(E)
 
-    def add_element_matrix(self, EM, MM, GM, TM):
-        # EM Element Matrix Data
-        # TM Thermal Matrix Data
-        if self.labels is None:
-            self.labels = np.array(EM[:, 0])
-            self.elem_type = np.array(EM[:, 1])
-            self.mat_type = np.array(MM[:, 1])
-            self.conns = np.array(EM[:, 2:4])
-            self.material_properties = np.vstack((MM[:, 2:12].T, TM[:, 1])).T
-            self.geometric_properties = GM[:, 1].reshape(len(GM), 1)
-
     def get_nodes(self, label):
         "choose element label and return connected end node"
         return self.conns[np.where(self.labels == label)][0]
