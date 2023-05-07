@@ -630,13 +630,12 @@ Dutzler Andreas, Graz University of Technology, 2023
     def plot_history(
         self,
         nodes=[1, 1],
-        increments=None,
         X="Displacement X",
         Y="LPF",
         fig=None,
         ax=None,
     ):
-        fig, ax = p_history(self, nodes, increments, X, Y, fig, ax)
+        fig, ax = p_history(self, nodes, X, Y, fig, ax)
         return fig, ax
 
     def plot_path(
