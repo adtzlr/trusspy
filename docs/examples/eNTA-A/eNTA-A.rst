@@ -3,7 +3,7 @@ Example NTA-A "3D Truss System"
 
 This example describes a three-dimensional system of trusses with 5 Nodes and 6 Elements (in total 5 active DOF). Given to it's geometry strong geometric nonlinearities are to be excepted when the given reference load is applied. The model is shown in different views: a general 3D-view and views in XZ-,YZ- and XY-planes. The force vectors of the reference load are illustrated in green, where the force scale is denoted separated on each figure. Within the 3D-view the coordinate system is indicated as a black tripod with a big black dot at the origin point. The XY-plane is illustrated with a semi-transparent light blue fill.
    
-.. figure:: data_eNTA-A/model_undeformed_inc0_3d.*
+.. figure:: model_undeformed_inc0_3d.*
    :scale: 100%
    :align: center
    :alt: 3D-view on the undeformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
@@ -66,15 +66,15 @@ Beside Nodes and Elements we have to define Mechanical (U) Boundaries and Extern
        MF.add_force( 4, ( 1, 1,-1) )
        MF.add_force( 5, (-2, 0,-2) )
        
-.. figure:: data_eNTA-A/model_undeformed_inc0_xz.png
+.. figure:: model_undeformed_inc0_xz.png
    :scale: 100%
    :align: center
    :alt: XZ-view on the undeformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
    
-.. image:: data_eNTA-A/model_undeformed_inc0_yz.png
+.. image:: model_undeformed_inc0_yz.png
    :width: 48%
    :alt: YZ-view on the undeformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
-.. image:: data_eNTA-A/model_undeformed_inc0_xy.png
+.. image:: model_undeformed_inc0_xy.png
    :width: 48%
    :alt: XY-view on the undeformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
        
@@ -271,22 +271,22 @@ For the deformed model the figures are generated with the following code:
        inc=40,
    )
                 
-.. figure:: data_eNTA-A/model_contour-force_inc40_3d.png
+.. figure:: model_contour-force_inc40_3d.png
    :scale: 100%
    :align: center
    :alt: 3D-view on the deformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
                 
-.. figure:: data_eNTA-A/model_contour-force_inc40_xz.png
+.. figure:: model_contour-force_inc40_xz.png
    :scale: 100%
    :align: center
    :alt: XZ-view on the deformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
    
-.. figure:: data_eNTA-A/model_contour-force_inc40_yz.png
+.. figure:: model_contour-force_inc40_yz.png
    :scale: 100%
    :align: center
    :alt: YZ-view on the deformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
    
-.. figure:: data_eNTA-A/model_contour-force_inc40_xy.png
+.. figure:: model_contour-force_inc40_xy.png
    :scale: 100%
    :align: center
    :alt: XY-view on the deformed model with **External Force** vectors acting on **Node** 4 and **Node** 5.
@@ -296,7 +296,7 @@ Animation of the Deformation Process
 
 The evolution of the deformation process is visualized with the help of an animated GIF file.
 
-.. figure:: data_eNTA-A/movie_3d.gif
+.. figure:: movie_3d.gif
    :width: 100%
    :align: center
    :alt: Animation of the deformation process.
@@ -306,17 +306,17 @@ Path-Tracing of the Displacement-LPF curves
 
 The path-tracing of the deformation process is shown as a History Plot of Displacement-LPF curves for all active DOF. Strong geometrical nonlinearities are observed for all active DOF.
 
-.. figure:: data_eNTA-A/history_node45_DispX-LPF.*
+.. figure:: history_node45_DispX-LPF.*
    :scale: 100%
    :align: center
    :alt: Displacement X vs. LPF-factor for **Node** 4 and **Node** 5.
    
-.. figure:: data_eNTA-A/history_node45_DispY-LPF.*
+.. figure:: history_node45_DispY-LPF.*
    :scale: 100%
    :align: center
    :alt: Displacement Y vs. LPF-factor for **Node** 4 and **Node** 5.
    
-.. figure:: data_eNTA-A/history_node45_DispZ-LPF.*
+.. figure:: history_node45_DispZ-LPF.*
    :scale: 100%
    :align: center
    :alt: Displacement Z vs. LPF-factor for **Node** 4 and **Node** 5.

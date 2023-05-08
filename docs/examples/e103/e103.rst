@@ -6,7 +6,7 @@ This model contains two trusses and three nodes. The left and right end nodes ar
 No imperfection
 ---------------
 
-..  figure:: data_e103/model1_undeformed.*
+..  figure:: model1_undeformed.*
     :scale: 100%
     :align: center
     :alt: The undeformed configuration of the Model
@@ -67,7 +67,7 @@ The calculation of the deformation process is started by calling the `build()` a
     fig1, ax1 = M1.plot_history(nodes=[2,2], X="Displacement X", Y="Displacement Z")
     fig2, ax2 = M1.plot_history(nodes=[2,2], X="Displacement Z", Y="LPF")
         
-..  figure:: data_e103/model1_deformed.*
+..  figure:: model1_deformed.*
     :scale: 100%
     :align: center
     :alt: The deformed configuration of the Model
@@ -79,7 +79,7 @@ Geometric imperfection
     
 Let's re-run the model with a geometric imperfection at node 2 (misalignment `dx=0.1`). Results are plotted for Node 2 as a History Plot of z-displacement vs. LPF and x-displacement vs. z-displacement.
 
-..  figure:: data_e103/model2_undeformed.*
+..  figure:: model2_undeformed.*
     :scale: 100%
     :align: center
     :alt: The undeformed configuration of the Model with geometric imperfection
@@ -136,7 +136,7 @@ Let's re-run the model with a geometric imperfection at node 2 (misalignment `dx
     )
     ax1.legend(["Node 2: basic model (nDOF=1)", "Node 2: imperfection (nDOF=2)"])
     
-..  figure:: data_e103/model2_deformed.*
+..  figure:: model2_deformed.*
     :scale: 100%
     :align: center
     :alt: The deformed configuration of the Model with geometric imperfection
@@ -144,21 +144,21 @@ Let's re-run the model with a geometric imperfection at node 2 (misalignment `dx
     The deformed configuration of the Model with geometric imperfection
     
 
-..  figure:: data_e103/history_node2_DispZ-LPF.*
+..  figure:: history_node2_DispZ-LPF.*
     :scale: 100%
     :align: center
     :alt: Displacement Z vs. LPF for Node 2
     
     Displacement Z vs. LPF for Node 2
 
-..  figure:: data_e103/history_node2_DispX-DispZ.*
+..  figure:: history_node2_DispX-DispZ.*
     :scale: 100%
     :align: center
     :alt: Displacement Z vs. LPF for Node 2
     
     Displacement X vs. Displacement Z for Node 2
     
-..  figure:: data_e103/model2_movie.gif
+..  figure:: model2_movie.gif
     :width: 75%
     :align: center
     :alt: Animation of the deformation process for the Model with geometric imperfection

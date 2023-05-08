@@ -3,7 +3,7 @@ Example 102 "Zweibock"
 
 This model contains two trusses and three nodes. The left and right end nodes are fixed, whereas on the top middle node a reference force is applied in negative z-direction. 
 
-..  figure:: data_e102/model_undeformed.*
+..  figure:: model_undeformed.*
     :scale: 100%
     :align: center
     :alt: The undeformed configuration of the Model
@@ -53,7 +53,7 @@ The calculation of the deformation process is started by calling the `build()` a
     )
     fig, ax = M.plot_history(nodes=[2,2], X="Displacement Z", Y="LPF")
         
-..  figure:: data_e102/model_deformed.*
+..  figure:: model_deformed.*
     :scale: 100%
     :align: center
     :alt: The deformed configuration of the Model
@@ -82,7 +82,7 @@ Let's re-run the model with a nonlinear material (plasticity with isotropic hard
     ])
     
 
-..  figure:: data_e102/history_node2_DispZ-LPF.*
+..  figure:: history_node2_DispZ-LPF.*
     :scale: 100%
     :align: center
     :alt: Displacement Z vs. LPF for Node 2
