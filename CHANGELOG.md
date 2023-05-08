@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Changed
 - Don't include the zero (undeformed) increment in the output of `Model.plot_movie()`.
+- Enhance `ResultHandler.add_increment(analysis=None, extforces=None, lpf=None)`.
 
 ### Removed
 - Remove Excel-based input files. This removes the `file`-argument of `Model`, all `add_..._matrix()`-related methods of handlers as well as all Excel-based tests.
