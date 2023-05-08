@@ -60,7 +60,7 @@ Navigate to a path where you would like to store the TrussPy notebooks. Create a
    
    Jupyter Notebook
    
-Continue with :doc:`../usage/getting_started` or one of the :doc:`../examples/examples`.
+Continue with one of the :doc:`../examples/examples`.
 
 .. _Anaconda: https://www.anaconda.com/distribution/#download-section
 
