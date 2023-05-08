@@ -37,7 +37,7 @@ def stiffness(list_of_areas):
     M.build()
     M.run()
 
-    R0 = M.Results.R[0]
+    R0 = M.Results.R[1]
     # return K (full system), Kred (only active DOF)
     # or Kmod (see Documentation)
     return R0.Kred
