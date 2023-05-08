@@ -22,7 +22,6 @@ Documentation
 .. toctree::
    :maxdepth: 2
 
-   usage/getting_started
    usage/install
    
    theory/theory

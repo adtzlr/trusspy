@@ -45,14 +45,17 @@ def p_model(
     plt.figure()
     fig, ax = None, None
 
+    if inc < 0:
+        inc = len(self.Results.R) + inc
+
     if inc == 0:
         lpf = 1.0
+        force_label = r"$[F_0]$"
         contour = None
         title = "UNDEFORMED"
     else:
-        if inc < 0:
-            inc = len(self.Results.R) + inc
         lpf = self.Results.R[inc].lpf
+        force_label = r"$\lambda \cdot [F_0]$"
         title = f"INCREMENT: {inc}"
 
     if contour == "stretch":
@@ -92,7 +95,9 @@ def p_model(
         con = contour[0], con_data, contour[1]
 
     textstr = (
-        r"$\mathbf{Plot}$ $\mathbf{Scale}$ $[F_0] =$ "
+        r"$\mathbf{Plot}$ $\mathbf{Scale}$ "
+        + force_label
+        + " ="
         + "{:2.1g} ".format(force_scale)
         + r"$\cdot [L]$"
     )
@@ -234,9 +239,7 @@ def p_path(self, nodepath, increment=-1, Y="Displacement X", fig=None, ax=None):
     return fig, ax
 
 
-def p_history(
-    self, nodes=[1, 1], X="Displacement X", Y="LPF", fig=None, ax=None
-):
+def p_history(self, nodes=[1, 1], X="Displacement X", Y="LPF", fig=None, ax=None):
     # loop over increments
     xx = [0]
     yy = [0]
