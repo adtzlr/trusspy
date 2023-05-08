@@ -1,6 +1,11 @@
 Examples
 ========
 
+..  admonition:: It is possible to run TrussPy online without any installation.
+
+    These examples are available as Interactive Online Notebooks.
+
+
 .. toctree::
    :maxdepth: 2
    
