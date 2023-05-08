@@ -20,15 +20,15 @@ class ResultHandler:
 
     def add_increment(self, analysis=None, extforces=None, lpf=None):
         "add single Result to ResultManager"
-        
+
         if analysis is None:
             result = Analysis()
         else:
             result = copy.deepcopy(analysis)
-            
+
             if extforces is not None:
                 result.ExtForces = copy.deepcopy(extforces)
-                result.ExtForces.forces_const =  np.zeros_like(result.U)
+                result.ExtForces.forces_const = np.zeros_like(result.U)
 
         result.lpf = lpf
 

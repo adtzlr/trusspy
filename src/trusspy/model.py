@@ -190,7 +190,9 @@ Dutzler Andreas, Graz University of Technology, 2023
 
         # init results, add empty increment
         self.Results.add_increment(
-            analysis=self.Analysis, extforces=self.ExtForces, lpf=0, 
+            analysis=self.Analysis,
+            extforces=self.ExtForces,
+            lpf=0,
         )
 
         self.clock1_build = time.perf_counter()
