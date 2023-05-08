@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [3.0.0] - 2023-05-08
+
 ### Changed
 - Don't include the zero (undeformed) increment in the output of `Model.plot_movie()`.
 - Enhance `ResultHandler.add_increment(analysis=None, extforces=None, lpf=None)`.
