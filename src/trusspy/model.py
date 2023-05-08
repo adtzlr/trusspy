@@ -189,11 +189,9 @@ Dutzler Andreas, Graz University of Technology, 2023
         )
 
         # init results, add empty increment
-        self.Results.add_increment()
-        self.Results.R[-1] = copy.deepcopy(self.Analysis)
-        self.Results.R[-1].lpf = 0
-        self.Results.R[-1].ExtForces = copy.deepcopy(self.ExtForces)
-        self.Results.R[-1].ExtForces.forces_const = np.zeros_like(self.ExtForces.forces)
+        self.Results.add_increment(
+            analysis=self.Analysis, extforces=self.ExtForces, lpf=0, 
+        )
 
         self.clock1_build = time.perf_counter()
         self.time1_build = time.process_time()
