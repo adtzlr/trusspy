@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. The format 
 ## [Unreleased]
 
 ### Changed
-- Don't include the first (undeformed) increment in the output of `Model.plot_movie()`.
+- Don't include the zero (undeformed) increment in the output of `Model.plot_movie()`.
 
 ### Removed
 - Remove Excel-based input files. This removes the `file`-argument of `Model`, all `add_..._matrix()`-related methods of handlers as well as all Excel-based tests.
@@ -12,8 +12,9 @@ All notable changes to this project will be documented in this file. The format 
 - Remove broken `increments` argument of `Model.plot_history()` and always plot all increments instead.
 
 ### Fixed
-- The result of the first increment contains the displacements of the first solution. However, the very first item of the results should contain the undeformed model. Hence, the initial displacements are now copied to `Model.Results.R[0].U = Model.Results.R[0].U0`.
+- The result of the first increment contained the displacements of the first solution. However, the very first item of the results should contain the undeformed model.
 - For `Model.plot_model(inc=0, contour="force")`, the contour-plot is disabled for the first increment.
+- Fix the plot force label shown in `Model.plot_model()`: For the first (zero) increment, the initial external loads are shown. For all other increments, the external loads scaled by the load-proportionality-factor (LPF) are shown.
 
 ## [2.0.0] - 2023-05-03
 
