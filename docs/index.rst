@@ -28,12 +28,7 @@ Documentation
    code_structure/structure
    
    examples/examples
-   
-   
-Notes
-=====
 
-This project evolved out of a homework for the course `Nonlinear Structural Analysis (202.482)`_ at Graz University of Technology (Lecturer: Guggenberger, Werner, Ao.Univ.-Prof. Dipl.-Ing. Dr.techn.).
 
 License
 =======
