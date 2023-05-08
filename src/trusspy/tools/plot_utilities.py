@@ -185,16 +185,7 @@ def p_movie(
     **kwargs,
 ):
     if incs == "all":
-        if self.Settings.nsteps > 1:
-            b = 0
-            for s in range(self.Settings.nsteps):
-                b += self.Settings.incs[s]
-        else:
-            if type(self.Settings.incs) == tuple:
-                b = self.Settings.incs[0]
-            else:
-                b = self.Settings.incs
-        incs = range(1, b)
+        incs = range(1, len(self.Results.R))
 
     if os.path.isdir("figures/"):
         shutil.rmtree("figures/")

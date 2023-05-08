@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file. The format 
 - The result of the first increment contained the displacements of the first solution. However, the very first item of the results should contain the undeformed model.
 - For `Model.plot_model(inc=0, contour="force")`, the contour-plot is disabled for the first increment.
 - Fix the plot force label shown in `Model.plot_model()`: For the first (zero) increment, the initial external loads are shown. For all other increments, the external loads scaled by the load-proportionality-factor (LPF) are shown.
+- Fix `Model.plot_movie(incs="all")`: Get number of increments from length of list of results
 
 ## [2.0.0] - 2023-05-03
 
