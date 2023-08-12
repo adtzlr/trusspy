@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+## [3.0.1] - 2023-08-12
+
+### Removed
+- Don't test against and list explicit support for Python 3.7 (end of life).
+
 ## [3.0.0] - 2023-05-08
 
 ### Changed
